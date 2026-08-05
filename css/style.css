@@ -1,0 +1,250 @@
+/* ==========================================================
+   SIMU - Estilos Generales y Sistema de Diseño Moderno
+   ========================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: #f1f5f9;
+    color: #1e293b;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header Institucional */
+header.barsup {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    z-index: 1040;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.logo-icon {
+    width: 42px;
+    height: 42px;
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+}
+
+/* Tarjeta del Formulario de Registro */
+.registration-container {
+    max-width: 600px;
+    margin: 1.5rem auto;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+    border: 1px solid #e2e8f0;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.reg-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.reg-header .brand-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+}
+
+.reg-header .logo-wrapper {
+    margin: 1rem 0;
+    display: flex;
+    justify-content: center;
+}
+
+.reg-header .main-logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #eff6ff;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+}
+
+/* Pasos del Formulario */
+.reg-step {
+    display: none;
+    animation: fadeIn 0.3s ease-in-out forwards;
+}
+
+.reg-step.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.input-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+@media (max-width: 576px) {
+    .input-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.25rem;
+}
+
+.input-group label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 0.5rem;
+}
+
+.input-group input {
+    padding: 0.75rem 1rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.input-group input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-wrapper input {
+    width: 100%;
+    padding-right: 2.75rem;
+}
+
+.eye-toggle {
+    position: absolute;
+    right: 1rem;
+    color: #64748b;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: color 0.2s;
+}
+
+.eye-toggle:hover {
+    color: #0f172a;
+}
+
+/* Indicador de Fuerza de Contraseña */
+.strength-meter {
+    height: 4px;
+    background: #e2e8f0;
+    border-radius: 2px;
+    margin-top: 0.5rem;
+    overflow: hidden;
+}
+
+#strengthBar {
+    height: 100%;
+    width: 0%;
+    background: #ef4444;
+    transition: all 0.3s ease;
+}
+
+#strengthText {
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-top: 0.25rem;
+}
+
+/* Botones principales */
+.btn-primary {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    border: none;
+    padding: 0.85rem 1.5rem;
+    font-weight: 600;
+    border-radius: 8px;
+    width: 100%;
+    color: white;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    margin-top: 0.5rem;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+    background: linear-gradient(135deg, #1d4ed8, #1e40af);
+}
+
+.btn-link {
+    background: transparent;
+    border: none;
+    color: #64748b;
+    padding: 0.6rem;
+    width: 100%;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+/* Animación y Pantalla de Éxito */
+.success-anim {
+    font-size: 3.5rem;
+    color: #22c55e;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.success-desc {
+    text-align: center;
+    color: #475569;
+    margin-bottom: 1.5rem;
+}
+
+/* Footer institucional */
+footer.bg-institutional {
+    background: #0f172a;
+    border-top: 1px solid #1e293b;
+    padding: 1.25rem 0;
+    font-size: 0.875rem;
+    color: #94a3b8;
+    margin-top: auto;
+}
