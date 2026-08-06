@@ -7,7 +7,7 @@ if(file_exists("controllers/cmen.php")){
 $currentPage = $_GET['pg'] ?? 'creaUsu';
 ?>
 
-<aside class="right-sidebar">
+<aside class="app-sidebar left-sidebar">
     <div class="sidebar-header">
         <h6 class="title"><i class="fas fa-th-large me-2"></i>Menú Principal</h6>
         <span class="badge bg-secondary rounded-pill" style="font-size: 0.65rem;">V 1.0</span>

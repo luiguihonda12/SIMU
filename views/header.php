@@ -1,20 +1,19 @@
-<header class="bg-institutional text-white py-3 barsup">
+<header class="bg-institutional text-white py-2.5 barsup">
     <div class="container-fluid px-4 d-flex justify-content-between align-items-center">
-        <div class="logo-container">
-            <div class="logo-icon">
-                <i class="fas fa-bus-alt"></i>
+        <a href="index.php" class="logo-container text-decoration-none d-flex align-items-center gap-3">
+            <img src="img/logo-simu.png" alt="SIMU - Sistema Integrado de Movilidad Urbana" class="header-logo-img" style="height: 42px; max-height: 42px; width: auto; display: block; object-fit: contain;">
+            <div class="d-none d-lg-block ps-3 border-start border-secondary border-opacity-50">
+                <small class="text-white-50 d-block fw-normal style-subtitle">Sistema Integrado de Movilidad Urbana</small>
             </div>
-            <div>
-                <h5 class="mb-0 fw-bold text-white">SIMU</h5>
-                <small class="opacity-75 d-none d-md-block text-light">Sistema Integrado de Movilidad Urbana</small>
-            </div>
-        </div>
+        </a>
         
         <div class="d-flex align-items-center gap-3">
-            <span class="badge bg-primary px-3 py-2 rounded-pill d-none d-sm-inline-block">V 0.1</span>
+            <span class="badge badge-simu-version px-3 py-2 rounded-pill d-none d-sm-inline-block">
+                <i class="fas fa-shield-alt me-1"></i>V 0.1
+            </span>
             
             <!-- Botón toggle para desplegar menú vertical derecho en móvil -->
-            <button class="btn btn-outline-light d-lg-none" id="sidebarToggleBtn" type="button" aria-label="Abrir Menú">
+            <button class="btn btn-outline-simu d-lg-none" id="sidebarToggleBtn" type="button" aria-label="Abrir Menú">
                 <i class="fas fa-bars"></i>
             </button>
         </div>

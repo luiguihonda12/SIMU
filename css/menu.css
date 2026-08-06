@@ -3,13 +3,13 @@
 :root {
     --sidebar-width: 270px;
     --sidebar-collapsed-width: 70px;
-    --sidebar-bg: #1e293b;
-    --sidebar-bg-hover: #334155;
-    --sidebar-active-bg: linear-gradient(135deg, #2563eb, #1d4ed8);
-    --sidebar-text: #94a3b8;
+    --sidebar-bg: #091d28;
+    --sidebar-bg-hover: #143547;
+    --sidebar-active-bg: linear-gradient(135deg, #00a8cd 0%, #0084a5 100%);
+    --sidebar-text: #94b2c4;
     --sidebar-text-active: #ffffff;
-    --sidebar-border: #334155;
-    --accent-color: #3b82f6;
+    --sidebar-border: #133344;
+    --accent-color: #00a8cd;
     --badge-coming-soon: #f59e0b;
 }
 
@@ -25,24 +25,25 @@
 .main-content {
     flex: 1;
     padding: 2rem;
-    background-color: #f8fafc;
+    background-color: #f0f7f9;
     transition: margin-right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     min-width: 0;
 }
 
-/* Barra Lateral Derecha */
-.right-sidebar {
+/* Barra Lateral Izquierda */
+.app-sidebar, .left-sidebar, .right-sidebar {
     width: var(--sidebar-width);
     background: var(--sidebar-bg);
     color: var(--sidebar-text);
-    border-left: 1px solid var(--sidebar-border);
+    border-right: 1px solid var(--sidebar-border);
+    border-left: none;
     display: flex;
     flex-direction: column;
     position: sticky;
     top: 0;
     height: calc(100vh - 65px);
     z-index: 1040;
-    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.05);
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -59,7 +60,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: #64748b;
+    color: #648a9f;
     margin: 0;
 }
 
@@ -74,7 +75,7 @@
     text-transform: uppercase;
     font-weight: 700;
     letter-spacing: 0.08em;
-    color: #64748b;
+    color: #648a9f;
     margin: 1.25rem 0.75rem 0.5rem 0.75rem;
 }
 
@@ -95,13 +96,13 @@
 .nav-item-link:hover {
     background-color: var(--sidebar-bg-hover);
     color: #f8fafc;
-    transform: translateX(-3px);
+    transform: translateX(3px);
 }
 
 .nav-item-link.active {
     background: var(--sidebar-active-bg);
     color: var(--sidebar-text-active);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 168, 205, 0.35);
     font-weight: 600;
 }
 
@@ -142,19 +143,21 @@
 
 /* Adaptación para pantallas táctiles y móviles */
 @media (max-width: 991.98px) {
-    .right-sidebar {
+    .app-sidebar, .left-sidebar, .right-sidebar {
         position: fixed;
-        right: -100%;
+        left: -100%;
+        right: auto;
         top: 0;
         bottom: 0;
         height: 100vh;
         width: 280px;
         z-index: 1050;
-        box-shadow: -5px 0 25px rgba(0, 0, 0, 0.3);
+        box-shadow: 5px 0 25px rgba(0, 0, 0, 0.3);
     }
 
-    .right-sidebar.show {
-        right: 0;
+    .app-sidebar.show, .left-sidebar.show, .right-sidebar.show {
+        left: 0;
+        right: auto;
     }
 
     .sidebar-overlay {

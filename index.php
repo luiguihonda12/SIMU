@@ -32,9 +32,12 @@
     <!-- Capa Oscura para cerrar el menú en dispositivos móviles -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <!-- Layout Principal: Contenido a la Izquierda, Menú Vertical a la Derecha -->
+    <!-- Layout Principal: Menú Vertical a la Izquierda, Contenido a la Derecha -->
     <div class="app-layout">
         
+        <!-- Menú Vertical en el Lado Izquierdo -->
+        <?php include 'views/vmen.php'; ?>
+
         <!-- Área Principal de Contenido (Dinámica) -->
         <main class="main-content">
             <?php
@@ -71,9 +74,6 @@
                 }
             ?>
         </main>
-
-        <!-- Menú Vertical en el Lado Derecho -->
-        <?php include 'views/vmen.php'; ?>
 
     </div>
 

@@ -1,13 +1,27 @@
 /* ==========================================================
    SIMU - Estilos Generales y Sistema de Diseño Moderno
+   Basado en la paleta de colores del logo SIMU (Cian & Verde)
    ========================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    --simu-cyan: #00a8cd;
+    --simu-cyan-dark: #0084a5;
+    --simu-cyan-light: #e6f6f9;
+    --simu-green: #34c759;
+    --simu-green-dark: #28a745;
+    --simu-dark-bg: #091d28;
+    --simu-dark-card: #123344;
+    --simu-text-dark: #0f172a;
+    --simu-text-muted: #64748b;
+    --simu-body-bg: #f0f7f9;
+}
 
 body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background-color: #f1f5f9;
-    color: #1e293b;
+    background-color: var(--simu-body-bg);
+    color: var(--simu-text-dark);
     margin: 0;
     padding: 0;
     display: flex;
@@ -17,9 +31,9 @@ body {
 
 /* Header Institucional */
 header.barsup {
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background: linear-gradient(135deg, #071924 0%, #0f2c3c 60%, #00a8cd 100%);
+    box-shadow: 0 4px 20px rgba(0, 168, 205, 0.2);
+    border-bottom: 3px solid var(--simu-green);
     z-index: 1040;
 }
 
@@ -27,19 +41,51 @@ header.barsup {
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    cursor: pointer;
+    text-decoration: none !important;
 }
 
-.logo-icon {
-    width: 42px;
-    height: 42px;
-    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.3rem;
+.header-logo-img {
+    height: 42px !important;
+    max-height: 42px !important;
+    width: auto !important;
+    object-fit: contain;
+    display: block;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.logo-container:hover .header-logo-img {
+    transform: scale(1.03);
+    filter: drop-shadow(0 2px 8px rgba(0, 168, 205, 0.4));
+}
+
+.style-title {
+    font-size: 1.1rem;
+    letter-spacing: 0.03em;
+}
+
+.style-subtitle {
+    font-size: 0.82rem;
+    color: #b0e3ef !important;
+}
+
+.badge-simu-version {
+    background-color: rgba(52, 199, 89, 0.18);
+    color: var(--simu-green);
+    border: 1px solid rgba(52, 199, 89, 0.4);
+    font-weight: 600;
+}
+
+.btn-outline-simu {
     color: #ffffff;
-    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.btn-outline-simu:hover {
+    color: #ffffff;
+    background: var(--simu-cyan);
+    border-color: var(--simu-cyan);
 }
 
 /* Tarjeta del Formulario de Registro */
@@ -48,8 +94,8 @@ header.barsup {
     margin: 1.5rem auto;
     background: #ffffff;
     border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
-    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 30px rgba(0, 168, 205, 0.08), 0 1px 3px rgba(0, 0, 0, 0.02);
+    border: 1px solid #d0e7ed;
     padding: 2.5rem;
     position: relative;
     overflow: hidden;
@@ -63,7 +109,7 @@ header.barsup {
 .reg-header .brand-title {
     font-size: 1.75rem;
     font-weight: 800;
-    color: #0f172a;
+    color: var(--simu-dark-bg);
     letter-spacing: -0.02em;
     margin-bottom: 0.5rem;
 }
@@ -78,12 +124,13 @@ header.barsup {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: #eff6ff;
-    color: #2563eb;
+    background: var(--simu-cyan-light);
+    color: var(--simu-cyan);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.6rem;
+    box-shadow: 0 4px 14px rgba(0, 168, 205, 0.15);
 }
 
 /* Pasos del Formulario */
@@ -142,8 +189,8 @@ header.barsup {
 }
 
 .input-group input:focus {
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    border-color: var(--simu-cyan);
+    box-shadow: 0 0 0 3px rgba(0, 168, 205, 0.18);
 }
 
 .password-wrapper {
@@ -167,7 +214,7 @@ header.barsup {
 }
 
 .eye-toggle:hover {
-    color: #0f172a;
+    color: var(--simu-cyan);
 }
 
 /* Indicador de Fuerza de Contraseña */
@@ -194,14 +241,14 @@ header.barsup {
 
 /* Botones principales */
 .btn-primary {
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    background: linear-gradient(135deg, var(--simu-cyan) 0%, var(--simu-cyan-dark) 100%);
     border: none;
     padding: 0.85rem 1.5rem;
     font-weight: 600;
     border-radius: 8px;
     width: 100%;
     color: white;
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    box-shadow: 0 4px 14px rgba(0, 168, 205, 0.3);
     transition: all 0.2s ease;
     cursor: pointer;
     margin-top: 0.5rem;
@@ -209,14 +256,14 @@ header.barsup {
 
 .btn-primary:hover {
     transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
-    background: linear-gradient(135deg, #1d4ed8, #1e40af);
+    box-shadow: 0 6px 18px rgba(0, 168, 205, 0.4);
+    background: linear-gradient(135deg, var(--simu-cyan-dark) 0%, #006680 100%);
 }
 
 .btn-link {
     background: transparent;
     border: none;
-    color: #64748b;
+    color: var(--simu-cyan-dark);
     padding: 0.6rem;
     width: 100%;
     font-size: 0.9rem;
@@ -225,10 +272,14 @@ header.barsup {
     text-decoration: underline;
 }
 
+.btn-link:hover {
+    color: var(--simu-cyan);
+}
+
 /* Animación y Pantalla de Éxito */
 .success-anim {
     font-size: 3.5rem;
-    color: #22c55e;
+    color: var(--simu-green);
     text-align: center;
     margin-bottom: 1rem;
 }
@@ -241,10 +292,11 @@ header.barsup {
 
 /* Footer institucional */
 footer.bg-institutional {
-    background: #0f172a;
-    border-top: 1px solid #1e293b;
+    background: var(--simu-dark-bg);
+    border-top: 2px solid var(--simu-dark-card);
     padding: 1.25rem 0;
     font-size: 0.875rem;
-    color: #94a3b8;
+    color: #8ab4ce;
     margin-top: auto;
 }
+
