@@ -9,7 +9,7 @@
         
         <div class="d-flex align-items-center gap-3">
             <span class="badge badge-simu-version px-3 py-2 rounded-pill d-none d-sm-inline-block">
-                <i class="fas fa-shield-alt me-1"></i>V 0.1
+                <i class="fas fa-shield-alt me-1"></i>V 1.0
             </span>
             
             <!-- Botón toggle para desplegar menú vertical derecho en móvil -->
