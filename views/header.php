@@ -11,7 +11,15 @@
             <span class="badge badge-simu-version px-3 py-2 rounded-pill d-none d-sm-inline-block">
                 <i class="fas fa-shield-alt me-1"></i>V 1.0
             </span>
-            
+
+            <!-- Botón para alternar el modo oscuro -->
+            <button class="btn btn-outline-simu theme-toggle" id="themeToggleBtn" type="button" aria-label="Cambiar modo oscuro" title="Modo oscuro">
+                <span class="theme-toggle-icon">
+                    <i class="fas fa-sun theme-icon theme-icon-sun"></i>
+                    <i class="fas fa-moon theme-icon theme-icon-moon"></i>
+                </span>
+            </button>
+
             <!-- Botón toggle para desplegar menú vertical derecho en móvil -->
             <button class="btn btn-outline-simu d-lg-none" id="sidebarToggleBtn" type="button" aria-label="Abrir Menú">
                 <i class="fas fa-bars"></i>

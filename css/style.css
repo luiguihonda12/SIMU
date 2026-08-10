@@ -300,3 +300,184 @@ footer.bg-institutional {
     margin-top: auto;
 }
 
+/* ==========================================================
+   MODO OSCURO (Dark Mode)
+   ========================================================== */
+
+/* Transiciones suaves al cambiar de tema */
+body,
+.main-content,
+.registration-container,
+.reg-header .brand-title,
+.reg-header .main-logo,
+.input-group label,
+.input-group input,
+.password-wrapper input,
+.eye-toggle,
+.strength-meter,
+#strengthText,
+.success-desc,
+.btn-link,
+.text-dark,
+.text-muted {
+    transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* --- Botón de tema: efecto al presionar --- */
+.theme-toggle {
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.theme-toggle:hover {
+    box-shadow: 0 0 14px rgba(0, 168, 205, 0.45);
+}
+
+.theme-toggle:active {
+    transform: scale(0.9);
+}
+
+/* Iconos sol/luna superpuestos con volteo 3D */
+.theme-toggle-icon {
+    position: relative;
+    display: inline-block;
+    width: 1.05em;
+    height: 1.05em;
+    line-height: 1;
+    perspective: 300px;
+}
+
+.theme-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.theme-icon-moon {
+    transform: rotateY(0deg);
+    opacity: 1;
+}
+
+.theme-icon-sun {
+    transform: rotateY(180deg);
+    opacity: 0;
+}
+
+html.dark-mode .theme-icon-moon {
+    transform: rotateY(180deg);
+    opacity: 0;
+}
+
+html.dark-mode .theme-icon-sun {
+    transform: rotateY(0deg);
+    opacity: 1;
+    color: #ffd54f;
+}
+
+/* Variables del tema oscuro */
+html.dark-mode {
+    --simu-body-bg: #0b1a24;
+    --simu-text-dark: #e2e8f0;
+    --simu-text-muted: #94a3b8;
+    color-scheme: dark;
+}
+
+html.dark-mode body,
+html.dark-mode .main-content {
+    background-color: var(--simu-body-bg);
+}
+
+/* Tarjeta del formulario */
+html.dark-mode .registration-container {
+    background: #0f2434;
+    border-color: #1d3a4d;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45), 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+html.dark-mode .reg-header .brand-title {
+    color: #f1f5f9;
+}
+
+html.dark-mode .reg-header .main-logo {
+    background: rgba(0, 168, 205, 0.15);
+    color: #00c8ef;
+    box-shadow: 0 4px 14px rgba(0, 168, 205, 0.3);
+}
+
+/* Campos del formulario */
+html.dark-mode .input-group label {
+    color: #cbd5e1;
+}
+
+html.dark-mode .input-group input {
+    background: #0d1f2d;
+    border-color: #1d3a4d;
+    color: #e2e8f0;
+}
+
+html.dark-mode .input-group input::placeholder {
+    color: #64748b;
+}
+
+html.dark-mode .input-group input:focus {
+    border-color: var(--simu-cyan);
+    box-shadow: 0 0 0 3px rgba(0, 168, 205, 0.25);
+}
+
+html.dark-mode .password-wrapper input {
+    background: #0d1f2d;
+    border-color: #1d3a4d;
+    color: #e2e8f0;
+}
+
+html.dark-mode .eye-toggle {
+    color: #94a3b8;
+}
+
+html.dark-mode .eye-toggle:hover {
+    color: #00c8ef;
+}
+
+/* Indicador de fuerza de contraseña */
+html.dark-mode .strength-meter {
+    background: #1d3a4d;
+}
+
+html.dark-mode #strengthText {
+    color: #94a3b8;
+}
+
+/* Textos auxiliares */
+html.dark-mode .reg-step p {
+    color: #cbd5e1 !important;
+}
+
+html.dark-mode .success-desc {
+    color: #cbd5e1;
+}
+
+html.dark-mode .text-dark {
+    color: #e2e8f0 !important;
+}
+
+html.dark-mode .text-muted {
+    color: #94a3b8 !important;
+}
+
+html.dark-mode .btn-link {
+    color: #00c8ef;
+}
+
+/* Vista de módulo en desarrollo */
+html.dark-mode .registration-container h3,
+html.dark-mode .registration-container h2 {
+    color: #e2e8f0;
+}
+

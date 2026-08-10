@@ -21,8 +21,15 @@
     <script src="https://cdn.datatables.net/2.0.0/js/dataTables.bootstrap5.js"></script>
 
     <!-- Hojas de Estilo del Menú y General -->
-    <link rel="stylesheet" type="text/css" href="css/menu.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/menu.css?v=1">
+    <link rel="stylesheet" type="text/css" href="css/style.css?v=2">
+
+    <!-- Aplica el modo oscuro guardado antes de renderizar (evita parpadeo) -->
+    <script>
+        if (localStorage.getItem('simu-theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
 </head>
 <body>
 
@@ -81,8 +88,7 @@
     <?php include 'views/footer.php'; ?>
 
     <!-- Scripts Bootstrap y Validaciones SIMU -->
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/code.js"></script>
-    <script src="js/valida.js"></script>
+    <script src="js/code.js?v=2"></script>
+    <script src="js/valida.js?v=1"></script>
 </body>
 </html>
