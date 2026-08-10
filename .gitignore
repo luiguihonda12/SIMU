@@ -1,3 +1,16 @@
+# Variables de entorno y secretos
 .env
+.env.*
+!.env.example
+!.env.*.example
+
+# Dependencias y archivos generados
 vendor/
+node_modules/
 *.log
+.phpunit.result.cache
+
+# Archivos locales de herramientas
+.idea/
+.vscode/
+*.code-workspace
