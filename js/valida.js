@@ -2,8 +2,8 @@
 
 document.addEventListener('DOMContentLoaded', function() {
 
-    const toggleIcon = document.getElementById('toggleIcon');
-    const passInput = document.getElementById('pass');
+    const toggleIcon = document.querySelector('[data-password-target]');
+    const passInput = toggleIcon ? document.getElementById(toggleIcon.dataset.passwordTarget) : null;
     
     if (toggleIcon && passInput) {
         toggleIcon.addEventListener('click', function() {

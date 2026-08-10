@@ -1,69 +1,16 @@
 <div class="registration-container">
-    <header class="reg-header">
-        <h1 class="brand-title">SIMU</h1>
-        <div class="logo-wrapper">
-            <div class="main-logo"><i class="fas fa-user-shield"></i></div>
-        </div>
-        <h2 id="regTitle" class="h4 text-dark fw-bold">Crear cuenta</h2>
-        <p class="text-muted small mb-0">Módulo de registro de nuevos usuarios del sistema</p>
-    </header>
-
-    <!-- PASO 1: Datos de Acceso -->
-    <section id="step1" class="reg-step active">
-        <div class="input-row">
-            <div class="input-group">
-                <label for="nombre">Nombre</label>
-                <input type="text" id="nombre" placeholder="Juan">
-            </div>
-            <div class="input-group">
-                <label for="apellidos">Apellidos</label>
-                <input type="text" id="apellidos" placeholder="Pérez">
-            </div>
-        </div>
-
-        <div class="input-group">
-            <label for="email">Correo electrónico</label>
-            <input type="email" id="email" placeholder="correo@ejemplo.com">
-        </div>
-
-        <div class="input-group">
-            <label for="telefono">Teléfono <span class="text-muted font-normal">(Opcional)</span></label>
-            <input type="tel" id="telefono" placeholder="300 123 4567">
-        </div>
-        
-        <div class="input-group">
-            <label for="pass">Contraseña</label>
-            <div class="password-wrapper">
-                <input type="password" id="pass" placeholder="Mín. 6 caracteres">
-                <i class="fas fa-eye eye-toggle" id="toggleIcon"></i>
-            </div>
-            <div class="strength-meter"><div id="strengthBar"></div></div>
-            <small id="strengthText">Seguridad: Baja</small>
-        </div>
-
-        <button type="button" class="btn btn-primary" onclick="nextStep(2)">Continuar <i class="fas fa-arrow-right ms-2"></i></button>
-    </section>
-
-    <!-- PASO 2: Verificación de Perfil -->
-    <section id="step2" class="reg-step">
-        <div class="input-group" style="text-align: center;">
-            <label for="vCode">Código de Verificación</label>
-            <p style="font-size: 0.85rem; color: #666; margin-bottom: 15px;">
-                Ingresa el código enviado a tu correo para activar tu perfil.
-            </p>
-            <input type="text" id="vCode" placeholder="0 0 0 0 0 0" 
-                   style="text-align: center; letter-spacing: 5px; font-size: 1.5rem; font-weight: bold;">
-        </div>
-        
-        <button type="button" class="btn btn-primary" onclick="nextStep(3)">Verificar y Crear Perfil <i class="fas fa-check-circle ms-2"></i></button>
-        <button type="button" class="btn btn-link" onclick="nextStep(1)"><i class="fas fa-arrow-left me-1"></i> Atrás</button>
-    </section>
-
-    <!-- PASO 3: Éxito -->
-    <section id="step3" class="reg-step">
-        <div class="success-anim"><i class="fas fa-check-circle"></i></div>
-        <h2 class="text-center h4 fw-bold">¡Perfil Creado!</h2>
-        <p class="success-desc">Tu cuenta en SIMU ha sido verificada con éxito.</p>
-        <button type="button" class="btn btn-primary" onclick="location.reload()">Entrar al Panel</button>
-    </section>
+    <header class="reg-header"><h1 class="brand-title">SIMU</h1><div class="logo-wrapper"><div class="main-logo"><i class="fas fa-user-shield"></i></div></div><h2 class="h4 text-dark fw-bold">Crear usuario</h2><p class="text-muted small mb-0">Registra una cuenta para acceder al sistema.</p></header>
+    <form method="post" action="index.php?pg=creaUsu" novalidate>
+        <?= csrf_field() ?><input type="hidden" name="action" value="crear_usuario">
+        <div class="input-row"><div class="input-group"><label for="nombre">Nombre</label><input required minlength="2" type="text" id="nombre" name="nombre" placeholder="Juan"></div><div class="input-group"><label for="apellidos">Apellidos</label><input required type="text" id="apellidos" name="apellidos" placeholder="Pérez"></div></div>
+        <div class="input-group"><label for="correo">Correo electrónico</label><input required type="email" id="correo" name="correo" placeholder="correo@ejemplo.com"></div>
+        <div class="input-group"><label for="password">Contraseña</label><div class="password-wrapper"><input required minlength="8" type="password" id="password" name="password" placeholder="Mínimo 8 caracteres"><i class="fas fa-eye eye-toggle" data-password-target="password"></i></div><small class="text-muted">Debe incluir una mayúscula y un número.</small></div>
+        <div class="input-group"><label for="password_confirm">Confirmar contraseña</label><input required type="password" id="password_confirm" name="password_confirm"></div>
+        <button type="submit" class="btn btn-primary">Crear usuario <i class="fas fa-user-plus ms-2"></i></button>
+    </form>
 </div>
+<?php $usuarios = $db ? $db->query('SELECT u.id_usuario, u.nombre, u.correo, r.nombre_del_rol FROM usuario u INNER JOIN rol r ON r.id_rol = u.id_rol ORDER BY u.id_usuario DESC')->fetchAll() : []; ?>
+<section class="module-card users-list-card">
+    <div class="d-flex justify-content-between align-items-center mb-3"><h2 class="h5 mb-0">Usuarios registrados</h2><span class="badge bg-info-subtle text-info-emphasis"><?= count($usuarios) ?> registros</span></div>
+    <div class="table-responsive"><table class="table align-middle mb-0"><thead><tr><th>Nombre</th><th>Correo</th><th>Rol</th></tr></thead><tbody><?php foreach ($usuarios as $usuario): ?><tr><td><?= e($usuario['nombre']) ?></td><td><?= e($usuario['correo']) ?></td><td><?= e($usuario['nombre_del_rol']) ?></td></tr><?php endforeach; ?></tbody></table></div>
+</section>

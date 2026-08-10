@@ -1,88 +1,47 @@
-<!DOCTYPE html>
+<?php
+declare(strict_types=1);
+
+require_once __DIR__ . '/app/bootstrap.php';
+require_once __DIR__ . '/controllers/usuarios.php';
+require_once __DIR__ . '/controllers/conductores.php';
+
+$pages = [
+    'inicio' => ['view' => 'views/dashboard.php', 'title' => 'Panel principal'],
+    'creaUsu' => ['view' => 'views/creaUsu.php', 'title' => 'Crear usuario'],
+    'crearUsuario' => ['view' => 'views/creaUsu.php', 'title' => 'Crear usuario'],
+    'conductores' => ['view' => 'views/conductores.php', 'title' => 'Conductores'],
+];
+$pg = is_string($_GET['pg'] ?? null) ? $_GET['pg'] : 'inicio';
+if (!isset($pages[$pg])) $pg = 'inicio';
+
+$db = null;
+$dbError = null;
+try { $db = (new Conexion())->get_conexion(); } catch (Throwable $exception) { $dbError = 'No se pudo conectar con la base de datos. Revisa tu archivo .env.'; }
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!$db) { flash('danger', $dbError ?? 'Base de datos no disponible.'); redirect('index.php?pg=' . urlencode($pg)); }
+    if (($_POST['action'] ?? '') === 'crear_usuario') registrar_usuario($db);
+    if (($_POST['action'] ?? '') === 'crear_conductor') registrar_conductor($db);
+}
+
+$flash = consume_flash();
+$page = $pages[$pg];
+?><!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIMU - Sistema Integrado de Movilidad Urbana</title>
-
-    <!-- Bootstrap 5 & Icons -->
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= e($page['title']) ?> | SIMU</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    
-    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Tipografía Inter de Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- jQuery y DataTables -->
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <script src="https://cdn.datatables.net/2.0.0/js/dataTables.js"></script>
-    <script src="https://cdn.datatables.net/2.0.0/js/dataTables.bootstrap5.js"></script>
-
-    <!-- Hojas de Estilo del Menú y General -->
-    <link rel="stylesheet" type="text/css" href="css/menu.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" href="css/menu.css"><link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
-    <!-- Encabezado Institucional -->
-    <?php include 'views/header.php'; ?>
-
-    <!-- Capa Oscura para cerrar el menú en dispositivos móviles -->
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-    <!-- Layout Principal: Menú Vertical a la Izquierda, Contenido a la Derecha -->
-    <div class="app-layout">
-        
-        <!-- Menú Vertical en el Lado Izquierdo -->
-        <?php include 'views/vmen.php'; ?>
-
-        <!-- Área Principal de Contenido (Dinámica) -->
-        <main class="main-content">
-            <?php
-                $pg = $_GET['pg'] ?? 'creaUsu';
-
-                // Mapeo seguro de páginas permitidas y sus archivos
-                $allowedPages = [
-                    'creaUsu'   => 'views/creaUsu.php',
-                    'crearUsuario' => 'views/creaUsu.php',
-                    'vmen'      => 'views/vmen.php'
-                ];
-
-                if (array_key_exists($pg, $allowedPages) && file_exists($allowedPages[$pg])) {
-                    include $allowedPages[$pg];
-                } elseif (file_exists("views/" . $pg . ".php")) {
-                    include "views/" . $pg . ".php";
-                } else {
-                    // Vista por defecto para módulos futuros en desarrollo
-                    $moduloNombre = ucfirst($pg);
-                    ?>
-                    <div class="registration-container text-center py-5">
-                        <div class="mb-4 text-warning" style="font-size: 3.5rem;">
-                            <i class="fas fa-hammer"></i>
-                        </div>
-                        <h2 class="h3 fw-bold text-dark mb-2">Módulo "<?=$moduloNombre;?>" en Desarrollo</h2>
-                        <p class="text-muted mb-4">
-                            Este módulo estará disponible próximamente en el Sistema Integrado de Movilidad Urbana (SIMU).
-                        </p>
-                        <a href="index.php?pg=creaUsu" class="btn btn-primary" style="max-width: 250px; margin: 0 auto;">
-                            <i class="fas fa-user-plus me-2"></i>Ir a Crear Usuario
-                        </a>
-                    </div>
-                    <?php
-                }
-            ?>
-        </main>
-
-    </div>
-
-    <!-- Pie de Página Institucional -->
-    <?php include 'views/footer.php'; ?>
-
-    <!-- Scripts Bootstrap y Validaciones SIMU -->
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/code.js"></script>
-    <script src="js/valida.js"></script>
-</body>
-</html>
+    <?php include __DIR__ . '/views/header.php'; ?><div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div class="app-layout"><?php include __DIR__ . '/views/vmen.php'; ?><main class="main-content">
+        <?php if ($dbError): ?><div class="alert alert-warning m-3"><i class="fas fa-database me-2"></i><?= e($dbError) ?></div><?php endif; ?>
+        <?php if ($flash): ?><div class="alert alert-<?= e($flash['type']) ?> m-3" role="alert"><?= e($flash['message']) ?></div><?php endif; ?>
+        <?php include __DIR__ . '/' . $page['view']; ?>
+    </main></div>
+    <?php include __DIR__ . '/views/footer.php'; ?>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script src="js/code.js"></script><script src="js/valida.js"></script>
+</body></html>
