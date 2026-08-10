@@ -4,8 +4,10 @@ declare(strict_types=1);
 require_once __DIR__ . '/app/bootstrap.php';
 require_once __DIR__ . '/controllers/usuarios.php';
 require_once __DIR__ . '/controllers/conductores.php';
+require_once __DIR__ . '/controllers/auth.php';
 
 $pages = [
+    'login' => ['view' => 'views/login.php', 'title' => 'Iniciar sesión'],
     'inicio' => ['view' => 'views/dashboard.php', 'title' => 'Panel principal'],
     'creaUsu' => ['view' => 'views/creaUsu.php', 'title' => 'Crear usuario'],
     'crearUsuario' => ['view' => 'views/creaUsu.php', 'title' => 'Crear usuario'],
@@ -18,10 +20,22 @@ $db = null;
 $dbError = null;
 try { $db = (new Conexion())->get_conexion(); } catch (Throwable $exception) { $dbError = 'No se pudo conectar con la base de datos. Revisa tu archivo .env.'; }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'login') {
+    if (!$db) { flash('danger', $dbError ?? 'Base de datos no disponible.'); redirect('index.php?pg=login'); }
+    procesar_login($db);
+}
+
+if ($pg === 'login' && is_authenticated()) redirect('index.php?pg=inicio');
+if ($pg !== 'login') require_auth();
+if (in_array($pg, ['creaUsu', 'crearUsuario'], true)) require_role(ROLE_ADMIN);
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$db) { flash('danger', $dbError ?? 'Base de datos no disponible.'); redirect('index.php?pg=' . urlencode($pg)); }
+    if (($_POST['action'] ?? '') === 'logout') procesar_logout();
     if (($_POST['action'] ?? '') === 'crear_usuario') registrar_usuario($db);
+    if (($_POST['action'] ?? '') === 'eliminar_usuario') eliminar_usuario($db);
     if (($_POST['action'] ?? '') === 'crear_conductor') registrar_conductor($db);
+    if (($_POST['action'] ?? '') === 'eliminar_conductor') eliminar_conductor($db);
 }
 
 $flash = consume_flash();

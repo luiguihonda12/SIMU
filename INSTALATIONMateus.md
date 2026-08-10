@@ -317,3 +317,91 @@ SHOW TABLES;
 - Cambiar las contraseñas que hayan sido expuestas.
 - No publicar el puerto 3306 del computador.
 - Usar usuarios limitados para SIMU y para colaboradores.
+
+
+app/
+├── Http/
+│   ├── Controllers/
+│   ├── Requests/
+│   └── Middleware/
+├── Models/
+├── Services/
+├── Policies/
+├── Jobs/
+├── Events/
+└── Repositories/
+
+database/
+├── migrations/
+├── seeders/
+└── factories/
+
+resources/
+├── views/
+├── js/
+└── css/
+
+routes/
+├── web.php
+└── api.php
+
+tests/
+├── Feature/
+└── Unit/
+---------------------------------
+
+
+Frontend
+  ├── Blade + Bootstrap inicialmente
+  └── Vue o React posteriormente
+
+API / Aplicación
+  ├── Autenticación
+  ├── Usuarios y roles
+  ├── Conductores
+  ├── Vehículos
+  ├── Empresas
+  ├── Rutas y paraderos
+  ├── Pagos
+  └── PQRS
+
+Dominio
+  ├── Entidades
+  ├── Reglas de negocio
+  ├── Servicios
+  └── Eventos
+
+Persistencia
+  ├── Modelos Eloquent
+  ├── Repositorios
+  ├── Migraciones
+  └── Seeders
+
+Infraestructura
+  ├── MySQL
+  ├── Redis
+  ├── Colas
+  ├── Correos
+  ├── Archivos
+  └── Logs y monitoreo
+
+## Arranque actual sin framework
+
+1. Terminal 1: abre el túnel `railway connect MySQL --tunnel-only --port 60832` y déjalo abierto.
+2. En `.env` configura `127.0.0.1`, el puerto del túnel, `movilidad_mer`, `root` y `MYSQL_ROOT_PASSWORD`.
+3. Terminal 2: ejecuta `./tools/start-simu-git-bash.sh`; carga `.env`, valida la base y levanta PHP.
+4. Abre `http://127.0.0.1:8000` e inicia sesión.
+
+La consulta de usuarios es:
+
+```sql
+SELECT id_usuario, nombre, correo, id_rol, LEFT(contrasena, 4) AS tipo_hash
+FROM movilidad_mer.usuario
+ORDER BY id_usuario DESC;
+```
+
+Las contraseñas no se muestran. Para migrar contraseñas heredadas a `password_hash`, ejecuta una sola vez:
+
+```bash
+php tools/hash-legacy-passwords.php --apply
+```

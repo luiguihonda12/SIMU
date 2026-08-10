@@ -8,6 +8,7 @@
         </a>
         
         <div class="d-flex align-items-center gap-3">
+            <?php if ($user = current_user()): ?><span class="text-white small d-none d-md-inline"><strong><?= e($user['nombre']) ?></strong> · <?= e($user['rol']) ?></span><form method="post" action="index.php?pg=inicio" class="d-inline"><?= csrf_field() ?><input type="hidden" name="action" value="logout"><button class="btn btn-sm btn-outline-light" type="submit">Salir</button></form><?php endif; ?>
             <span class="badge badge-simu-version px-3 py-2 rounded-pill d-none d-sm-inline-block">
                 <i class="fas fa-shield-alt me-1"></i>V 1.0
             </span>

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 function registrar_usuario(PDO $db): void
 {
+    require_role(ROLE_ADMIN);
     verify_csrf();
     $nombre = trim((string) ($_POST['nombre'] ?? ''));
     $apellidos = trim((string) ($_POST['apellidos'] ?? ''));
@@ -24,10 +25,28 @@ function registrar_usuario(PDO $db): void
 
     try {
         $stmt = $db->prepare('INSERT INTO usuario (nombre, correo, contrasena, id_rol) VALUES (:nombre, :correo, :contrasena, :id_rol)');
-        $stmt->execute(['nombre' => "$nombre $apellidos", 'correo' => $correo, 'contrasena' => password_hash($password, PASSWORD_DEFAULT), 'id_rol' => 3]);
+        $idRol = (int) ($_POST['id_rol'] ?? ROLE_READONLY);
+        if (!in_array($idRol, [ROLE_ADMIN, ROLE_OPERATOR, ROLE_READONLY], true)) $idRol = ROLE_READONLY;
+        $stmt->execute(['nombre' => "$nombre $apellidos", 'correo' => $correo, 'contrasena' => password_hash($password, PASSWORD_DEFAULT), 'id_rol' => $idRol]);
         flash('success', 'Usuario creado correctamente con contraseña protegida.');
     } catch (PDOException $exception) {
         flash('danger', (($exception->errorInfo[1] ?? 0) === 1062) ? 'Ese correo ya está registrado.' : 'No fue posible crear el usuario.');
     }
+    redirect('index.php?pg=creaUsu');
+}
+
+function eliminar_usuario(PDO $db): void
+{
+    require_role(ROLE_ADMIN);
+    verify_csrf();
+    $id = filter_input(INPUT_POST, 'id_usuario', FILTER_VALIDATE_INT);
+    $current = current_user();
+    if (!$id || !$current || $id === (int) $current['id_usuario']) {
+        flash('danger', 'No puedes eliminar tu propia cuenta.');
+        redirect('index.php?pg=creaUsu');
+    }
+    $statement = $db->prepare('DELETE FROM usuario WHERE id_usuario = :id');
+    $statement->execute(['id' => $id]);
+    flash('success', 'Usuario eliminado correctamente.');
     redirect('index.php?pg=creaUsu');
 }

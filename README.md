@@ -115,13 +115,21 @@ Password: contraseña actual de Railway
 
 Desde DBeaver ejecuta primero `db/movilidad_mer.sql`. Después ejecuta `db/railway_app_user.sql` para crear usuarios de aplicación separados de `root`.
 
+
+## Autenticación y permisos
+
+La aplicación usa sesiones PHP y tres roles: administrador (crear, consultar y eliminar), operador (crear y consultar) y solo lectura (consultar). Las contraseñas nuevas se guardan con `password_hash`; las contraseñas heredadas pueden migrarse una sola vez:
+
+```bash
+php tools/hash-legacy-passwords.php --apply
+```
+
 ## Ejecutar la aplicación
 
 En Git Bash:
 
 ```bash
-source tools/git-bash-env.sh
-php -S 127.0.0.1:8000 -t .
+./tools/start-simu-git-bash.sh
 ```
 
 Abre:
@@ -150,7 +158,7 @@ Inspección de la base:
 php tools/inspect-db.php
 ```
 
-La prueba HTTP debe mostrar `home=200`, `form=200`, `user_post=302`, `driver_post=302`, `password_hash=yes` y `driver_saved=yes`.
+Si la aplicación usa autenticación, primero inicia sesión y después prueba los formularios según el rol de la cuenta.
 
 ## Seguridad
 

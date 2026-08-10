@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 function registrar_conductor(PDO $db): void
 {
+    require_role(ROLE_ADMIN, ROLE_OPERATOR);
     verify_csrf();
     $nombre = trim((string) ($_POST['nombre'] ?? ''));
     $licencia = strtoupper(trim((string) ($_POST['licencia'] ?? '')));
@@ -19,5 +20,20 @@ function registrar_conductor(PDO $db): void
     $stmt = $db->prepare('INSERT INTO conductor (nombre, licencia, telefono, id_buseta, id_empresa) VALUES (:nombre, :licencia, :telefono, :id_buseta, :id_empresa)');
     $stmt->execute(['nombre' => $nombre, 'licencia' => $licencia, 'telefono' => $telefono ?: null, 'id_buseta' => $idBuseta, 'id_empresa' => 1]);
     flash('success', 'Conductor registrado correctamente.');
+    redirect('index.php?pg=conductores');
+}
+
+function eliminar_conductor(PDO $db): void
+{
+    require_role(ROLE_ADMIN);
+    verify_csrf();
+    $id = filter_input(INPUT_POST, 'id_conductor', FILTER_VALIDATE_INT);
+    if (!$id) {
+        flash('danger', 'Conductor no válido.');
+        redirect('index.php?pg=conductores');
+    }
+    $statement = $db->prepare('DELETE FROM conductor WHERE id_conductor = :id');
+    $statement->execute(['id' => $id]);
+    flash('success', 'Conductor eliminado correctamente.');
     redirect('index.php?pg=conductores');
 }
