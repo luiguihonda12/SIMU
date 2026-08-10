@@ -146,16 +146,18 @@ INSERT INTO `ruta` (`id_ruta`, `nombre`, `origen`, `destino`, `horario`) VALUES
 CREATE TABLE `usuario` (
   `id_usuario` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
+  `apellidos` varchar(100) NOT NULL DEFAULT '',
   `correo` varchar(120) NOT NULL,
+  `telefono` varchar(20) DEFAULT NULL,
   `contrasena` varchar(255) NOT NULL,
   `id_rol` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-INSERT INTO `usuario` (`id_usuario`, `nombre`, `correo`, `contrasena`, `id_rol`) VALUES
-(1, 'Luis Mateus', 'luis@email.com', '123456', 1),
-(2, 'Carlos Ruiz', 'carlos@email.com', '123456', 2),
-(3, 'Ana Torres', 'ana@email.com', '123456', 3);
+INSERT INTO `usuario` (`id_usuario`, `nombre`, `apellidos`, `correo`, `telefono`, `contrasena`, `id_rol`) VALUES
+(1, 'Luis', 'Mateus', 'luis@email.com', '3001234567', '123456', 1),
+(2, 'Carlos', 'Ruiz', 'carlos@email.com', '3001234567', '123456', 2),
+(3, 'Ana', 'Torres', 'ana@email.com', '3001234567', '123456', 3);
 
 ALTER TABLE `buseta`
   ADD PRIMARY KEY (`id_buseta`),

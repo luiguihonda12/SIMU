@@ -83,3 +83,55 @@ function nextStep(step) {
         else if (step === 3) regTitle.textContent = 'Confirmación';
     }
 }
+
+/**
+ * Envía los datos del formulario al controlador cUsuario para
+ * crear el usuario en la base de datos (arquitectura MVC).
+ */
+async function registrarUsuario() {
+    const nombre    = document.getElementById('nombre').value.trim();
+    const apellidos = document.getElementById('apellidos').value.trim();
+    const email     = document.getElementById('email').value.trim();
+    const telefono  = document.getElementById('telefono').value.trim();
+    const pass      = document.getElementById('pass').value;
+    const btn       = document.querySelector('#step2 .btn-primary');
+
+    if (!nombre || !apellidos || !email || !pass) {
+        mostrarError('Todos los campos obligatorios deben estar diligenciados.');
+        return;
+    }
+
+    if (btn) btn.disabled = true;
+    ocultarError();
+
+    try {
+        const resp = await fetch('controllers/cUsuario.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({ nombre, apellidos, email, telefono, pass }).toString()
+        });
+        const json = await resp.json();
+
+        if (json.ok) {
+            nextStep(3);
+        } else {
+            mostrarError(json.msg || 'No se pudo crear el usuario.');
+        }
+    } catch (e) {
+        mostrarError('Error de conexión con el servidor.');
+    } finally {
+        if (btn) btn.disabled = false;
+    }
+}
+
+function mostrarError(msg) {
+    const errBox = document.getElementById('regError');
+    const errText = document.getElementById('regErrorText');
+    if (errBox) errBox.style.display = 'flex';
+    if (errText) errText.textContent = msg;
+}
+
+function ocultarError() {
+    const errBox = document.getElementById('regError');
+    if (errBox) errBox.style.display = 'none';
+}

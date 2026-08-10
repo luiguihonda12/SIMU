@@ -300,6 +300,214 @@ footer.bg-institutional {
     margin-top: auto;
 }
 
+/* Mensaje de error del formulario de registro */
+.reg-alert {
+    align-items: center;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #b91c1c;
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+}
+
+html.dark-mode .reg-alert {
+    background: rgba(239, 68, 68, 0.12);
+    border-color: rgba(239, 68, 68, 0.35);
+    color: #fca5a5;
+}
+
+/* ==========================================================
+   DASHBOARD
+   ========================================================== */
+
+.dashboard-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.dash-header {
+    margin-bottom: 1.75rem;
+}
+
+.dash-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--simu-dark-bg);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.25rem;
+}
+
+.dash-title i {
+    color: var(--simu-cyan);
+}
+
+.dash-subtitle {
+    color: var(--simu-text-muted);
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* Tarjetas de estadísticas */
+.dash-stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 1.75rem;
+}
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: #ffffff;
+    border: 1px solid #d0e7ed;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 24px rgba(0, 168, 205, 0.06), 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.stat-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--simu-cyan) 0%, var(--simu-cyan-dark) 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    box-shadow: 0 6px 16px rgba(0, 168, 205, 0.35);
+}
+
+.stat-value {
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: var(--simu-dark-bg);
+    line-height: 1.1;
+    display: block;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--simu-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+/* Botón de acción */
+.dash-actions {
+    margin-bottom: 1.75rem;
+}
+
+.dash-actions .btn-primary {
+    width: auto;
+    margin-top: 0;
+    display: inline-flex;
+    align-items: center;
+}
+
+/* Tabla */
+.dash-table-card {
+    background: #ffffff;
+    border: 1px solid #d0e7ed;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 168, 205, 0.08), 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.dash-table-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #d0e7ed;
+}
+
+.dash-table-header h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--simu-dark-bg);
+}
+
+.dash-table-card .table {
+    margin-bottom: 0;
+}
+
+.dash-table-card .table thead th {
+    background: var(--simu-cyan-light);
+    color: #0f3d4f;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 0.9rem 1.5rem;
+    border-bottom: 1px solid #cbe3ea;
+}
+
+.dash-table-card .table tbody td {
+    padding: 0.9rem 1.5rem;
+    color: var(--simu-text-dark);
+    font-size: 0.9rem;
+    border-color: #e3eef2;
+}
+
+.dash-table-card .table tbody tr:hover {
+    background: var(--simu-cyan-light);
+}
+
+.rol-badge {
+    background: rgba(0, 168, 205, 0.12);
+    color: var(--simu-cyan-dark);
+    border: 1px solid rgba(0, 168, 205, 0.3);
+    padding: 0.3rem 0.8rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.78rem;
+}
+
+/* Dashboard en modo oscuro */
+html.dark-mode .stat-card,
+html.dark-mode .dash-table-card {
+    background: #0f2434;
+    border-color: #1d3a4d;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+html.dark-mode .dash-title,
+html.dark-mode .stat-value,
+html.dark-mode .dash-table-header h3 {
+    color: #f1f5f9;
+}
+
+html.dark-mode .dash-table-header {
+    border-bottom-color: #1d3a4d;
+}
+
+html.dark-mode .dash-table-card .table thead th {
+    background: #0d1f2d;
+    color: #b0e3ef;
+    border-bottom-color: #1d3a4d;
+}
+
+html.dark-mode .dash-table-card .table tbody td {
+    color: #e2e8f0;
+    border-color: #1d3a4d;
+}
+
+html.dark-mode .dash-table-card .table tbody tr:hover {
+    background: rgba(0, 168, 205, 0.08);
+}
+
+html.dark-mode .rol-badge {
+    background: rgba(0, 168, 205, 0.15);
+    color: #00c8ef;
+    border-color: rgba(0, 168, 205, 0.35);
+}
+
 /* ==========================================================
    MODO OSCURO (Dark Mode)
    ========================================================== */
@@ -319,7 +527,12 @@ body,
 .success-desc,
 .btn-link,
 .text-dark,
-.text-muted {
+.text-muted,
+.stat-card,
+.dash-table-card,
+.dash-title,
+.stat-value,
+.dash-table-header h3 {
     transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 

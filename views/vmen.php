@@ -14,6 +14,15 @@ $currentPage = $_GET['pg'] ?? 'creaUsu';
     </div>
 
     <nav class="sidebar-nav">
+        <div class="sidebar-category">General</div>
+        <a href="index.php?pg=dashboard" class="nav-item-link <?=($currentPage == 'dashboard') ? 'active' : '';?>">
+            <span class="nav-item-content">
+                <span class="nav-item-icon"><i class="fas fa-tachometer-alt"></i></span>
+                <span>Dashboard</span>
+            </span>
+            <span class="badge-module badge-active">Activo</span>
+        </a>
+
         <div class="sidebar-category">Usuarios y Seguridad</div>
         <a href="index.php?pg=creaUsu" class="nav-item-link <?=($currentPage == 'creaUsu' || $currentPage == 'crearUsuario') ? 'active' : '';?>">
             <span class="nav-item-content">

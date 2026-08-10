@@ -52,6 +52,7 @@
 
                 // Mapeo seguro de páginas permitidas y sus archivos
                 $allowedPages = [
+                    'dashboard' => 'views/dashboard.php',
                     'creaUsu'   => 'views/creaUsu.php',
                     'crearUsuario' => 'views/creaUsu.php',
                     'vmen'      => 'views/vmen.php'

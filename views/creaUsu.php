@@ -8,6 +8,11 @@
         <p class="text-muted small mb-0">Módulo de registro de nuevos usuarios del sistema</p>
     </header>
 
+    <!-- Mensaje de error al registrar -->
+    <div id="regError" class="reg-alert" style="display:none;">
+        <i class="fas fa-exclamation-circle me-2"></i><span id="regErrorText"></span>
+    </div>
+
     <!-- PASO 1: Datos de Acceso -->
     <section id="step1" class="reg-step active">
         <div class="input-row">
@@ -55,7 +60,7 @@
                    style="text-align: center; letter-spacing: 5px; font-size: 1.5rem; font-weight: bold;">
         </div>
         
-        <button type="button" class="btn btn-primary" onclick="nextStep(3)">Verificar y Crear Perfil <i class="fas fa-check-circle ms-2"></i></button>
+        <button type="button" class="btn btn-primary" onclick="registrarUsuario()">Verificar y Crear Perfil <i class="fas fa-check-circle ms-2"></i></button>
         <button type="button" class="btn btn-link" onclick="nextStep(1)"><i class="fas fa-arrow-left me-1"></i> Atrás</button>
     </section>
 
