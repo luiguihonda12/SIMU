@@ -43,24 +43,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-
-    const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');
-    const sidebar = document.querySelector('.left-sidebar, .app-sidebar, .right-sidebar');
-    const sidebarOverlay = document.getElementById('sidebarOverlay');
-
-    if (sidebarToggleBtn && sidebar) {
-        sidebarToggleBtn.addEventListener('click', function() {
-            sidebar.classList.toggle('show');
-            if (sidebarOverlay) sidebarOverlay.classList.toggle('show');
-        });
-    }
-
-    if (sidebarOverlay) {
-        sidebarOverlay.addEventListener('click', function() {
-            if (sidebar) sidebar.classList.remove('show');
-            sidebarOverlay.classList.remove('show');
-        });
-    }
 });
 
 /**
