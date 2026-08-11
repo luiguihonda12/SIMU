@@ -72,6 +72,6 @@ $roles = $mRol->getRoles();
         <div class="success-anim"><i class="fas fa-check-circle"></i></div>
         <h2 class="text-center h4 fw-bold">¡Perfil Creado!</h2>
         <p class="success-desc">Tu cuenta en SIMU ha sido creada con éxito.</p>
-        <button type="button" class="btn btn-primary" onclick="location.reload()">Entrar al Panel</button>
+        <a href="index.php?pg=vlogin" class="btn btn-primary w-100 text-decoration-none">Ir a Iniciar Sesión</a>
     </section>
 </div>

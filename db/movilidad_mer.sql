@@ -167,6 +167,9 @@ CREATE TABLE `usuario` (
   `correo` varchar(120) NOT NULL,
   `telefono` varchar(20) DEFAULT NULL,
   `contrasena` varchar(255) NOT NULL,
+  `codigo_verificacion` varchar(10) DEFAULT NULL,
+  `token_recuperacion` varchar(64) DEFAULT NULL,
+  `estado` tinyint(1) NOT NULL DEFAULT 1,
   `id_rol` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

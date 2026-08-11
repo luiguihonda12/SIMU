@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-
-
     /* ======================================================
        MODO OSCURO
        ====================================================== */
@@ -281,3 +279,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 });
+
+
+/* ======================================================
+   REGISTRO GUIADO
+   ====================================================== */
+
+/*
+ * Avanza el flujo guiado de registro.
+ * En el Paso 1 redirige al formulario completo de creación de usuario.
+ */
+function siguientePaso() {
+
+    window.location.href = 'index.php?pg=creaUsu';
+
+}

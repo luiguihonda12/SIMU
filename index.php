@@ -56,6 +56,17 @@
                     'creaUsu'   => 'views/creaUsu.php',
                     'crearUsuario' => 'views/creaUsu.php',
                     'vmen'      => 'views/vmen.php',
+                    // Autenticación y recuperación de cuenta
+                    'login'      => 'views/vlogin.php',
+                    'vlogin'     => 'views/vlogin.php',
+                    'registro'   => 'views/vregistro.php',
+                    'vregistro'  => 'views/vregistro.php',
+                    'verificacion' => 'views/vcoder.php',
+                    'vcoder'     => 'views/vcoder.php',
+                    'olvido'     => 'views/volvid.php',
+                    'volvid'     => 'views/volvid.php',
+                    'reset'      => 'views/vreset.php',
+                    'vreset'     => 'views/vreset.php',
                     // Conductor
                     'conductor' => 'views/vcondu.php',
                     'dashboardConductor' => 'views/vdascon.php',
