@@ -74,6 +74,12 @@
                     'conductor'          => 'views/vcondu.php',
                     'dashboardConductor' => 'views/vdascon.php',
                     'editarConductor'    => 'views/vedicon.php',
+                    // Rutas y Horarios
+                    'editarRutas'        => 'views/vedrut.php',
+                    'registrarParaderos' => 'views/vrepar.php',
+                    'edicionRuta'        => 'views/vmodru.php',
+                    'listadoRutas'       => 'views/vlisru.php',
+                    'registroRutas'      => 'views/vregru.php',
                     // PQRS
                     'detallePQRS'        => 'views/vdpqrs.php',
                     'gestionPQRS'        => 'views/vgpqrs.php',

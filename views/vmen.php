@@ -804,57 +804,6 @@ $currentPage = $_GET['pg'] ?? 'creaUsu';
 
 
         <!-- =================================================
-             PAGOS Y TARIFAS
-             SIN VISTAS ASIGNADAS
-             ================================================= -->
-
-        <div class="sidebar-dropdown">
-
-
-            <button
-                type="button"
-                class="sidebar-dropdown-btn"
-            >
-
-                <span class="nav-item-content">
-
-                    <span class="nav-item-icon">
-                        <i class="fas fa-wallet"></i>
-                    </span>
-
-                    <span>
-                        Pagos y Tarifas
-                    </span>
-
-                </span>
-
-
-                <i class="fas fa-chevron-down dropdown-arrow"></i>
-
-            </button>
-
-
-            <div class="sidebar-dropdown-content">
-
-
-                <div class="sidebar-empty-item">
-
-                    <i class="fas fa-clock"></i>
-
-                    <span>
-                        Sin vistas asignadas
-                    </span>
-
-                </div>
-
-
-            </div>
-
-        </div>
-
-
-
-        <!-- =================================================
              PQRS
              VISTAS 27 Y 28
              ================================================= -->
