@@ -1,3 +1,10 @@
+<?php
+// Cargar roles disponibles desde la base de datos (patrón MVC)
+require_once(__DIR__ . "/../models/mUsuario.php");
+$mRol = new mUsuario();
+$roles = $mRol->getRoles();
+?>
+
 <div class="registration-container">
     <header class="reg-header">
         <h1 class="brand-title">SIMU</h1>
@@ -46,29 +53,25 @@
             <small id="strengthText">Seguridad: Baja</small>
         </div>
 
-        <button type="button" class="btn btn-primary" onclick="nextStep(2)">Continuar <i class="fas fa-arrow-right ms-2"></i></button>
-    </section>
-
-    <!-- PASO 2: Verificación de Perfil -->
-    <section id="step2" class="reg-step">
-        <div class="input-group" style="text-align: center;">
-            <label for="vCode">Código de Verificación</label>
-            <p style="font-size: 0.85rem; color: #666; margin-bottom: 15px;">
-                Ingresa el código enviado a tu correo para activar tu perfil.
-            </p>
-            <input type="text" id="vCode" placeholder="0 0 0 0 0 0" 
-                   style="text-align: center; letter-spacing: 5px; font-size: 1.5rem; font-weight: bold;">
+        <div class="input-group">
+            <label for="rol">Rol del usuario</label>
+            <select id="rol">
+                <?php foreach ($roles as $rolItem): ?>
+                    <option value="<?= (int)$rolItem['id_rol']; ?>" <?= (int)$rolItem['id_rol'] === 3 ? 'selected' : ''; ?>>
+                        <?= htmlspecialchars($rolItem['rol']); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
         </div>
-        
-        <button type="button" class="btn btn-primary" onclick="registrarUsuario()">Verificar y Crear Perfil <i class="fas fa-check-circle ms-2"></i></button>
-        <button type="button" class="btn btn-link" onclick="nextStep(1)"><i class="fas fa-arrow-left me-1"></i> Atrás</button>
+
+        <button type="button" id="btnRegistrar" class="btn btn-primary" onclick="registrarUsuario()">Crear Usuario <i class="fas fa-user-plus ms-2"></i></button>
     </section>
 
-    <!-- PASO 3: Éxito -->
+    <!-- PASO 2: Éxito -->
     <section id="step3" class="reg-step">
         <div class="success-anim"><i class="fas fa-check-circle"></i></div>
         <h2 class="text-center h4 fw-bold">¡Perfil Creado!</h2>
-        <p class="success-desc">Tu cuenta en SIMU ha sido verificada con éxito.</p>
+        <p class="success-desc">Tu cuenta en SIMU ha sido creada con éxito.</p>
         <button type="button" class="btn btn-primary" onclick="location.reload()">Entrar al Panel</button>
     </section>
 </div>

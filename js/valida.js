@@ -61,7 +61,6 @@ function nextStep(step) {
     const regTitle = document.getElementById('regTitle');
     if (regTitle) {
         if (step === 1) regTitle.textContent = 'Crear cuenta';
-        else if (step === 2) regTitle.textContent = 'Verificación de Perfil';
         else if (step === 3) regTitle.textContent = 'Confirmación';
     }
 }
@@ -76,7 +75,8 @@ async function registrarUsuario() {
     const email     = document.getElementById('email').value.trim();
     const telefono  = document.getElementById('telefono').value.trim();
     const pass      = document.getElementById('pass').value;
-    const btn       = document.querySelector('#step2 .btn-primary');
+    const rol       = document.getElementById('rol').value;
+    const btn       = document.getElementById('btnRegistrar');
 
     if (!nombre || !apellidos || !email || !pass) {
         mostrarError('Todos los campos obligatorios deben estar diligenciados.');
@@ -90,7 +90,7 @@ async function registrarUsuario() {
         const resp = await fetch('controllers/cUsuario.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: new URLSearchParams({ nombre, apellidos, email, telefono, pass }).toString()
+            body: new URLSearchParams({ nombre, apellidos, email, telefono, pass, rol }).toString()
         });
         const json = await resp.json();
 

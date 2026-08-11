@@ -865,6 +865,7 @@ $currentPage = $_GET['pg'] ?? 'creaUsu';
                 $currentPage,
                 [
                     'gestionPQRS',
+                    'nuevaPQRS',
                     'vistaAdmin',
                     'pqrs'
                 ]
@@ -910,6 +911,21 @@ $currentPage = $_GET['pg'] ?? 'creaUsu';
 
                     <span>
                         Gestión PQRS
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="index.php?pg=nuevaPQRS"
+                    class="sidebar-subitem
+                    <?= ($currentPage == 'nuevaPQRS') ? 'active' : ''; ?>"
+                >
+
+                    <i class="fas fa-circle-plus"></i>
+
+                    <span>
+                        Registrar PQRS
                     </span>
 
                 </a>

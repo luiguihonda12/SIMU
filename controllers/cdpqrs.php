@@ -16,8 +16,13 @@ class Cdpqrs
         return $this->modelo->obtenerPQRS($id);
     }
 
-    public function actualizar($datos)
+    public function actualizar($id, $datos)
     {
-        return $this->modelo->actualizarPQRS($datos);
+        return $this->modelo->actualizarPQRS($id, $datos);
+    }
+
+    public function crear($datos)
+    {
+        return $this->modelo->crearPQRS($datos);
     }
 }

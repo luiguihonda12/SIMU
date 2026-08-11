@@ -10,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $correo    = trim($_POST['email'] ?? '');
     $telefono  = trim($_POST['telefono'] ?? '');
     $pass      = $_POST['pass'] ?? '';
+    $rol       = (int)($_POST['rol'] ?? 0);
 
     if ($nombre === '' || $apellidos === '' || $correo === '' || $pass === '') {
         $res['msg'] = 'Todos los campos obligatorios deben estar diligenciados.';
@@ -17,11 +18,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $res['msg'] = 'El correo electrónico no es válido.';
     } elseif (strlen($pass) < 6) {
         $res['msg'] = 'La contraseña debe tener al menos 6 caracteres.';
+    } elseif ($rol <= 0) {
+        $res['msg'] = 'Debes seleccionar un rol válido.';
     } else {
         require_once(__DIR__ . "/../models/mUsuario.php");
         $mUsuario = new mUsuario();
 
-        if ($mUsuario->existeCorreo($correo)) {
+        if (!$mUsuario->existeRol($rol)) {
+            $res['msg'] = 'El rol seleccionado no es válido.';
+        } elseif ($mUsuario->existeCorreo($correo)) {
             $res['msg'] = 'Ya existe un usuario registrado con ese correo.';
         } else {
             $datos = array(
@@ -30,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'correo'     => $correo,
                 'telefono'   => $telefono === '' ? null : $telefono,
                 'contrasena' => password_hash($pass, PASSWORD_DEFAULT),
-                'id_rol'     => 3
+                'id_rol'     => $rol
             );
 
             if ($mUsuario->setUsuario($datos)) {

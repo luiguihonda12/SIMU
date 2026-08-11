@@ -307,13 +307,28 @@ $resumen = $controlador->resumen();
 
         </div>
 
-        <a
-            href="index.php?pg=gestionPQRS"
-            class="gpqrs-refresh"
+        <div
+            style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;"
         >
-            <i class="fas fa-rotate me-1"></i>
-            Actualizar
-        </a>
+
+            <a
+                href="index.php?pg=nuevaPQRS"
+                class="gpqrs-refresh"
+            >
+                <i class="fas fa-plus me-1"></i>
+                Nueva PQRS
+            </a>
+
+            <a
+                href="index.php?pg=gestionPQRS"
+                class="gpqrs-refresh"
+                style="background:#edf2f4;color:#607d8b;"
+            >
+                <i class="fas fa-rotate me-1"></i>
+                Actualizar
+            </a>
+
+        </div>
 
     </div>
 

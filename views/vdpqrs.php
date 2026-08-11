@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     } else {
 
-        if ($controlador->actualizar($datos)) {
+        if ($controlador->actualizar($id, $datos)) {
 
             $mensaje = 'La PQRS fue actualizada correctamente.';
             $tipoMensaje = 'success';
@@ -39,6 +39,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $pqrs = $controlador->mostrar($id);
+
+// Si la PQRS no existe se muestra un mensaje de aviso
+if ($pqrs === null) {
+    echo '<div style="padding:25px;">'
+        . '<div style="background:#fdeaea;color:#9b2525;border:1px solid #f4cccc;border-radius:8px;padding:14px;margin-bottom:15px;font-weight:600;">'
+        . 'No se encontró la PQRS solicitada.</div>'
+        . '<a href="index.php?pg=gestionPQRS" style="color:#008eaa;font-weight:700;">'
+        . '<i class="fas fa-arrow-left me-1"></i> Volver a PQRS</a>'
+        . '</div>';
+    return;
+}
 
 
 // Estado visual

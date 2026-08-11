@@ -193,6 +193,23 @@ header.barsup {
     box-shadow: 0 0 0 3px rgba(0, 168, 205, 0.18);
 }
 
+.input-group select {
+    padding: 0.75rem 1rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background: #ffffff;
+    color: #0f172a;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.input-group select:focus {
+    border-color: var(--simu-cyan);
+    box-shadow: 0 0 0 3px rgba(0, 168, 205, 0.18);
+}
+
 .password-wrapper {
     position: relative;
     display: flex;
@@ -520,6 +537,7 @@ body,
 .reg-header .main-logo,
 .input-group label,
 .input-group input,
+.input-group select,
 .password-wrapper input,
 .eye-toggle,
 .strength-meter,
@@ -632,6 +650,17 @@ html.dark-mode .input-group label {
 html.dark-mode .input-group input {
     background: #0d1f2d;
     border-color: #1d3a4d;
+    color: #e2e8f0;
+}
+
+html.dark-mode .input-group select {
+    background: #0d1f2d;
+    border-color: #1d3a4d;
+    color: #e2e8f0;
+}
+
+html.dark-mode .input-group select option {
+    background: #0d1f2d;
     color: #e2e8f0;
 }
 

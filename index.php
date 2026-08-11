@@ -62,7 +62,8 @@
                     'editarConductor' => 'views/vedicon.php',
                     // PQRS
                     'detallePQRS' => 'views/vdpqrs.php',
-                    'gestionPQRS' => 'views/vgpqrs.php'
+                    'gestionPQRS' => 'views/vgpqrs.php',
+                    'nuevaPQRS' => 'views/vnpqrs.php'
                 ];
 
                 if (array_key_exists($pg, $allowedPages) && file_exists($allowedPages[$pg])) {

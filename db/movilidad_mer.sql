@@ -97,16 +97,33 @@ INSERT INTO `paradero` (`id_paradero`, `nombre`, `ubicacion`, `id_ruta`) VALUES
 
 
 CREATE TABLE `pqrs` (
-  `id_pqrs` int(11) NOT NULL,
+  `id_pqrs` varchar(15) NOT NULL,
   `tipo_pqrs` varchar(50) NOT NULL,
-  `descripcion` text NOT NULL,
+  `categoria` varchar(80) NOT NULL DEFAULT 'General',
+  `estado` varchar(30) NOT NULL DEFAULT 'En revisión',
+  `prioridad` varchar(10) NOT NULL DEFAULT 'Media',
   `fecha` date NOT NULL,
-  `id_usuario` int(11) NOT NULL
+  `hora` time DEFAULT NULL,
+  `asunto` varchar(150) NOT NULL,
+  `descripcion` text NOT NULL,
+  `respuesta` text DEFAULT NULL,
+  `funcionario` varchar(80) NOT NULL DEFAULT 'Sin asignar',
+  `id_usuario` int(11) DEFAULT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `documento` varchar(30) DEFAULT NULL,
+  `correo` varchar(120) DEFAULT NULL,
+  `telefono` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `pqrs` (`id_pqrs`, `tipo_pqrs`, `descripcion`, `fecha`, `id_usuario`) VALUES
-(1, 'Queja', 'Retraso en la ruta centro', '2026-04-14', 3),
-(2, 'Sugerencia', 'Agregar mas horarios en la mañana', '2026-04-14', 3);
+INSERT INTO `pqrs` (`id_pqrs`, `tipo_pqrs`, `categoria`, `estado`, `prioridad`, `fecha`, `hora`, `asunto`, `descripcion`, `respuesta`, `funcionario`, `id_usuario`, `nombre`, `documento`, `correo`, `telefono`) VALUES
+('PQRS-00001', 'Queja', 'General', 'En revisión', 'Media', '2026-04-14', '08:00:00', 'Retraso en la ruta centro', 'Retraso en la ruta centro', NULL, 'Sin asignar', 3, 'Ana Torres', '1.023.000.001', 'ana@email.com', NULL),
+('PQRS-00002', 'Sugerencia', 'General', 'En revisión', 'Media', '2026-04-14', '09:00:00', 'Agregar más horarios en la mañana', 'Agregar más horarios en la mañana', NULL, 'Sin asignar', 3, 'Ana Torres', '1.023.000.001', 'ana@email.com', NULL),
+('PQRS-00026', 'Petición', 'Servicio de transporte', 'En revisión', 'Media', '2026-08-10', '09:35:00', 'Retraso frecuente de la ruta 01', 'Quiero reportar que la ruta 01 presenta retrasos frecuentes durante las horas de la mañana. El día de hoy la buseta llegó aproximadamente 25 minutos después del horario establecido.', NULL, 'Sin asignar', NULL, 'María González', '1.023.456.789', 'maria.gonzalez@email.com', '3154567890'),
+('PQRS-00025', 'Queja', 'Ruta y horarios', 'En proceso', 'Alta', '2026-08-09', '14:22:00', 'Demora excesiva en el paradero Norte', 'Reporto que en el paradero Norte las busetas pasan con más de 40 minutos de demora durante las horas de la tarde.', NULL, 'Gestor de Movilidad', NULL, 'Carlos Rodríguez', '79.852.741', 'carlos.rodriguez@email.com', '3102589631'),
+('PQRS-00024', 'Solicitud', 'Paraderos', 'Resuelta', 'Baja', '2026-08-08', '08:05:00', 'Solicitud de nuevo paradero en la calle 12', 'Solicito la instalación de un paradero en la calle 12 con carrera 7, ya que no existe ninguna señalización en el sector.', 'Hemos registrado su solicitud y será evaluada por el área de infraestructura.', 'Administrador SIMU', NULL, 'Laura Martínez', '52.147.963', 'laura.martinez@email.com', '3007418529'),
+('PQRS-00023', 'Reclamo', 'Servicio de transporte', 'En proceso', 'Media', '2026-08-07', '11:47:00', 'Estado de la buseta R-01 en malas condiciones', 'La buseta que cubre la ruta 01 presenta fallas mecánicas y varios asientos en mal estado.', NULL, 'Sin asignar', NULL, 'Andrés Pérez', '1.035.258.714', 'andres.perez@email.com', '3124569870'),
+('PQRS-00022', 'Petición', 'Tarifas', 'Resuelta', 'Baja', '2026-08-06', '16:30:00', 'Solicitud de información sobre tarifas estudiantiles', 'Deseo conocer las tarifas con descuento para estudiantes y los requisitos para acceder al beneficio.', 'El descuento estudiantil aplica presentando el carné vigente en taquilla.', 'Administrador SIMU', NULL, 'Sofía Hernández', '1.025.963.741', 'sofia.hernandez@email.com', '3015874263'),
+('PQRS-00021', 'Queja', 'Conductores', 'Rechazada', 'Media', '2026-08-05', '07:55:00', 'Conductor de la ruta 03 sin uniforme', 'El conductor de la ruta 03 no portaba el uniforme institucional durante el recorrido de la mañana.', 'La queja fue verificada y no se encontraron pruebas suficientes para emitir sanción.', 'Gestor de Movilidad', NULL, 'Juan Torres', '80.254.169', 'juan.torres@email.com', '3159876543');
 
 CREATE TABLE `rol` (
   `id_rol` int(11) NOT NULL,
@@ -267,12 +284,6 @@ ALTER TABLE `pago`
 --
 ALTER TABLE `paradero`
   MODIFY `id_paradero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT de la tabla `pqrs`
---
-ALTER TABLE `pqrs`
-  MODIFY `id_pqrs` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
