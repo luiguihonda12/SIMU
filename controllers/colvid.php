@@ -18,13 +18,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!$mUsuario->existeCorreo($correo)) {
             $res['msg'] = 'El correo no está registrado en el sistema.';
         } else {
-            $token = bin2hex(random_bytes(32));
+            // Código de recuperación de 6 dígitos
+            $codigo = str_pad((string)random_int(0, 999999), 6, '0', STR_PAD_LEFT);
             $modelo = new Molvid();
 
-            if ($modelo->guardarTokenRecuperacion($correo, $token)) {
-                $res['ok']  = true;
-                $res['msg'] = 'Se ha enviado un enlace de recuperación a su correo.';
-                $res['token_debug'] = $token; // Solo para pruebas mientras se configura el envío de correos
+            if ($modelo->guardarTokenRecuperacion($correo, $codigo)) {
+                // Intentar enviar el código por correo (requiere PHPMailer configurado)
+                require_once(__DIR__ . '/ccorreo.php');
+                $asunto = 'Recuperación de contraseña SIMU';
+                $mensajeHtml = '<h3>Recupera tu contraseña</h3>'
+                    . '<p>Recibimos una solicitud para restablecer tu contraseña en el Sistema Integrado de Movilidad Urbana (SIMU).</p>'
+                    . '<p>Ingresa este código de verificación para continuar:</p>'
+                    . '<h2 style="font-size:2rem;letter-spacing:4px;">' . $codigo . '</h2>'
+                    . '<p>Si no solicitaste este cambio, ignora este correo.</p>';
+                $enviado = enviarCorreoSimu($correo, $asunto, $mensajeHtml);
+
+                $res['ok']            = true;
+                $res['msg']           = 'Se ha enviado un código de recuperación a su correo.';
+                $res['correo']        = $correo;
+                $res['correo_enviado'] = $enviado;
+                // Solo para pruebas mientras no se configure PHPMailer
+                $res['codigo_debug']  = $enviado ? '' : $codigo;
             } else {
                 $res['msg'] = 'Error al procesar la solicitud.';
             }

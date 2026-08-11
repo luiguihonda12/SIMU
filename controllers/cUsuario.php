@@ -29,18 +29,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif ($mUsuario->existeCorreo($correo)) {
             $res['msg'] = 'Ya existe un usuario registrado con ese correo.';
         } else {
+            // Código de verificación de 6 dígitos para activar la cuenta
+            $codigo = str_pad((string)random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+
             $datos = array(
-                'nombre'     => $nombre,
-                'apellidos'  => $apellidos,
-                'correo'     => $correo,
-                'telefono'   => $telefono === '' ? null : $telefono,
-                'contrasena' => password_hash($pass, PASSWORD_DEFAULT),
-                'id_rol'     => $rol
+                'nombre'              => $nombre,
+                'apellidos'           => $apellidos,
+                'correo'              => $correo,
+                'telefono'            => $telefono === '' ? null : $telefono,
+                'contrasena'          => password_hash($pass, PASSWORD_DEFAULT),
+                'codigo_verificacion' => $codigo,
+                'estado'              => 0, // Pendiente de verificación
+                'id_rol'              => $rol
             );
 
             if ($mUsuario->setUsuario($datos)) {
-                $res['ok']  = true;
-                $res['msg'] = 'Usuario creado correctamente.';
+                // Intentar enviar el código por correo (requiere PHPMailer configurado)
+                require_once(__DIR__ . '/ccorreo.php');
+                $asunto = 'Código de verificación SIMU';
+                $mensajeHtml = '<h3>¡Hola ' . htmlspecialchars($nombre) . '!</h3>'
+                    . '<p>Gracias por registrarte en el Sistema Integrado de Movilidad Urbana (SIMU).</p>'
+                    . '<p>Tu código de verificación para activar tu cuenta es:</p>'
+                    . '<h2 style="font-size:2rem;letter-spacing:4px;">' . $codigo . '</h2>'
+                    . '<p>Ingresa este código en la aplicación para completar tu registro.</p>';
+                $enviado = enviarCorreoSimu($correo, $asunto, $mensajeHtml);
+
+                $res['ok']            = true;
+                $res['msg']           = 'Usuario creado. Ingresa el código enviado a tu correo para activar la cuenta.';
+                $res['correo']        = $correo;
+                $res['correo_enviado'] = $enviado;
+                // Solo para pruebas mientras no se configure PHPMailer
+                $res['codigo_debug']  = $enviado ? '' : $codigo;
             } else {
                 $res['msg'] = 'Ocurrió un error al guardar el usuario en la base de datos.';
             }

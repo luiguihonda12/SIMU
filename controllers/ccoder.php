@@ -19,11 +19,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $usuario = $modelo->verificarCodigo($correo, $codigo);
 
         if ($usuario) {
+            // Registro: la cuenta estaba pendiente de activación
             $modelo->activarUsuario($correo);
-            $res['ok']  = true;
-            $res['msg'] = 'Cuenta verificada exitosamente.';
+            $res['ok']       = true;
+            $res['msg']      = 'Cuenta verificada exitosamente.';
+            $res['contexto'] = 'registro';
         } else {
-            $res['msg'] = 'Código inválido o cuenta ya verificada.';
+            // Recuperación de contraseña: el código quedó en token_recuperacion
+            $recuperacion = $modelo->verificarCodigoRecuperacion($correo, $codigo);
+
+            if ($recuperacion) {
+                $res['ok']       = true;
+                $res['msg']      = 'Código verificado. Establece tu nueva contraseña.';
+                $res['contexto'] = 'recuperacion';
+                $res['token']    = $codigo;
+            } else {
+                $res['msg'] = 'Código inválido o ya utilizado.';
+            }
         }
     }
 } else {

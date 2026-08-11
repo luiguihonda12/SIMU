@@ -52,29 +52,32 @@
 
                 // Mapeo seguro de páginas permitidas y sus archivos
                 $allowedPages = [
-                    'dashboard' => 'views/dashboard.php',
-                    'creaUsu'   => 'views/creaUsu.php',
-                    'crearUsuario' => 'views/creaUsu.php',
-                    'vmen'      => 'views/vmen.php',
+                    'dashboard'          => 'views/dashboard.php',
+                    'creaUsu'            => 'views/creaUsu.php',
+                    'crearUsuario'       => 'views/creaUsu.php',
+                    'vmen'               => 'views/vmen.php',
                     // Autenticación y recuperación de cuenta
-                    'login'      => 'views/vlogin.php',
-                    'vlogin'     => 'views/vlogin.php',
-                    'registro'   => 'views/vregistro.php',
-                    'vregistro'  => 'views/vregistro.php',
-                    'verificacion' => 'views/vcoder.php',
-                    'vcoder'     => 'views/vcoder.php',
-                    'olvido'     => 'views/volvid.php',
-                    'volvid'     => 'views/volvid.php',
-                    'reset'      => 'views/vreset.php',
-                    'vreset'     => 'views/vreset.php',
+                    'login'              => 'views/vlogin.php',
+                    'vlogin'             => 'views/vlogin.php',
+                    'registro'           => 'views/vregistro.php',
+                    'vregistro'          => 'views/vregistro.php',
+                    'verificacion'       => 'views/vcoder.php',
+                    'vcoder'             => 'views/vcoder.php',
+                    'codigoVerificacion' => 'views/vcoder.php',
+                    'olvido'             => 'views/volvid.php',
+                    'volvid'             => 'views/volvid.php',
+                    'olvidoContrasena'   => 'views/volvid.php',
+                    'reset'              => 'views/vreset.php',
+                    'vreset'             => 'views/vreset.php',
+                    'confirmacionFinal'  => 'views/vreset.php',
                     // Conductor
-                    'conductor' => 'views/vcondu.php',
+                    'conductor'          => 'views/vcondu.php',
                     'dashboardConductor' => 'views/vdascon.php',
-                    'editarConductor' => 'views/vedicon.php',
+                    'editarConductor'    => 'views/vedicon.php',
                     // PQRS
-                    'detallePQRS' => 'views/vdpqrs.php',
-                    'gestionPQRS' => 'views/vgpqrs.php',
-                    'nuevaPQRS' => 'views/vnpqrs.php'
+                    'detallePQRS'        => 'views/vdpqrs.php',
+                    'gestionPQRS'        => 'views/vgpqrs.php',
+                    'nuevaPQRS'          => 'views/vnpqrs.php'
                 ];
 
                 if (array_key_exists($pg, $allowedPages) && file_exists($allowedPages[$pg])) {
@@ -108,7 +111,7 @@
     <?php include 'views/footer.php'; ?>
 
     <!-- Scripts Bootstrap y Validaciones SIMU -->
-    <script src="js/code.js?v=2"></script>
-    <script src="js/valida.js?v=1"></script>
+    <script src="js/code.js?v=3"></script>
+    <script src="js/valida.js?v=2"></script>
 </body>
 </html>

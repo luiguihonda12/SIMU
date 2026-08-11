@@ -64,14 +64,44 @@ $roles = $mRol->getRoles();
             </select>
         </div>
 
-        <button type="button" id="btnRegistrar" class="btn btn-primary" onclick="registrarUsuario()">Crear Usuario <i class="fas fa-user-plus ms-2"></i></button>
+        <button type="button" id="btnRegistrar" class="btn btn-primary" onclick="registrarUsuario()">Crear cuenta y continuar <i class="fas fa-arrow-right ms-2"></i></button>
     </section>
 
-    <!-- PASO 2: Éxito -->
+    <!-- PASO 2: Verificación de Perfil -->
+    <section id="step2" class="reg-step">
+        <div class="input-group" style="text-align: center;">
+            <label class="form-label fw-semibold d-block mb-3">Código de Verificación</label>
+            <p style="font-size: 0.85rem; color: #666; margin-bottom: 15px;">
+                Ingresa el código de 6 dígitos enviado a tu correo para activar tu perfil.
+            </p>
+
+            <!-- Aviso temporal: se muestra el código cuando el envío de correos aún no está configurado -->
+            <div id="regCodeHint" class="alert alert-info py-2 px-3 mx-auto" style="display:none; max-width: 420px; font-size: 0.85rem;"></div>
+
+            <div class="d-flex justify-content-center gap-2 mb-3">
+                <input type="text" class="form-control text-center fs-4 fw-bold code-input" maxlength="1" style="width: 45px; height: 50px;" required>
+                <input type="text" class="form-control text-center fs-4 fw-bold code-input" maxlength="1" style="width: 45px; height: 50px;" required>
+                <input type="text" class="form-control text-center fs-4 fw-bold code-input" maxlength="1" style="width: 45px; height: 50px;" required>
+                <input type="text" class="form-control text-center fs-4 fw-bold code-input" maxlength="1" style="width: 45px; height: 50px;" required>
+                <input type="text" class="form-control text-center fs-4 fw-bold code-input" maxlength="1" style="width: 45px; height: 50px;" required>
+                <input type="text" class="form-control text-center fs-4 fw-bold code-input" maxlength="1" style="width: 45px; height: 50px;" required>
+            </div>
+        </div>
+
+        <input type="hidden" id="regCorreo">
+        <div id="regCodeError" class="reg-alert" style="display:none;">
+            <i class="fas fa-exclamation-circle me-2"></i><span id="regCodeErrorText"></span>
+        </div>
+
+        <button type="button" id="btnVerificar" class="btn btn-primary w-100 mb-2" onclick="verificarCodigo()">Verificar y Crear Perfil <i class="fas fa-check-circle ms-2"></i></button>
+        <button type="button" class="btn btn-link w-100" onclick="nextStep(1)"><i class="fas fa-arrow-left me-1"></i> Atrás</button>
+    </section>
+
+    <!-- PASO 3: Éxito -->
     <section id="step3" class="reg-step">
         <div class="success-anim"><i class="fas fa-check-circle"></i></div>
-        <h2 class="text-center h4 fw-bold">¡Perfil Creado!</h2>
-        <p class="success-desc">Tu cuenta en SIMU ha sido creada con éxito.</p>
+        <h2 class="text-center h4 fw-bold">¡Perfil Verificado!</h2>
+        <p class="success-desc">Tu cuenta en SIMU ha sido verificada con éxito. Ya puedes iniciar sesión.</p>
         <a href="index.php?pg=vlogin" class="btn btn-primary w-100 text-decoration-none">Ir a Iniciar Sesión</a>
     </section>
 </div>

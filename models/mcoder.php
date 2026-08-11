@@ -22,4 +22,15 @@ class Mcoder extends Conexion
         $st = $con->prepare($sql);
         return $st->execute([':correo' => $correo]);
     }
+
+    // Verifica el código de recuperación guardado en token_recuperacion
+    public function verificarCodigoRecuperacion($correo, $codigo)
+    {
+        $con = $this->get_conexion();
+        $sql = "SELECT id_usuario FROM usuario
+                WHERE correo = :correo AND token_recuperacion = :codigo";
+        $st = $con->prepare($sql);
+        $st->execute([':correo' => $correo, ':codigo' => $codigo]);
+        return $st->fetch(PDO::FETCH_ASSOC);
+    }
 }

@@ -5,16 +5,18 @@ class mUsuario extends Conexion {
 
     public function setUsuario($datos) {
         $con = $this->get_conexion();
-        $sql = "INSERT INTO usuario (nombre, apellidos, correo, telefono, contrasena, id_rol)
-                VALUES (:nombre, :apellidos, :correo, :telefono, :contrasena, :id_rol)";
+        $sql = "INSERT INTO usuario (nombre, apellidos, correo, telefono, contrasena, codigo_verificacion, estado, id_rol)
+                VALUES (:nombre, :apellidos, :correo, :telefono, :contrasena, :codigo_verificacion, :estado, :id_rol)";
         $st = $con->prepare($sql);
         return $st->execute([
-            ':nombre'     => $datos['nombre'],
-            ':apellidos'  => $datos['apellidos'],
-            ':correo'     => $datos['correo'],
-            ':telefono'   => $datos['telefono'],
-            ':contrasena' => $datos['contrasena'],
-            ':id_rol'     => $datos['id_rol']
+            ':nombre'              => $datos['nombre'],
+            ':apellidos'           => $datos['apellidos'],
+            ':correo'              => $datos['correo'],
+            ':telefono'            => $datos['telefono'],
+            ':contrasena'          => $datos['contrasena'],
+            ':codigo_verificacion' => $datos['codigo_verificacion'] ?? null,
+            ':estado'              => $datos['estado'] ?? 0,
+            ':id_rol'              => $datos['id_rol']
         ]);
     }
 

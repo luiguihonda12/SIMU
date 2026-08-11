@@ -7,17 +7,24 @@
                         <i class="fas fa-lock"></i>
                     </div>
                     <h3 class="fw-bold">Recuperar Contraseña</h3>
-                    <p class="text-muted small">Te enviaremos las instrucciones de recuperación</p>
+                    <p class="text-muted small">Te enviaremos un código de verificación a tu correo</p>
                 </div>
-                <form id="formOlvido" action="index.php?pg=vcoder" method="POST">
+
+                <div id="olvMsg" class="alert" style="display:none;"></div>
+
+                <form id="formOlvido" onsubmit="enviarInstrucciones(event)">
                     <div class="mb-4">
                         <label class="form-label fw-semibold">Correo electrónico registrado</label>
-                        <input type="email" class="form-control" name="correo" placeholder="correo@ejemplo.com" required>
+                        <input type="email" class="form-control" id="olvCorreo" name="correo" placeholder="correo@ejemplo.com" required>
                     </div>
-                    <button type="submit" class="btn btn-info text-white w-100 py-2 fw-semibold">
-                        Enviar Instrucciones <i class="fas fa-paper-plane ms-1"></i>
+                    <button type="submit" id="btnOlvido" class="btn btn-info text-white w-100 py-2 fw-semibold">
+                        Enviar Código <i class="fas fa-paper-plane ms-1"></i>
                     </button>
                 </form>
+
+                <div class="text-center mt-3">
+                    <a href="index.php?pg=login" class="small text-decoration-none"><i class="fas fa-arrow-left me-1"></i> Volver al inicio de sesión</a>
+                </div>
             </div>
         </div>
     </div>
