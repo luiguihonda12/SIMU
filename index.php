@@ -55,7 +55,14 @@
                     'dashboard' => 'views/dashboard.php',
                     'creaUsu'   => 'views/creaUsu.php',
                     'crearUsuario' => 'views/creaUsu.php',
-                    'vmen'      => 'views/vmen.php'
+                    'vmen'      => 'views/vmen.php',
+                    // Conductor
+                    'conductor' => 'views/vcondu.php',
+                    'dashboardConductor' => 'views/vdascon.php',
+                    'editarConductor' => 'views/vedicon.php',
+                    // PQRS
+                    'detallePQRS' => 'views/vdpqrs.php',
+                    'gestionPQRS' => 'views/vgpqrs.php'
                 ];
 
                 if (array_key_exists($pg, $allowedPages) && file_exists($allowedPages[$pg])) {
@@ -70,7 +77,7 @@
                         <div class="mb-4 text-warning" style="font-size: 3.5rem;">
                             <i class="fas fa-hammer"></i>
                         </div>
-                        <h2 class="h3 fw-bold text-dark mb-2">Módulo "<?=$moduloNombre;?>" en Desarrollo</h2>
+                        <h2 class="h3 fw-bold text-dark mb-2">Módulo "<?=htmlspecialchars($moduloNombre);?>" en Desarrollo</h2>
                         <p class="text-muted mb-4">
                             Este módulo estará disponible próximamente en el Sistema Integrado de Movilidad Urbana (SIMU).
                         </p>
