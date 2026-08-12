@@ -14,7 +14,6 @@ if ($correo === '' || $clave === '') {
 $usuarioValido = Mlogin::validarUsuario($correo, $clave);
 
 if ($usuarioValido) {
-    // La cuenta debe estar verificada para poder iniciar sesión
     if ((int)$usuarioValido['estado'] === 0) {
         header("Location: ../index.php?pg=login&error=no_verificado");
         exit();

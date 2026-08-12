@@ -45,5 +45,16 @@ class mUsuario extends Conexion {
         $row = $st->fetch(PDO::FETCH_ASSOC);
         return (int)$row['total'] > 0;
     }
+
+    public function getUsuario($id) {
+        $con = $this->get_conexion();
+        $sql = "SELECT u.id_usuario, u.nombre, u.apellidos, u.correo, u.telefono,
+                       u.estado, u.id_rol, r.nombre_del_rol AS rol
+                FROM usuario u
+                INNER JOIN rol r ON r.id_rol = u.id_rol
+                WHERE u.id_usuario = :id";
+        $st = $con->prepare($sql);
+        $st->execute([':id' => $id]);
+        return $st->fetch(PDO::FETCH_ASSOC);
+    }
 }
-?>

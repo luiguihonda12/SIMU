@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif ($mUsuario->existeCorreo($correo)) {
             $res['msg'] = 'Ya existe un usuario registrado con ese correo.';
         } else {
-            // Código de verificación de 6 dígitos para activar la cuenta
+            /* Código de verificación de 6 dígitos */
             $codigo = str_pad((string)random_int(0, 999999), 6, '0', STR_PAD_LEFT);
 
             $datos = array(
@@ -39,27 +39,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'telefono'            => $telefono === '' ? null : $telefono,
                 'contrasena'          => password_hash($pass, PASSWORD_DEFAULT),
                 'codigo_verificacion' => $codigo,
-                'estado'              => 0, // Pendiente de verificación
+                'estado'              => 0,
                 'id_rol'              => $rol
             );
 
             if ($mUsuario->setUsuario($datos)) {
-                // Intentar enviar el código por correo (requiere PHPMailer configurado)
+
                 require_once(__DIR__ . '/ccorreo.php');
+
                 $asunto = 'Código de verificación SIMU';
-                $mensajeHtml = '<h3>¡Hola ' . htmlspecialchars($nombre) . '!</h3>'
-                    . '<p>Gracias por registrarte en el Sistema Integrado de Movilidad Urbana (SIMU).</p>'
-                    . '<p>Tu código de verificación para activar tu cuenta es:</p>'
-                    . '<h2 style="font-size:2rem;letter-spacing:4px;">' . $codigo . '</h2>'
-                    . '<p>Ingresa este código en la aplicación para completar tu registro.</p>';
+                $mensajeHtml = '<h3>Hola ' . htmlspecialchars($nombre) . '</h3>'
+                    . '<p>Este es tu código para la creación de cuenta SIMU:</p>'
+                    . '<h2 style="font-size:2rem;letter-spacing:6px;">' . $codigo . '</h2>'
+                    . '<p>Ingrésalo en la aplicación para activar tu cuenta.</p>';
+
                 $enviado = enviarCorreoSimu($correo, $asunto, $mensajeHtml);
 
-                $res['ok']            = true;
-                $res['msg']           = 'Usuario creado. Ingresa el código enviado a tu correo para activar la cuenta.';
-                $res['correo']        = $correo;
+                $res['ok']             = true;
+                $res['msg']            = 'Usuario creado. Ingresa el código enviado a tu correo para activar la cuenta.';
+                $res['correo']         = $correo;
                 $res['correo_enviado'] = $enviado;
-                // Solo para pruebas mientras no se configure PHPMailer
-                $res['codigo_debug']  = $enviado ? '' : $codigo;
+                $res['codigo_debug']   = $enviado ? '' : $codigo;
+                $res['error_correo']   = $enviado ? '' : errorCorreoSimu();
             } else {
                 $res['msg'] = 'Ocurrió un error al guardar el usuario en la base de datos.';
             }
@@ -70,4 +71,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 echo json_encode($res);
-?>

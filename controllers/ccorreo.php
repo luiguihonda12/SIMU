@@ -1,40 +1,64 @@
 <?php
-// Envío de correos con PHPMailer.
-// Requiere instalar PHPMailer (composer o manual) en la carpeta vendor.
-if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
-    require_once __DIR__ . '/../vendor/autoload.php';
-}
-
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-function enviarCorreoSimu($destinatario, $asunto, $mensajeHtml) {
-    // Si PHPMailer no está disponible, se informa al administrador
-    if (!class_exists('PHPMailer')) {
-        return false;
+if (!function_exists('enviarCorreoSimu')) {
+
+    define('SIMU_CORREO_USUARIO', 'Simucodex@gmail.com');
+    define('SIMU_CORREO_CLAVE',   'rbys wmex sman ohdy');
+    define('SIMU_CORREO_NOMBRE',  'Sistema SIMU');
+
+    if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
+        require_once(__DIR__ . '/../vendor/autoload.php');
+    } elseif (file_exists(__DIR__ . '/../PHPMailer/src/PHPMailer.php')) {
+        require_once(__DIR__ . '/../PHPMailer/src/Exception.php');
+        require_once(__DIR__ . '/../PHPMailer/src/PHPMailer.php');
+        require_once(__DIR__ . '/../PHPMailer/src/SMTP.php');
     }
 
-    $mail = new PHPMailer(true);
+    function enviarCorreoSimu($destinatario, $asunto, $mensajeHtml) {
+        $GLOBALS['simu_error_correo'] = '';
 
-    try {
-        $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com';
-        $mail->SMTPAuth   = true;
-        $mail->Username   = 'tu_correo_real@gmail.com';
-        $mail->Password   = 'tu_contraseña_de_aplicacion';
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = 587;
+        if (!class_exists('PHPMailer\\PHPMailer\\PHPMailer')) {
+            $GLOBALS['simu_error_correo'] = 'PHPMailer no está instalado en la carpeta del proyecto.';
+            return false;
+        }
 
-        $mail->setFrom('tu_correo_real@gmail.com', 'Sistema SIMU');
-        $mail->addAddress($destinatario);
+        if (SIMU_CORREO_USUARIO === 'tucorreo@gmail.com') {
+            $GLOBALS['simu_error_correo'] = 'Falta configurar el correo y la contraseña de aplicación en ccorreo.php.';
+            return false;
+        }
 
-        $mail->isHTML(true);
-        $mail->Subject = $asunto;
-        $mail->Body    = $mensajeHtml;
+        $mail = new PHPMailer(true);
 
-        $mail->send();
-        return true;
-    } catch (Exception $e) {
-        return false;
+        try {
+            $mail->isSMTP();
+            $mail->Host       = 'smtp.gmail.com';
+            $mail->SMTPAuth   = true;
+            $mail->Username   = SIMU_CORREO_USUARIO;
+            $mail->Password   = SIMU_CORREO_CLAVE;
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port       = 587;
+            $mail->CharSet    = 'UTF-8';
+
+            $mail->setFrom(SIMU_CORREO_USUARIO, SIMU_CORREO_NOMBRE);
+            $mail->addAddress($destinatario);
+
+            $mail->isHTML(true);
+            $mail->Subject = $asunto;
+            $mail->Body    = $mensajeHtml;
+            $mail->AltBody = strip_tags(str_replace(array('<br>', '</p>'), "\n", $mensajeHtml));
+
+            $mail->send();
+            return true;
+
+        } catch (Exception $e) {
+            $GLOBALS['simu_error_correo'] = $mail->ErrorInfo;
+            return false;
+        }
+    }
+
+    function errorCorreoSimu() {
+        return $GLOBALS['simu_error_correo'] ?? '';
     }
 }
