@@ -1,3 +1,150 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+$logueado = isset($_SESSION['id_usuario']);
+$idRol    = (int)($_SESSION['id_rol'] ?? 0);
+
+$pg = $_GET['pg'] ?? 'login';
+
+// Mapeo seguro de páginas permitidas y sus archivos
+$allowedPages = [
+    'dashboard'          => 'views/dashboard.php',
+    'creaUsu'            => 'views/creaUsu.php',
+    'crearUsuario'       => 'views/creaUsu.php',
+    'vmen'               => 'views/vmen.php',
+    // Autenticación y recuperación de cuenta
+    'login'              => 'views/vlogin.php',
+    'vlogin'             => 'views/vlogin.php',
+    'registro'           => 'views/vregistro.php',
+    'vregistro'          => 'views/vregistro.php',
+    'verificacion'       => 'views/vcoder.php',
+    'vcoder'             => 'views/vcoder.php',
+    'codigoVerificacion' => 'views/vcoder.php',
+    'olvido'             => 'views/volvid.php',
+    'volvid'             => 'views/volvid.php',
+    'olvidoContrasena'   => 'views/volvid.php',
+    'reset'              => 'views/vreset.php',
+    'vreset'             => 'views/vreset.php',
+    'confirmacionFinal'  => 'views/vreset.php',
+    // Perfil de usuario
+    'perfilUsuario'      => 'views/vperfilusu.php',
+    'editarUsuario'      => 'views/veditarusu.php',
+    'vistaUsuario'       => 'views/vvistausu.php',
+    // Menú inicial cliente
+    'menuCliente'        => 'views/vmenucli.php',
+    // Conductor
+    'conductor'          => 'views/vcondu.php',
+    'dashboardConductor' => 'views/vdascon.php',
+    'editarConductor'    => 'views/vedicon.php',
+    // Busetas y Vehículos
+    'registrarBusetas'       => 'views/vregisb.php',
+    'regisb'                 => 'views/vregisb.php',
+    'listadoBusetas'         => 'views/vlistb.php',
+    'listb'                  => 'views/vlistb.php',
+    'editarBusetas'          => 'views/vedib.php',
+    'edib'                   => 'views/vedib.php',
+    'cambiarEstadoBusetas'   => 'views/vcameb.php',
+    'cameb'                  => 'views/vcameb.php',
+    'reporteBusetas'         => 'views/vreporb.php',
+    'reporb'                 => 'views/vreporb.php',
+    'gestionRoles'           => 'views/vgesr.php',
+    'gesr'                   => 'views/vgesr.php',
+    // Rutas y Horarios
+    'registrarParaderos' => 'views/vrepar.php',
+    'edicionRuta'        => 'views/vmodru.php',
+    'listadoRutas'       => 'views/vlisru.php',
+    'registroRutas'      => 'views/vregru.php',
+    // PQRS
+    'detallePQRS'        => 'views/vdpqrs.php',
+    'gestionPQRS'        => 'views/vgpqrs.php',
+    'nuevaPQRS'          => 'views/vnpqrs.php'
+];
+
+/* ============================================================
+   CONTROL DE ACCESO POR ROL
+   - Públicas: no requieren sesión
+   - 1 Administrador: acceso total
+   - 2 Conductor: módulos de conductor y su perfil
+   - 3 Cliente: menú inicial cliente y módulos de cliente
+   ============================================================ */
+
+$paginasPublicas = [
+    'login', 'vlogin',
+    'registro', 'vregistro',
+    'verificacion', 'vcoder', 'codigoVerificacion',
+    'olvido', 'volvid', 'olvidoContrasena',
+    'reset', 'vreset', 'confirmacionFinal'
+];
+
+$paginasConductor = [
+    'conductor',
+    'dashboardConductor',
+    'perfilUsuario',
+    'vistaUsuario',
+    'editarUsuario'
+];
+
+$paginasCliente = [
+    'menuCliente',
+    'consultarRutas',
+    'paraderos',
+    'horarios',
+    'historialViajes',
+    'nuevaPQRS',
+    'perfilUsuario',
+    'vistaUsuario',
+    'editarUsuario'
+];
+
+function paginaPermitida($pg, $idRol, $paginasPublicas, $paginasConductor, $paginasCliente)
+{
+    // Páginas públicas (autenticación) siempre accesibles
+    if (in_array($pg, $paginasPublicas)) {
+        return true;
+    }
+
+    // Sin sesión no se accede a páginas privadas
+    if (!isset($_SESSION['id_usuario'])) {
+        return false;
+    }
+
+    // Administrador: acceso total
+    if ($idRol === 1) {
+        return true;
+    }
+
+    // Conductor
+    if ($idRol === 2) {
+        return in_array($pg, $paginasConductor);
+    }
+
+    // Cliente
+    if ($idRol === 3) {
+        return in_array($pg, $paginasCliente);
+    }
+
+    return false;
+}
+
+if (!paginaPermitida($pg, $idRol, $paginasPublicas, $paginasConductor, $paginasCliente)) {
+    if (!$logueado) {
+        header("Location: index.php?pg=login&error=acceso_no_autorizado");
+        exit();
+    }
+
+    // Usuario con sesión pero sin permiso: a su página de inicio por rol
+    if ($idRol === 2) {
+        header("Location: index.php?pg=dashboardConductor");
+    } elseif ($idRol === 3) {
+        header("Location: index.php?pg=menuCliente");
+    } else {
+        header("Location: index.php?pg=dashboard");
+    }
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -42,68 +189,12 @@
     <!-- Layout Principal: Menú Vertical a la Izquierda, Contenido a la Derecha -->
     <div class="app-layout">
         
-        <!-- Menú Vertical en el Lado Izquierdo -->
-        <?php include 'views/vmen.php'; ?>
+        <!-- Menú Vertical en el Lado Izquierdo (solo con sesión activa) -->
+        <?php if ($logueado) { include 'views/vmen.php'; } ?>
 
         <!-- Área Principal de Contenido (Dinámica) -->
         <main class="main-content">
             <?php
-                $pg = $_GET['pg'] ?? 'creaUsu';
-
-                // Mapeo seguro de páginas permitidas y sus archivos
-                $allowedPages = [
-                    'dashboard'          => 'views/dashboard.php',
-                    'creaUsu'            => 'views/creaUsu.php',
-                    'crearUsuario'       => 'views/creaUsu.php',
-                    'vmen'               => 'views/vmen.php',
-                    // Autenticación y recuperación de cuenta
-                    'login'              => 'views/vlogin.php',
-                    'vlogin'             => 'views/vlogin.php',
-                    'registro'           => 'views/vregistro.php',
-                    'vregistro'          => 'views/vregistro.php',
-                    'verificacion'       => 'views/vcoder.php',
-                    'vcoder'             => 'views/vcoder.php',
-                    'codigoVerificacion' => 'views/vcoder.php',
-                    'olvido'             => 'views/volvid.php',
-                    'volvid'             => 'views/volvid.php',
-                    'olvidoContrasena'   => 'views/volvid.php',
-                    'reset'              => 'views/vreset.php',
-                    'vreset'             => 'views/vreset.php',
-                    'confirmacionFinal'  => 'views/vreset.php',
-                    // Perfil de usuario
-                    'perfilUsuario'      => 'views/vperfilusu.php',
-                    'editarUsuario'      => 'views/veditarusu.php',
-                    'vistaUsuario'       => 'views/vvistausu.php',
-                    // Menú inicial cliente
-                    'menuCliente'        => 'views/vmenucli.php',
-                    // Conductor
-                    'conductor'          => 'views/vcondu.php',
-                    'dashboardConductor' => 'views/vdascon.php',
-                    'editarConductor'    => 'views/vedicon.php',
-                    // Busetas y Vehículos
-                    'registrarBusetas'       => 'views/vregisb.php',
-                    'regisb'                 => 'views/vregisb.php',
-                    'listadoBusetas'         => 'views/vlistb.php',
-                    'listb'                  => 'views/vlistb.php',
-                    'editarBusetas'          => 'views/vedib.php',
-                    'edib'                   => 'views/vedib.php',
-                    'cambiarEstadoBusetas'   => 'views/vcameb.php',
-                    'cameb'                  => 'views/vcameb.php',
-                    'reporteBusetas'         => 'views/vreporb.php',
-                    'reporb'                 => 'views/vreporb.php',
-                    'gestionRoles'           => 'views/vgesr.php',
-                    'gesr'                   => 'views/vgesr.php',
-                    // Rutas y Horarios
-                    'registrarParaderos' => 'views/vrepar.php',
-                    'edicionRuta'        => 'views/vmodru.php',
-                    'listadoRutas'       => 'views/vlisru.php',
-                    'registroRutas'      => 'views/vregru.php',
-                    // PQRS
-                    'detallePQRS'        => 'views/vdpqrs.php',
-                    'gestionPQRS'        => 'views/vgpqrs.php',
-                    'nuevaPQRS'          => 'views/vnpqrs.php'
-                ];
-
                 if (array_key_exists($pg, $allowedPages) && file_exists($allowedPages[$pg])) {
                     include $allowedPages[$pg];
                 } elseif (file_exists("views/" . $pg . ".php")) {
@@ -120,9 +211,20 @@
                         <p class="text-muted mb-4">
                             Este módulo estará disponible próximamente en el Sistema Integrado de Movilidad Urbana (SIMU).
                         </p>
-                        <a href="index.php?pg=creaUsu" class="btn btn-primary mod-dev-btn">
-                            <i class="fas fa-user-plus me-2"></i>Ir a Crear Usuario
-                        </a>
+                    <?php
+                        $paginaVolver = 'login';
+
+                        if ($idRol === 1) {
+                            $paginaVolver = 'dashboard';
+                        } elseif ($idRol === 2) {
+                            $paginaVolver = 'dashboardConductor';
+                        } elseif ($idRol === 3) {
+                            $paginaVolver = 'menuCliente';
+                        }
+                    ?>
+                    <a href="index.php?pg=<?= $paginaVolver; ?>" class="btn btn-primary mod-dev-btn">
+                        <i class="fas fa-home me-2"></i>Volver al inicio
+                    </a>
                     </div>
                     <?php
                 }

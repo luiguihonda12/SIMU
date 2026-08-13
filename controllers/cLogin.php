@@ -24,8 +24,19 @@ if ($usuarioValido) {
     $_SESSION['usuario']    = $usuarioValido['nombre'];
     $_SESSION['correo']     = $usuarioValido['correo'];
     $_SESSION['id_usuario'] = $usuarioValido['id_usuario'];
+    $_SESSION['id_rol']     = (int)$usuarioValido['id_rol'];
+    $_SESSION['rol']        = $usuarioValido['rol'] ?? '';
 
-    header("Location: ../index.php?pg=dashboard");
+    // Redirección según el rol del usuario
+    $paginaInicio = 'dashboard';
+
+    if ((int)$usuarioValido['id_rol'] === 2) {
+        $paginaInicio = 'dashboardConductor';
+    } elseif ((int)$usuarioValido['id_rol'] === 3) {
+        $paginaInicio = 'menuCliente';
+    }
+
+    header("Location: ../index.php?pg=" . $paginaInicio);
     exit();
 }
 

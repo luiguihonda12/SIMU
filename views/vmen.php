@@ -7,6 +7,12 @@ if (file_exists("controllers/cmen.php")) {
 
 $currentPage = $_GET['pg'] ?? 'creaUsu';
 
+// Rol del usuario en sesión para filtrar el menú
+$idRolSesion = (int)($_SESSION['id_rol'] ?? 0);
+$esAdmin      = ($idRolSesion === 1);
+$esConductor  = ($idRolSesion === 2);
+$esCliente    = ($idRolSesion === 3);
+
 ?>
 
 
@@ -65,8 +71,8 @@ $currentPage = $_GET['pg'] ?? 'creaUsu';
                 $currentPage,
                 [
                     'dashboard',
-                    'dashboardCliente',
-                    'detallePQRS'
+                    'detallePQRS',
+                    'menuCliente'
                 ]
             ) ? 'open' : ''; ?>"
         >
@@ -98,7 +104,9 @@ $currentPage = $_GET['pg'] ?? 'creaUsu';
             <div class="sidebar-dropdown-content">
 
 
-                <!-- VISTA 15 -->
+                <!-- VISTA 15 (Administrador y Conductor) -->
+
+                <?php if ($esAdmin || $esConductor) { ?>
 
                 <a
                     href="index.php?pg=dashboard"
@@ -114,25 +122,12 @@ $currentPage = $_GET['pg'] ?? 'creaUsu';
 
                 </a>
 
-
-                <!-- VISTA 25 -->
-
-                <a
-                    href="index.php?pg=dashboardCliente"
-                    class="sidebar-subitem
-                    <?= ($currentPage == 'dashboardCliente') ? 'active' : ''; ?>"
-                >
-
-                    <i class="fas fa-user"></i>
-
-                    <span>
-                        Dashboard Cliente
-                    </span>
-
-                </a>
+                <?php } ?>
 
 
-                <!-- VISTA 26 -->
+                <!-- VISTA 26 (solo Administrador) -->
+
+                <?php if ($esAdmin) { ?>
 
                 <a
                     href="index.php?pg=detallePQRS"
@@ -148,8 +143,12 @@ $currentPage = $_GET['pg'] ?? 'creaUsu';
 
                 </a>
 
+                <?php } ?>
 
-                <!-- VISTA 27 -->
+
+                <!-- VISTA 27 (Administrador y Cliente) -->
+
+                <?php if ($esAdmin || $esCliente) { ?>
 
                 <a
                     href="index.php?pg=menuCliente"
@@ -165,6 +164,8 @@ $currentPage = $_GET['pg'] ?? 'creaUsu';
 
                 </a>
 
+                <?php } ?>
+
 
             </div>
 
@@ -173,8 +174,10 @@ $currentPage = $_GET['pg'] ?? 'creaUsu';
 
 
         <!-- =================================================
-             USUARIOS Y SEGURIDAD
+             USUARIOS Y SEGURIDAD (solo Administrador)
              ================================================= -->
+
+        <?php if ($esAdmin) { ?>
 
         <div class="sidebar-category">
             Usuarios y Seguridad
@@ -335,22 +338,30 @@ $currentPage = $_GET['pg'] ?? 'creaUsu';
 
         </div>
 
+        <?php } ?>
+
 
 
         <!-- =================================================
-             GESTIÓN OPERATIVA
+             GESTIÓN OPERATIVA (Administrador y Conductor)
              ================================================= -->
+
+        <?php if ($esAdmin || $esConductor) { ?>
 
         <div class="sidebar-category">
             Gestión Operativa
         </div>
 
+        <?php } ?>
+
 
 
         <!-- =================================================
-             CONDUCTOR
+             CONDUCTOR (Administrador y Conductor)
              VISTAS 16, 17 Y 18
              ================================================= -->
+
+        <?php if ($esAdmin || $esConductor) { ?>
 
         <div
             class="sidebar-dropdown
@@ -425,7 +436,9 @@ $currentPage = $_GET['pg'] ?? 'creaUsu';
                 </a>
 
 
-                <!-- VISTA 18 -->
+                <!-- VISTA 18 (solo Administrador) -->
+
+                <?php if ($esAdmin) { ?>
 
                 <a
                     href="index.php?pg=editarConductor"
@@ -441,17 +454,23 @@ $currentPage = $_GET['pg'] ?? 'creaUsu';
 
                 </a>
 
+                <?php } ?>
+
 
             </div>
 
         </div>
 
+        <?php } ?>
+
 
 
         <!-- =================================================
-             BUSETAS Y VEHÍCULOS
+             BUSETAS Y VEHÍCULOS (solo Administrador)
              VISTAS 19, 20, 21, 22, 23 Y 24
              ================================================= -->
+
+        <?php if ($esAdmin) { ?>
 
         <div
             class="sidebar-dropdown
@@ -601,12 +620,16 @@ $currentPage = $_GET['pg'] ?? 'creaUsu';
 
         </div>
 
+        <?php } ?>
+
 
 
         <!-- =================================================
-             RUTAS Y HORARIOS
+             RUTAS Y HORARIOS (solo Administrador)
              VISTAS 7, 8, 9 Y 10
              ================================================= -->
+
+        <?php if ($esAdmin) { ?>
 
         <div
             class="sidebar-dropdown
@@ -720,12 +743,16 @@ $currentPage = $_GET['pg'] ?? 'creaUsu';
 
         </div>
 
+        <?php } ?>
+
 
 
         <!-- =================================================
-             EMPRESA
+             EMPRESA (solo Administrador)
              SIN VISTAS ASIGNADAS TODAVÍA
              ================================================= -->
+
+        <?php if ($esAdmin) { ?>
 
         <div class="sidebar-dropdown">
 
@@ -771,6 +798,8 @@ $currentPage = $_GET['pg'] ?? 'creaUsu';
 
         </div>
 
+        <?php } ?>
+
 
 
         <!-- =================================================
@@ -784,9 +813,11 @@ $currentPage = $_GET['pg'] ?? 'creaUsu';
 
 
         <!-- =================================================
-             PQRS
+             PQRS (solo Administrador)
              VISTAS 27 Y 28
              ================================================= -->
+
+        <?php if ($esAdmin) { ?>
 
         <div
             class="sidebar-dropdown
@@ -881,17 +912,15 @@ $currentPage = $_GET['pg'] ?? 'creaUsu';
 
         </div>
 
+        <?php } ?>
+
 
 
         <!-- =================================================
-             MENÚ DINÁMICO DE BASE DE DATOS
+             MENÚ DINÁMICO DE BASE DE DATOS (solo Administrador)
              ================================================= -->
 
-        <?php if (
-            isset($datMen) &&
-            is_array($datMen) &&
-            count($datMen) > 0
-        ) { ?>
+        <?php if ($esAdmin && isset($datMen) && is_array($datMen) && count($datMen) > 0) { ?>
 
 
             <div class="sidebar-category">

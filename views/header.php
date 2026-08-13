@@ -4,8 +4,11 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$sesNombre = $_SESSION['usuario']    ?? '';
-$sesCorreo = $_SESSION['correo']     ?? '';
+$sesNombre  = $_SESSION['usuario']    ?? '';
+$sesCorreo  = $_SESSION['correo']     ?? '';
+$sesId      = $_SESSION['id_usuario'] ?? 0;
+$sesIdRol   = (int)($_SESSION['id_rol'] ?? 0);
+$sesRol     = $_SESSION['rol']        ?? '';
 ?>
 
 <header class="bg-institutional text-white py-2.5 barsup">
@@ -57,9 +60,11 @@ $sesCorreo = $_SESSION['correo']     ?? '';
 
 
             <!-- =================================================
-                 BOTÓN DE USUARIO
+                 BOTÓN DE USUARIO (solo con sesión activa)
                  VISTAS 12, 14 Y 29
                  ================================================= -->
+
+            <?php if ($sesId) { ?>
 
             <div class="user-menu-wrapper">
 
@@ -155,7 +160,7 @@ $sesCorreo = $_SESSION['correo']     ?? '';
                          ================================================= -->
 
                     <a
-                        href="index.php?pg=vistaUsuario"
+                        href="index.php?pg=menuCliente"
                         class="user-dropdown-item"
                     >
 
@@ -192,6 +197,8 @@ $sesCorreo = $_SESSION['correo']     ?? '';
                 </div>
 
             </div>
+
+            <?php } ?>
 
 
             <!-- =====================================================
