@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const toggleIcon = document.getElementById('toggleIcon');
     const passInput = document.getElementById('pass');
-    
+
     if (toggleIcon && passInput) {
         toggleIcon.addEventListener('click', function() {
             const type = passInput.getAttribute('type') === 'password' ? 'text' : 'password';
@@ -10,18 +10,21 @@ document.addEventListener('DOMContentLoaded', function() {
             this.classList.toggle('fa-eye');
             this.classList.toggle('fa-eye-slash');
         });
+    }
 
+    /* Medidor de seguridad de la contraseña */
+    if (passInput) {
         passInput.addEventListener('input', function() {
             const val = this.value;
             const bar = document.getElementById('strengthBar');
             const text = document.getElementById('strengthText');
-            
+
             if (!bar || !text) return;
 
             let score = 0;
             if (val.length >= 6) score += 25;
             if (val.match(/[A-Z]/)) score += 25;
-            if (val.match(/[0-9]/)) score += 25;
+            if ((val.match(/\d/g) || []).length >= 2) score += 25;
             if (val.match(/[^a-zA-Z0-9]/)) score += 25;
 
             bar.style.width = score + '%';
@@ -42,21 +45,156 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Auto-focus en inputs de código (salta al siguiente al escribir)
-    document.querySelectorAll('.code-input').forEach((input, idx, arr) => {
-        input.addEventListener('input', function() {
-            if (this.value.length === 1 && idx < arr.length - 1) {
-                arr[idx + 1].focus();
-            }
-        });
-        input.addEventListener('keydown', function(e) {
-            if (e.key === 'Backspace' && this.value === '' && idx > 0) {
-                arr[idx - 1].focus();
+    /* ======================================================
+       BOTÓN MOSTRAR / OCULTAR CONTRASEÑA
+       Funciona en login, registro y confirmación final
+       ====================================================== */
+    document.querySelectorAll('.js-ver-clave').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const campo = document.getElementById(btn.dataset.target);
+            if (!campo) return;
+
+            const oculto = campo.getAttribute('type') === 'password';
+            campo.setAttribute('type', oculto ? 'text' : 'password');
+
+            const icono = btn.matches('i') ? btn : btn.querySelector('i');
+            if (icono) {
+                icono.classList.toggle('fa-eye', !oculto);
+                icono.classList.toggle('fa-eye-slash', oculto);
             }
         });
     });
+
+    /* ======================================================
+       LISTA DE REQUISITOS DE LA CONTRASEÑA EN VIVO
+       ====================================================== */
+    const campoConReglas = passInput || document.getElementById('resPassword');
+    if (campoConReglas && document.getElementById('reqClave')) {
+        campoConReglas.addEventListener('input', function() {
+            pintarRequisitosClave(this.value);
+        });
+        pintarRequisitosClave(campoConReglas.value);
+    }
+
+    /* ======================================================
+       CÓDIGO DE VERIFICACIÓN: autofoco entre cajas de 6 dígitos
+       ====================================================== */
+    const codeInputs = document.querySelectorAll('.code-input');
+
+    codeInputs.forEach(function(input, index) {
+        input.addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+            if (this.value.length === 1 && index < codeInputs.length - 1) {
+                codeInputs[index + 1].focus();
+            }
+        });
+
+        input.addEventListener('keydown', function(event) {
+            if (event.key === 'Backspace' && this.value === '' && index > 0) {
+                codeInputs[index - 1].focus();
+            }
+        });
+
+        input.addEventListener('paste', function(event) {
+            event.preventDefault();
+            const texto = (event.clipboardData.getData('text') || '').replace(/[^0-9]/g, '').slice(0, codeInputs.length);
+            texto.split('').forEach(function(ch, i) {
+                codeInputs[i].value = ch;
+            });
+            if (texto.length > 0) {
+                codeInputs[Math.min(texto.length, codeInputs.length) - 1].focus();
+            }
+        });
+    });
+
 });
 
+/* ======================================================
+   REQUISITOS DE LA CONTRASEÑA
+   ====================================================== */
+
+/*
+ * Evalúa la clave y pinta la lista de requisitos.
+ * Devuelve true únicamente si cumple los cuatro.
+ */
+function pintarRequisitosClave(valor) {
+    const reglas = {
+        reqLong:  valor.length >= 6,
+        reqMayus: /[A-ZÁÉÍÓÚÜÑ]/.test(valor),
+        reqNums:  (valor.match(/\d/g) || []).length >= 2,
+        reqSimb:  /[^A-Za-z0-9ÁÉÍÓÚÜÑáéíóúüñ]/.test(valor)
+    };
+
+    let cumpleTodo = true;
+
+    for (const id in reglas) {
+        const li = document.getElementById(id);
+        if (!li) continue;
+
+        const icono = li.querySelector('i');
+
+        if (reglas[id]) {
+            li.classList.remove('text-muted');
+            li.classList.add('text-success');
+            if (icono) {
+                icono.classList.remove('fa-circle-xmark');
+                icono.classList.add('fa-circle-check');
+            }
+        } else {
+            cumpleTodo = false;
+            li.classList.add('text-muted');
+            li.classList.remove('text-success');
+            if (icono) {
+                icono.classList.add('fa-circle-xmark');
+                icono.classList.remove('fa-circle-check');
+            }
+        }
+    }
+
+    return cumpleTodo;
+}
+
+/* ======================================================
+   Utilidades de mensajes
+   ====================================================== */
+function mostrarMensaje(elmId, msg, tipo) {
+    const box = document.getElementById(elmId);
+    if (!box) return;
+    box.className = 'alert alert-' + (tipo || 'danger') + ' text-center py-2 small';
+    box.textContent = msg;
+    box.style.display = 'block';
+}
+
+function ocultarMensaje(elmId) {
+    const box = document.getElementById(elmId);
+    if (!box) return;
+    box.style.display = 'none';
+}
+
+function mostrarError(msg) {
+    const errBox = document.getElementById('regError');
+    const errText = document.getElementById('regErrorText');
+    if (errBox) errBox.style.display = 'flex';
+    if (errText) errText.textContent = msg;
+}
+
+function ocultarError() {
+    const errBox = document.getElementById('regError');
+    if (errBox) errBox.style.display = 'none';
+}
+
+/* ======================================================
+   REGISTRO GUIADO
+   ====================================================== */
+
+function siguientePaso() {
+    window.location.href = 'index.php?pg=registro';
+}
+
+/**
+ * Cambia el paso del formulario paso a paso en los módulos de registro
+ * @param {number} step
+ */
 function nextStep(step) {
     const steps = document.querySelectorAll('.reg-step');
     steps.forEach(s => s.classList.remove('active'));
@@ -69,11 +207,14 @@ function nextStep(step) {
     const regTitle = document.getElementById('regTitle');
     if (regTitle) {
         if (step === 1) regTitle.textContent = 'Crear cuenta';
-        else if (step === 2) regTitle.textContent = 'Verificación de Perfil';
+        else if (step === 2) regTitle.textContent = 'Verificación de perfil';
         else if (step === 3) regTitle.textContent = 'Confirmación';
     }
 }
 
+/**
+ * CREAR USUARIO (con selección de rol) -> controllers/cUsuario.php
+ */
 async function registrarUsuario() {
     const nombre    = document.getElementById('nombre').value.trim();
     const apellidos = document.getElementById('apellidos').value.trim();
@@ -85,6 +226,11 @@ async function registrarUsuario() {
 
     if (!nombre || !apellidos || !email || !pass) {
         mostrarError('Todos los campos obligatorios deben estar diligenciados.');
+        return;
+    }
+
+    if (document.getElementById('reqClave') && !pintarRequisitosClave(pass)) {
+        mostrarError('La contraseña no cumple con todos los requisitos indicados.');
         return;
     }
 
@@ -100,20 +246,22 @@ async function registrarUsuario() {
         const json = await resp.json();
 
         if (json.ok) {
+            const correoHidden = document.getElementById('regCorreo');
+            if (correoHidden) correoHidden.value = json.correo || email;
+
+            const hint = document.getElementById('regCodeHint');
+            if (hint) {
+                if (json.codigo_debug) {
+                    hint.textContent = 'Código: ' + json.codigo_debug + ' — Fallo de envío: ' + (json.error_correo || 'sin detalle');
+                    hint.style.display = 'block';
+                } else {
+                    hint.style.display = 'none';
+                }
+            }
+
             nextStep(2);
-            document.getElementById('regCorreo').value = json.correo;
-            // Mostrar código de depuración si el correo no se envió
-            if (json.codigo_debug) {
-                const hint = document.getElementById('regCodeHint');
-                hint.textContent = '⚠️ Modo prueba: tu código es ' + json.codigo_debug;
-                hint.style.display = 'block';
-            }
-            if (json.error_correo) {
-                const hint = document.getElementById('regCodeHint');
-                hint.textContent = '⚠️ Error al enviar correo: ' + json.error_correo;
-                hint.className = 'alert alert-warning py-2 px-3 mx-auto';
-                hint.style.display = 'block';
-            }
+            const cajas = document.querySelectorAll('#step2 .code-input');
+            if (cajas.length > 0) cajas[0].focus();
         } else {
             mostrarError(json.msg || 'No se pudo crear el usuario.');
         }
@@ -124,19 +272,95 @@ async function registrarUsuario() {
     }
 }
 
-async function verificarCodigo() {
-    const inputs = document.querySelectorAll('.code-input');
-    const codigo = Array.from(inputs).map(i => i.value).join('');
-    const correo = document.getElementById('regCorreo').value;
-    const btn = document.getElementById('btnVerificar');
+/**
+ * REGISTRO PÚBLICO (sin selección de rol) -> controllers/cregistro.php
+ */
+async function registrarUsuarioPublico() {
+    const nombre    = document.getElementById('nombre').value.trim();
+    const apellidos = document.getElementById('apellidos').value.trim();
+    const email     = document.getElementById('email').value.trim();
+    const telefono  = document.getElementById('telefono').value.trim();
+    const pass      = document.getElementById('pass').value;
+    const btn       = document.getElementById('btnRegistrar');
 
-    if (codigo.length !== 6) {
-        mostrarErrorCodigo('El código debe tener 6 dígitos.');
+    if (!nombre || !apellidos || !email || !pass) {
+        mostrarError('Todos los campos obligatorios deben estar diligenciados.');
+        return;
+    }
+
+    if (!pintarRequisitosClave(pass)) {
+        mostrarError('La contraseña no cumple con todos los requisitos indicados.');
         return;
     }
 
     if (btn) btn.disabled = true;
-    ocultarErrorCodigo();
+    ocultarError();
+
+    try {
+        const resp = await fetch('controllers/cregistro.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({ nombre, apellidos, email, telefono, pass }).toString()
+        });
+        const json = await resp.json();
+
+        if (json.ok) {
+            const correoHidden = document.getElementById('regCorreo');
+            if (correoHidden) correoHidden.value = json.correo || email;
+
+            const hint = document.getElementById('regCodeHint');
+            if (hint) {
+                if (json.codigo_debug) {
+                    hint.textContent = 'Código: ' + json.codigo_debug + ' — Fallo de envío: ' + (json.error_correo || 'sin detalle');
+                    hint.style.display = 'block';
+                } else {
+                    hint.style.display = 'none';
+                }
+            }
+
+            nextStep(2);
+            const cajas = document.querySelectorAll('#step2 .code-input');
+            if (cajas.length > 0) cajas[0].focus();
+        } else {
+            mostrarError(json.msg || 'No se pudo crear la cuenta.');
+        }
+    } catch (e) {
+        mostrarError('Error de conexión con el servidor.');
+    } finally {
+        if (btn) btn.disabled = false;
+    }
+}
+
+/**
+ * Recolecta el código de 6 dígitos de las cajas dentro de un contenedor.
+ */
+function colectarCodigo(contenedor) {
+    let codigo = '';
+    contenedor.querySelectorAll('.code-input').forEach(function(i) {
+        codigo += i.value.trim();
+    });
+    return codigo;
+}
+
+/**
+ * Verifica el código de activación de la cuenta recién creada.
+ */
+async function verificarCodigo() {
+    const correo = document.getElementById('regCorreo').value;
+    const codigo = colectarCodigo(document.getElementById('step2'));
+    const btn    = document.getElementById('btnVerificar');
+    const errBox = document.getElementById('regCodeError');
+
+    if (codigo.length !== 6) {
+        if (errBox) {
+            errBox.style.display = 'flex';
+            document.getElementById('regCodeErrorText').textContent = 'Ingresa los 6 dígitos del código.';
+        }
+        return;
+    }
+
+    if (btn) btn.disabled = true;
+    if (errBox) errBox.style.display = 'none';
 
     try {
         const resp = await fetch('controllers/ccoder.php', {
@@ -146,30 +370,41 @@ async function verificarCodigo() {
         });
         const json = await resp.json();
 
-        if (json.ok && json.contexto === 'registro') {
+        if (json.ok) {
             nextStep(3);
         } else {
-            mostrarErrorCodigo(json.msg || 'Código inválido.');
+            if (errBox) {
+                errBox.style.display = 'flex';
+                document.getElementById('regCodeErrorText').textContent = json.msg || 'El código no es válido.';
+            }
         }
     } catch (e) {
-        mostrarErrorCodigo('Error de conexión con el servidor.');
+        if (errBox) {
+            errBox.style.display = 'flex';
+            document.getElementById('regCodeErrorText').textContent = 'Error de conexión con el servidor.';
+        }
     } finally {
         if (btn) btn.disabled = false;
     }
 }
 
+/* ======================================================
+   OLVIDÓ SU CONTRASEÑA
+   ====================================================== */
+
 async function enviarInstrucciones(event) {
     event.preventDefault();
-    const correo = document.getElementById('olvCorreo').value.trim();
-    const btn = document.getElementById('btnOlvido');
 
-    if (!correo || !correo.includes('@')) {
-        mostrarErrorOlvido('Ingrese un correo electrónico válido.');
+    const correo = document.getElementById('olvCorreo').value.trim();
+    const btn    = document.getElementById('btnOlvido');
+
+    if (!correo) {
+        mostrarMensaje('olvMsg', 'Ingresa tu correo electrónico registrado.', 'danger');
         return;
     }
 
     if (btn) btn.disabled = true;
-    ocultarErrorOlvido();
+    ocultarMensaje('olvMsg');
 
     try {
         const resp = await fetch('controllers/colvid.php', {
@@ -179,24 +414,13 @@ async function enviarInstrucciones(event) {
         });
         const json = await resp.json();
 
-        const msgBox = document.getElementById('olvMsg');
         if (json.ok) {
-            msgBox.className = 'alert alert-success';
-            msgBox.textContent = json.msg + (json.codigo_debug ? ' (Código de prueba: ' + json.codigo_debug + ')' : '');
-            msgBox.style.display = 'block';
-            if (json.codigo_debug) {
-                // Pre-llenar en vcoder
-                setTimeout(() => {
-                    window.location.href = 'index.php?pg=vcoder&correo=' + encodeURIComponent(json.correo);
-                }, 1500);
-            }
+            window.location.href = 'index.php?pg=vcoder&correo=' + encodeURIComponent(json.correo || correo);
         } else {
-            msgBox.className = 'alert alert-danger';
-            msgBox.textContent = json.msg + (json.error_correo ? ' (' + json.error_correo + ')' : '');
-            msgBox.style.display = 'block';
+            mostrarMensaje('olvMsg', json.msg || 'No fue posible procesar la solicitud.', 'danger');
         }
     } catch (e) {
-        mostrarErrorOlvido('Error de conexión con el servidor.');
+        mostrarMensaje('olvMsg', 'Error de conexión con el servidor.', 'danger');
     } finally {
         if (btn) btn.disabled = false;
     }
@@ -204,18 +428,18 @@ async function enviarInstrucciones(event) {
 
 async function verificarCodigoRecuperacion(event) {
     event.preventDefault();
-    const inputs = document.querySelectorAll('.code-input');
-    const codigo = Array.from(inputs).map(i => i.value).join('');
-    const correo = document.getElementById('codCorreo').value;
-    const btn = document.getElementById('btnCodigo');
 
-    if (codigo.length !== 6) {
-        mostrarErrorCodigoRec('El código debe tener 6 dígitos.');
+    const correo = document.getElementById('codCorreo').value.trim();
+    const codigo = colectarCodigo(document.getElementById('formCodigo'));
+    const btn    = document.getElementById('btnCodigo');
+
+    if (!correo || codigo.length !== 6) {
+        mostrarMensaje('codMsg', 'Ingresa tu correo y los 6 dígitos del código.', 'danger');
         return;
     }
 
     if (btn) btn.disabled = true;
-    ocultarErrorCodigoRec();
+    ocultarMensaje('codMsg');
 
     try {
         const resp = await fetch('controllers/ccoder.php', {
@@ -225,144 +449,68 @@ async function verificarCodigoRecuperacion(event) {
         });
         const json = await resp.json();
 
-        const msgBox = document.getElementById('codMsg');
-        if (json.ok && json.contexto === 'recuperacion') {
-            msgBox.className = 'alert alert-success';
-            msgBox.textContent = json.msg;
-            msgBox.style.display = 'block';
-            // Redirigir a vreset con el token
-            setTimeout(() => {
+        if (json.ok) {
+            if (json.contexto === 'recuperacion' && json.token) {
                 window.location.href = 'index.php?pg=vreset&token=' + encodeURIComponent(json.token);
-            }, 1000);
+            } else {
+                mostrarMensaje('codMsg', json.msg || 'Cuenta verificada correctamente.', 'success');
+            }
         } else {
-            msgBox.className = 'alert alert-danger';
-            msgBox.textContent = json.msg || 'Código inválido.';
-            msgBox.style.display = 'block';
+            mostrarMensaje('codMsg', json.msg || 'El código no es válido.', 'danger');
         }
     } catch (e) {
-        mostrarErrorCodigoRec('Error de conexión con el servidor.');
+        mostrarMensaje('codMsg', 'Error de conexión con el servidor.', 'danger');
     } finally {
         if (btn) btn.disabled = false;
     }
 }
 
+/* ======================================================
+   CONFIRMACIÓN FINAL (NUEVA CONTRASEÑA)
+   ====================================================== */
+
 async function guardarNuevaPassword(event) {
     event.preventDefault();
-    const token   = document.getElementById('resToken').value;
-    const pass    = document.getElementById('resPassword').value;
-    const confirm = document.getElementById('resConfirm').value;
-    const btn     = document.getElementById('btnReset');
 
-    if (!token || !pass) {
-        mostrarErrorReset('El token y la nueva contraseña son obligatorios.');
+    const token    = document.getElementById('resToken').value.trim();
+    const password = document.getElementById('resPassword').value;
+    const confirm  = document.getElementById('resConfirm').value;
+    const btn      = document.getElementById('btnReset');
+
+    if (!token) {
+        mostrarMensaje('resMsg', 'Enlace de recuperación inválido.', 'danger');
         return;
     }
-    if (pass.length < 6) {
-        mostrarErrorReset('La contraseña debe tener al menos 6 caracteres.');
+
+    if (!pintarRequisitosClave(password)) {
+        mostrarMensaje('resMsg', 'La contraseña no cumple con todos los requisitos indicados.', 'danger');
         return;
     }
-    if (pass !== confirm) {
-        mostrarErrorReset('Las contraseñas no coinciden.');
+
+    if (password !== confirm) {
+        mostrarMensaje('resMsg', 'Las contraseñas no coinciden.', 'danger');
         return;
     }
 
     if (btn) btn.disabled = true;
-    ocultarErrorReset();
+    ocultarMensaje('resMsg');
 
     try {
         const resp = await fetch('controllers/creset.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: new URLSearchParams({ token, password: pass, confirm_password: confirm }).toString()
+            body: new URLSearchParams({ token, password, confirm_password: confirm }).toString()
         });
         const json = await resp.json();
 
-        const msgBox = document.getElementById('resMsg');
         if (json.ok) {
-            msgBox.className = 'alert alert-success';
-            msgBox.textContent = json.msg;
-            msgBox.style.display = 'block';
-            setTimeout(() => {
-                window.location.href = 'index.php?pg=login&msg=password_reset';
-            }, 1500);
+            window.location.href = 'index.php?pg=login&msg=password_reset';
         } else {
-            msgBox.className = 'alert alert-danger';
-            msgBox.textContent = json.msg;
-            msgBox.style.display = 'block';
+            mostrarMensaje('resMsg', json.msg || 'No fue posible cambiar la contraseña.', 'danger');
         }
     } catch (e) {
-        mostrarErrorReset('Error de conexión con el servidor.');
+        mostrarMensaje('resMsg', 'Error de conexión con el servidor.', 'danger');
     } finally {
         if (btn) btn.disabled = false;
     }
-}
-
-function mostrarError(msg) {
-    const errBox = document.getElementById('regError');
-    const errText = document.getElementById('regErrorText');
-    if (errBox) errBox.style.display = 'flex';
-    if (errText) errText.textContent = msg;
-}
-
-function ocultarError() {
-    const errBox = document.getElementById('regError');
-    if (errBox) errBox.style.display = 'none';
-}
-
-function mostrarErrorCodigo(msg) {
-    const errBox = document.getElementById('regCodeError');
-    const errText = document.getElementById('regCodeErrorText');
-    if (errBox) errBox.style.display = 'flex';
-    if (errText) errText.textContent = msg;
-}
-
-function ocultarErrorCodigo() {
-    const errBox = document.getElementById('regCodeError');
-    if (errBox) errBox.style.display = 'none';
-}
-
-function mostrarErrorOlvido(msg) {
-    const msgBox = document.getElementById('olvMsg');
-    if (msgBox) {
-        msgBox.className = 'alert alert-danger';
-        msgBox.textContent = msg;
-        msgBox.style.display = 'block';
-    }
-}
-
-function ocultarErrorOlvido() {
-    const msgBox = document.getElementById('olvMsg');
-    if (msgBox) msgBox.style.display = 'none';
-}
-
-function mostrarErrorCodigoRec(msg) {
-    const msgBox = document.getElementById('codMsg');
-    if (msgBox) {
-        msgBox.className = 'alert alert-danger';
-        msgBox.textContent = msg;
-        msgBox.style.display = 'block';
-    }
-}
-
-function ocultarErrorCodigoRec() {
-    const msgBox = document.getElementById('codMsg');
-    if (msgBox) msgBox.style.display = 'none';
-}
-
-function mostrarErrorReset(msg) {
-    const msgBox = document.getElementById('resMsg');
-    if (msgBox) {
-        msgBox.className = 'alert alert-danger';
-        msgBox.textContent = msg;
-        msgBox.style.display = 'block';
-    }
-}
-
-function ocultarErrorReset() {
-    const msgBox = document.getElementById('resMsg');
-    if (msgBox) msgBox.style.display = 'none';
-}
-
-function siguientePaso() {
-    window.location.href = 'index.php?pg=creaUsu';
 }

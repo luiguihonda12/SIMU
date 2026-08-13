@@ -3,14 +3,14 @@
         <div class="col-md-6 col-lg-5">
             <div class="card shadow-sm border-0 p-4 rounded-4">
                 <div class="text-center mb-3">
-                    <div class="bg-light text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                    <div class="bg-light text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-2 auth-icon-circle">
                         <i class="fas fa-shield-alt"></i>
                     </div>
                     <h3 class="fw-bold">Código de Verificación</h3>
                     <p class="text-muted small">Ingresa el código de 6 dígitos enviado a tu correo</p>
                 </div>
 
-                <div id="codMsg" class="alert" style="display:none;"></div>
+                <div id="codMsg" class="alert js-hidden"></div>
 
                 <form id="formCodigo" onsubmit="verificarCodigoRecuperacion(event)">
                     <?php $correoPre = trim($_GET['correo'] ?? ''); ?>
@@ -29,12 +29,12 @@
                     <div class="mb-4 text-center">
                         <label class="form-label fw-semibold d-block mb-3">Código de 6 dígitos</label>
                         <div class="d-flex justify-content-center gap-2">
-                            <input type="text" class="form-control text-center fs-4 fw-bold code-input" name="digito1" maxlength="1" style="width: 45px; height: 50px;" required>
-                            <input type="text" class="form-control text-center fs-4 fw-bold code-input" name="digito2" maxlength="1" style="width: 45px; height: 50px;" required>
-                            <input type="text" class="form-control text-center fs-4 fw-bold code-input" name="digito3" maxlength="1" style="width: 45px; height: 50px;" required>
-                            <input type="text" class="form-control text-center fs-4 fw-bold code-input" name="digito4" maxlength="1" style="width: 45px; height: 50px;" required>
-                            <input type="text" class="form-control text-center fs-4 fw-bold code-input" name="digito5" maxlength="1" style="width: 45px; height: 50px;" required>
-                            <input type="text" class="form-control text-center fs-4 fw-bold code-input" name="digito6" maxlength="1" style="width: 45px; height: 50px;" required>
+                            <input type="text" class="form-control text-center fs-4 fw-bold code-input" name="digito1" maxlength="1" required>
+                            <input type="text" class="form-control text-center fs-4 fw-bold code-input" name="digito2" maxlength="1" required>
+                            <input type="text" class="form-control text-center fs-4 fw-bold code-input" name="digito3" maxlength="1" required>
+                            <input type="text" class="form-control text-center fs-4 fw-bold code-input" name="digito4" maxlength="1" required>
+                            <input type="text" class="form-control text-center fs-4 fw-bold code-input" name="digito5" maxlength="1" required>
+                            <input type="text" class="form-control text-center fs-4 fw-bold code-input" name="digito6" maxlength="1" required>
                         </div>
                     </div>
 

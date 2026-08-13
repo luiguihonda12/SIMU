@@ -33,8 +33,6 @@ class Mcondu extends Conexion
                 c.estado,
                 c.jornada,
                 c.id_usuario,
-                u.nombre AS usuario_nombre,
-                u.apellidos AS usuario_apellidos,
                 CONCAT(u.nombre, ' ', u.apellidos) AS usuario
             FROM conductor c
             LEFT JOIN usuario u ON c.id_usuario = u.id_usuario
@@ -64,32 +62,36 @@ class Mcondu extends Conexion
     /**
      * Rutas disponibles para el conductor.
      *
-     * Datos temporales mientras se completa el módulo de rutas.
+     * Lista las rutas registradas con su vehiculo (buseta)
+     * y los paraderos que conforman el recorrido.
      */
     public function obtenerRutas()
     {
-        return [
-            [
-                "id" => 1,
-                "nombre" => "Ruta 01: Centro - Chía",
-                "vehiculo" => "BUS-7892",
-                "estado" => "Activo"
-            ],
+        $con = $this->get_conexion();
 
-            [
-                "id" => 2,
-                "nombre" => "Ruta 02: Chía - Centro",
-                "vehiculo" => "BUS-4567",
-                "estado" => "Activo"
-            ],
+        $sql = "SELECT r.id_ruta AS id, r.nombre, r.origen, r.destino, r.horario,
+                       COALESCE(b.placa, 'Sin asignar') AS vehiculo
+                FROM ruta r
+                LEFT JOIN buseta b ON b.id_ruta = r.id_ruta
+                ORDER BY r.id_ruta DESC";
 
-            [
-                "id" => 3,
-                "nombre" => "Ruta 03: Chía - Cajicá",
-                "vehiculo" => "BUS-3210",
-                "estado" => "Activo"
-            ]
-        ];
+        $st = $con->prepare($sql);
+        $st->execute();
+
+        $rutas = $st->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($rutas as &$ruta) {
+            $p = $con->prepare("
+                SELECT id_paradero, nombre, ubicacion
+                FROM paradero
+                WHERE id_ruta = :id
+                ORDER BY id_paradero
+            ");
+            $p->execute([':id' => $ruta['id']]);
+            $ruta['paradas'] = $p->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        return $rutas;
     }
 
     /**
@@ -102,8 +104,7 @@ class Mcondu extends Conexion
     {
         return [
             "success" => true,
-            "estado" => "EN RUTA",
-            "mensaje" => "La ruta ha sido iniciada correctamente."
+            "estado" => "EN RUTA"
         ];
     }
 
@@ -114,8 +115,7 @@ class Mcondu extends Conexion
     {
         return [
             "success" => true,
-            "estado" => "FINALIZADA",
-            "mensaje" => "La ruta ha sido finalizada correctamente."
+            "estado" => "FINALIZADA"
         ];
     }
 }

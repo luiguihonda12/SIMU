@@ -47,198 +47,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 ?>
 
-<style>
-
-.pqrs-new {
-    padding: 25px;
-    width: 100%;
-    max-width: 860px;
-    margin: 0 auto;
-}
-
-.pqrs-new-header {
-    margin-bottom: 22px;
-}
-
-.pqrs-new-title {
-    margin: 0;
-    color: #102a43;
-    font-size: 27px;
-    font-weight: 800;
-}
-
-.pqrs-new-subtitle {
-    margin: 5px 0 0;
-    color: #78909c;
-    font-size: 13px;
-}
-
-.pqrs-new-back {
-    color: #009bbd;
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 700;
-}
-
-.pqrs-new-back:hover {
-    color: #007f9b;
-}
-
-.pqrs-card {
-    background: #fff;
-    border: 1px solid #dcecf2;
-    border-radius: 14px;
-    box-shadow: 0 5px 18px rgba(0,0,0,.05);
-    overflow: hidden;
-}
-
-.pqrs-card-header {
-    padding: 17px 20px;
-    border-bottom: 1px solid #edf3f5;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-}
-
-.pqrs-card-header h2 {
-    margin: 0;
-    color: #17324d;
-    font-size: 15px;
-    font-weight: 800;
-}
-
-.pqrs-card-header i {
-    color: #00a8c8;
-    margin-right: 7px;
-}
-
-.pqrs-body {
-    padding: 20px;
-}
-
-.pqrs-form {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0 16px;
-}
-
-.pqrs-form .pqrs-full {
-    grid-column: 1 / -1;
-}
-
-.pqrs-field {
-    margin-bottom: 15px;
-}
-
-.pqrs-field label {
-    display: block;
-    color: #455a64;
-    font-size: 11px;
-    font-weight: 800;
-    margin-bottom: 7px;
-}
-
-.pqrs-field input,
-.pqrs-field select,
-.pqrs-field textarea {
-    width: 100%;
-    border: 1px solid #d5e4e9;
-    border-radius: 8px;
-    padding: 10px 11px;
-    color: #30485d;
-    background: #fff;
-    font-size: 12px;
-    outline: none;
-}
-
-.pqrs-field input:focus,
-.pqrs-field select:focus,
-.pqrs-field textarea:focus {
-    border-color: #00a8c8;
-    box-shadow: 0 0 0 3px rgba(0,168,200,.10);
-}
-
-.pqrs-field textarea {
-    min-height: 120px;
-    resize: vertical;
-}
-
-.pqrs-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    padding-top: 16px;
-    border-top: 1px solid #edf3f5;
-}
-
-.pqrs-btn {
-    border: 0;
-    border-radius: 8px;
-    padding: 10px 16px;
-    font-size: 11px;
-    font-weight: 800;
-    cursor: pointer;
-    text-decoration: none;
-}
-
-.pqrs-btn-cancel {
-    color: #607d8b;
-    background: #edf2f4;
-}
-
-.pqrs-btn-save {
-    color: #fff;
-    background: #00a4c4;
-}
-
-.pqrs-btn-save:hover {
-    background: #008eaa;
-}
-
-.pqrs-alert {
-    padding: 11px 14px;
-    border-radius: 8px;
-    margin-bottom: 18px;
-    font-size: 12px;
-    font-weight: 600;
-}
-
-.pqrs-alert-success {
-    color: #246b2a;
-    background: #e7f6e9;
-    border: 1px solid #c8e8cc;
-}
-
-.pqrs-alert-danger {
-    color: #9b2525;
-    background: #fdeaea;
-    border: 1px solid #f4cccc;
-}
-
-@media (max-width: 650px) {
-
-    .pqrs-new {
-        padding: 15px;
-    }
-
-    .pqrs-form {
-        grid-template-columns: 1fr;
-    }
-
-    .pqrs-actions {
-        flex-direction: column;
-    }
-
-    .pqrs-btn {
-        width: 100%;
-        text-align: center;
-    }
-
-}
-
-</style>
-
 
 <div class="pqrs-new">
 
@@ -290,23 +98,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <div class="pqrs-card">
 
-            <div class="pqrs-body text-center" style="padding:30px;">
+            <div class="pqrs-body text-center pqrs-success-body">
 
                 <div
-                    style="font-size:3rem;color:#22c55e;margin-bottom:10px;"
+                    class="pqrs-success-icon"
                 >
                     <i class="fas fa-circle-check"></i>
                 </div>
 
-                <h2 style="color:#17324d;font-size:18px;font-weight:800;">
+                <h2 class="pqrs-success-title">
                     ¡PQRS registrada!
                 </h2>
 
                 <p
-                    style="color:#78909c;font-size:13px;margin:8px 0 18px;"
+                    class="pqrs-success-desc"
                 >
                     La solicitud fue registrada con el código
-                    <strong style="color:#008da9;">
+                    <strong class="pqrs-strong">
                         <?= htmlspecialchars($nuevoId); ?>
                     </strong>
                     y quedó en estado "En revisión".
@@ -346,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="pqrs-form">
 
                         <div class="pqrs-field">
-                            <label>Nombre completo <span style="color:#d04444;">*</span></label>
+                            <label>Nombre completo <span class="pqrs-required">*</span></label>
                             <input type="text" name="nombre" placeholder="María González">
                         </div>
 
@@ -366,7 +174,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
 
                         <div class="pqrs-field">
-                            <label>Tipo de solicitud <span style="color:#d04444;">*</span></label>
+                            <label>Tipo de solicitud <span class="pqrs-required">*</span></label>
                             <select name="tipo">
                                 <option value="Petición">Petición</option>
                                 <option value="Queja">Queja</option>
@@ -377,7 +185,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
 
                         <div class="pqrs-field">
-                            <label>Categoría <span style="color:#d04444;">*</span></label>
+                            <label>Categoría <span class="pqrs-required">*</span></label>
                             <select name="categoria">
                                 <option value="Servicio de transporte">Servicio de transporte</option>
                                 <option value="Ruta y horarios">Ruta y horarios</option>
@@ -398,12 +206,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
 
                         <div class="pqrs-field">
-                            <label>Asunto <span style="color:#d04444;">*</span></label>
+                            <label>Asunto <span class="pqrs-required">*</span></label>
                             <input type="text" name="asunto" placeholder="Resumen del motivo de la solicitud">
                         </div>
 
                         <div class="pqrs-field pqrs-full">
-                            <label>Descripción <span style="color:#d04444;">*</span></label>
+                            <label>Descripción <span class="pqrs-required">*</span></label>
                             <textarea name="descripcion" placeholder="Describe con detalle la situación..."></textarea>
                         </div>
 

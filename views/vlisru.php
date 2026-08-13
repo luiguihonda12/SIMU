@@ -100,13 +100,10 @@ $tipo     = $datLisru['tipo'];
                                 <td><span class="rol-badge"><?= (int)$r['paraderos']; ?></span></td>
                                 <td><span class="rol-badge"><?= (int)$r['busetas']; ?></span></td>
                                 <td>
-                                    <a href="index.php?pg=editarRutas&id_ruta=<?= (int)$r['id_ruta']; ?>" class="me-3" title="Editar datos">
-                                        <i class="fa-regular fa-pen-to-square fa-lg"></i>
-                                    </a>
-                                    <a href="index.php?pg=edicionRuta&id_ruta=<?= (int)$r['id_ruta']; ?>" class="me-3" title="Editar recorrido">
+                                    <a href="index.php?pg=edicionRuta&id_ruta=<?= (int)$r['id_ruta']; ?>" class="me-3" title="Editar ruta y recorrido">
                                         <i class="fa-solid fa-map-location-dot fa-lg"></i>
                                     </a>
-                                    <a href="index.php?pg=listadoRutas&ope=4&id_ruta=<?= (int)$r['id_ruta']; ?>" title="Eliminar" onclick="return confirm('Desea eliminar la ruta <?= htmlspecialchars(addslashes($r['nombre'])); ?>?')">
+                                    <a href="index.php?pg=listadoRutas&ope=4&id_ruta=<?= (int)$r['id_ruta']; ?>" title="Eliminar ruta" onclick="return confirm('Desea eliminar la ruta <?= htmlspecialchars(addslashes($r['nombre'])); ?>?')">
                                         <i class="fa-regular fa-trash-can fa-lg"></i>
                                     </a>
                                 </td>

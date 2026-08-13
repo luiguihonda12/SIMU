@@ -5,8 +5,10 @@ require_once __DIR__ . '/../models/mmodru.php';
  * ============================================================
  * CONTROLADOR: MODULO DE EDICION DE RUTA
  * Vista 8 - Edicion del recorrido (paraderos) de una ruta
- * ope: 0 = mostrar, 1 = agregar paradero, 2 = cargar paradero,
- *      3 = actualizar paradero, 4 = retirar paradero del recorrido
+ * ope: 0 = mostrar, 1 = agregar paradero existente,
+ *      2 = cargar paradero, 3 = actualizar paradero,
+ *      4 = retirar paradero, 5 = actualizar datos de la ruta,
+ *      6 = crear paradero nuevo en el recorrido
  * ============================================================
  */
 class Cmodru
@@ -20,16 +22,42 @@ class Cmodru
 
     public function index()
     {
-        $ope        = $_REQUEST['ope'] ?? 0;
-        $idRuta     = $_REQUEST['id_ruta'] ?? '';
-        $idParadero = $_REQUEST['id_paradero'] ?? '';
-        $mensaje    = '';
-        $tipo       = '';
-        $ruta       = null;
-        $paraderos  = [];
-        $libres     = [];
-        $paraEdit   = null;
+        $ope         = $_REQUEST['ope'] ?? 0;
+        $idRuta      = $_REQUEST['id_ruta'] ?? '';
+        $idParadero  = $_REQUEST['id_paradero'] ?? '';
+        $mensaje     = '';
+        $tipo        = '';
+        $ruta        = null;
+        $paraderos   = [];
+        $disponibles = [];
+        $paraEdit    = null;
 
+        // Actualizar los datos basicos de la ruta
+        if ($ope == 5) {
+            $datos = [
+                'id_ruta' => $idRuta,
+                'nombre'  => trim($_REQUEST['nombre'] ?? ''),
+                'origen'  => trim($_REQUEST['origen'] ?? ''),
+                'destino' => trim($_REQUEST['destino'] ?? ''),
+                'horario' => trim($_REQUEST['horario'] ?? '')
+            ];
+
+            if ($datos['id_ruta'] == '' || $datos['nombre'] == '' || $datos['origen'] == '' || $datos['destino'] == '' || $datos['horario'] == '') {
+                $mensaje = 'Todos los datos de la ruta son obligatorios.';
+                $tipo    = 'danger';
+            } elseif ($this->modelo->existeNombre($datos['nombre'], $datos['id_ruta'])) {
+                $mensaje = 'Ya existe otra ruta registrada con ese nombre.';
+                $tipo    = 'danger';
+            } elseif ($this->modelo->actualizarRuta($datos)) {
+                $mensaje = 'Los datos de la ruta fueron actualizados correctamente.';
+                $tipo    = 'success';
+            } else {
+                $mensaje = 'No fue posible actualizar los datos de la ruta.';
+                $tipo    = 'danger';
+            }
+        }
+
+        // Agregar un paradero existente al recorrido
         if ($ope == 1 && $idRuta != '') {
             if ($idParadero == '') {
                 $mensaje = 'Seleccione el paradero que desea agregar al recorrido.';
@@ -43,11 +71,32 @@ class Cmodru
             }
         }
 
+        // Crear un paradero nuevo directamente en el recorrido
+        if ($ope == 6 && $idRuta != '') {
+            $datos = [
+                'nombre'    => trim($_REQUEST['nombre_par'] ?? ''),
+                'ubicacion' => trim($_REQUEST['ubicacion_par'] ?? ''),
+                'id_ruta'   => $idRuta
+            ];
+
+            if ($datos['nombre'] == '' || $datos['ubicacion'] == '') {
+                $mensaje = 'Debe indicar el nombre y la ubicacion del nuevo paradero.';
+                $tipo    = 'danger';
+            } elseif ($this->modelo->crearParadero($datos)) {
+                $mensaje = 'El paradero fue creado y agregado al recorrido.';
+                $tipo    = 'success';
+            } else {
+                $mensaje = 'No fue posible crear el paradero.';
+                $tipo    = 'danger';
+            }
+        }
+
+        // Actualizar un paradero del recorrido
         if ($ope == 3) {
             $datos = [
                 'id_paradero' => $idParadero,
-                'nombre'      => trim($_REQUEST['nombre'] ?? ''),
-                'ubicacion'   => trim($_REQUEST['ubicacion'] ?? '')
+                'nombre'      => trim($_REQUEST['nombre_par'] ?? ''),
+                'ubicacion'   => trim($_REQUEST['ubicacion_par'] ?? '')
             ];
 
             if ($datos['id_paradero'] == '' || $datos['nombre'] == '' || $datos['ubicacion'] == '') {
@@ -62,6 +111,7 @@ class Cmodru
             }
         }
 
+        // Retirar un paradero del recorrido
         if ($ope == 4) {
             if ($idParadero != '' && $this->modelo->quitarParadero($idParadero)) {
                 $mensaje = 'El paradero fue retirado del recorrido.';
@@ -73,9 +123,9 @@ class Cmodru
         }
 
         if ($idRuta != '') {
-            $ruta      = $this->modelo->obtenerRuta($idRuta);
-            $paraderos = $this->modelo->paraderosDeRuta($idRuta);
-            $libres    = $this->modelo->paraderosLibres();
+            $ruta        = $this->modelo->obtenerRuta($idRuta);
+            $paraderos   = $this->modelo->paraderosDeRuta($idRuta);
+            $disponibles = $this->modelo->paraderosDisponibles($idRuta);
         }
 
         // ope 2: cargar un paradero puntual en el formulario de edicion
@@ -88,14 +138,14 @@ class Cmodru
         }
 
         return [
-            'rutas'     => $this->modelo->listarRutas(),
-            'ruta'      => $ruta,
-            'idRuta'    => $idRuta,
-            'paraderos' => $paraderos,
-            'libres'    => $libres,
-            'paraEdit'  => $paraEdit,
-            'mensaje'   => $mensaje,
-            'tipo'      => $tipo
+            'rutas'       => $this->modelo->listarRutas(),
+            'ruta'        => $ruta,
+            'idRuta'      => $idRuta,
+            'paraderos'   => $paraderos,
+            'disponibles' => $disponibles,
+            'paraEdit'    => $paraEdit,
+            'mensaje'     => $mensaje,
+            'tipo'        => $tipo
         ];
     }
 }

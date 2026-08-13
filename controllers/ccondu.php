@@ -55,7 +55,7 @@ class Ccondu
 
         $rutas = $this->modelo->obtenerRutas();
 
-        $rutaSeleccionada = $rutas[0];
+        $rutaSeleccionada = $rutas[0] ?? null;
 
         $rutaActiva = false;
 

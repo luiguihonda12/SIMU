@@ -19,7 +19,7 @@ class Mrepar extends Conexion
         return $st->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Inserta un paradero nuevo
+    // Inserta un paradero nuevo. La ruta puede quedar sin asignar
     public function registrar($datos)
     {
         $con = $this->get_conexion();
@@ -29,7 +29,7 @@ class Mrepar extends Conexion
         return $st->execute([
             ':nombre'    => $datos['nombre'],
             ':ubicacion' => $datos['ubicacion'],
-            ':id_ruta'   => $datos['id_ruta']
+            ':id_ruta'   => ($datos['id_ruta'] == '') ? null : $datos['id_ruta']
         ]);
     }
 
@@ -59,11 +59,19 @@ class Mrepar extends Conexion
     public function existe($nombre, $idRuta)
     {
         $con = $this->get_conexion();
-        $sql = "SELECT COUNT(*) AS total
-                FROM paradero
-                WHERE nombre = :nombre AND id_ruta = :id_ruta";
-        $st = $con->prepare($sql);
-        $st->execute([':nombre' => $nombre, ':id_ruta' => $idRuta]);
+
+        if ($idRuta == '') {
+            $sql = "SELECT COUNT(*) AS total FROM paradero
+                    WHERE nombre = :nombre AND id_ruta IS NULL";
+            $st = $con->prepare($sql);
+            $st->execute([':nombre' => $nombre]);
+        } else {
+            $sql = "SELECT COUNT(*) AS total FROM paradero
+                    WHERE nombre = :nombre AND id_ruta = :id_ruta";
+            $st = $con->prepare($sql);
+            $st->execute([':nombre' => $nombre, ':id_ruta' => $idRuta]);
+        }
+
         $row = $st->fetch(PDO::FETCH_ASSOC);
         return (int)$row['total'] > 0;
     }

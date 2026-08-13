@@ -26,675 +26,7 @@ $estadoRuta = $datosConductor["estadoRuta"];
 
 ?>
 
-<style>
-
-    /* ========================================================
-       CONTENEDOR PRINCIPAL
-       ======================================================== */
-
-    .conductor-page {
-
-        width: 100%;
-
-        padding: 25px;
-
-        box-sizing: border-box;
-
-    }
-
-
-    /* ========================================================
-       ENCABEZADO
-       ======================================================== */
-
-    .conductor-header {
-
-        display: flex;
-
-        justify-content: space-between;
-
-        align-items: center;
-
-        margin-bottom: 22px;
-
-        flex-wrap: wrap;
-
-        gap: 15px;
-
-    }
-
-
-    .conductor-title {
-
-        margin: 0;
-
-        font-size: 28px;
-
-        font-weight: 700;
-
-        color: #102a43;
-
-    }
-
-
-    .conductor-subtitle {
-
-        margin: 5px 0 0;
-
-        color: #607d8b;
-
-        font-size: 14px;
-
-    }
-
-
-    /* ========================================================
-       TARJETA DEL CONDUCTOR
-       ======================================================== */
-
-    .conductor-info {
-
-        background: #ffffff;
-
-        border-radius: 14px;
-
-        padding: 18px 20px;
-
-        border: 1px solid #dcecf2;
-
-        box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
-
-        display: flex;
-
-        align-items: center;
-
-        gap: 15px;
-
-    }
-
-
-    .conductor-avatar {
-
-        width: 52px;
-
-        height: 52px;
-
-        border-radius: 50%;
-
-        display: flex;
-
-        align-items: center;
-
-        justify-content: center;
-
-        background: #e5f7fb;
-
-        color: #009bbd;
-
-        font-size: 22px;
-
-    }
-
-
-    .conductor-info strong {
-
-        display: block;
-
-        font-size: 15px;
-
-        color: #102a43;
-
-    }
-
-
-    .conductor-info span {
-
-        display: block;
-
-        margin-top: 4px;
-
-        font-size: 13px;
-
-        color: #78909c;
-
-    }
-
-
-    /* ========================================================
-       SELECCIÓN DE RUTA
-       ======================================================== */
-
-    .route-selector-card {
-
-        background: #ffffff;
-
-        border-radius: 14px;
-
-        padding: 20px;
-
-        border: 1px solid #dcecf2;
-
-        box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
-
-        margin-bottom: 20px;
-
-    }
-
-
-    .route-label {
-
-        display: block;
-
-        font-size: 12px;
-
-        text-transform: uppercase;
-
-        letter-spacing: .06em;
-
-        font-weight: 700;
-
-        color: #607d8b;
-
-        margin-bottom: 8px;
-
-    }
-
-
-    .route-select {
-
-        width: 100%;
-
-        max-width: 420px;
-
-        height: 48px;
-
-        border: 1px solid #c9e4eb;
-
-        border-radius: 9px;
-
-        background: #f8fcfd;
-
-        color: #253b53;
-
-        padding: 0 14px;
-
-        font-size: 15px;
-
-        font-weight: 600;
-
-        outline: none;
-
-    }
-
-
-    .route-select:focus {
-
-        border-color: #00a8c8;
-
-        box-shadow: 0 0 0 3px rgba(0, 168, 200, .12);
-
-    }
-
-
-    .vehicle-info {
-
-        margin-top: 10px;
-
-        color: #607d8b;
-
-        font-size: 13px;
-
-    }
-
-
-    /* ========================================================
-       GRID PRINCIPAL
-       ======================================================== */
-
-    .conductor-grid {
-
-        display: grid;
-
-        grid-template-columns: minmax(0, 1fr) 290px;
-
-        gap: 20px;
-
-        align-items: start;
-
-    }
-
-
-    /* ========================================================
-       MAPA
-       ======================================================== */
-
-    .map-card {
-
-        background: #ffffff;
-
-        border-radius: 14px;
-
-        border: 1px solid #dcecf2;
-
-        box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
-
-        overflow: hidden;
-
-    }
-
-
-    .map-placeholder {
-
-        height: 390px;
-
-        background:
-            linear-gradient(
-                135deg,
-                #e5e5e5,
-                #d9d9d9
-            );
-
-        display: flex;
-
-        flex-direction: column;
-
-        align-items: center;
-
-        justify-content: center;
-
-        color: #89939b;
-
-        position: relative;
-
-    }
-
-
-    .map-placeholder i {
-
-        font-size: 45px;
-
-        margin-bottom: 10px;
-
-        color: #8b9297;
-
-    }
-
-
-    .map-placeholder strong {
-
-        font-size: 14px;
-
-        font-weight: 600;
-
-    }
-
-
-    .map-placeholder span {
-
-        margin-top: 5px;
-
-        font-size: 12px;
-
-    }
-
-
-    /* ========================================================
-       PROGRESO
-       ======================================================== */
-
-    .route-progress {
-
-        padding: 18px 20px;
-
-    }
-
-
-    .route-progress-title {
-
-        background: #ffbf00;
-
-        color: #17202a;
-
-        border-radius: 6px;
-
-        padding: 9px 12px;
-
-        font-size: 12px;
-
-        font-weight: 700;
-
-        margin-bottom: 14px;
-
-    }
-
-
-    .progress-label {
-
-        font-size: 11px;
-
-        color: #78909c;
-
-        text-transform: uppercase;
-
-        font-weight: 700;
-
-    }
-
-
-    .current-stop {
-
-        margin-top: 4px;
-
-        font-size: 16px;
-
-        color: #17324d;
-
-        font-weight: 700;
-
-    }
-
-
-    .time-remaining {
-
-        color: #009bbd;
-
-        font-weight: 700;
-
-        margin-left: 4px;
-
-    }
-
-
-    .progress-bar-container {
-
-        width: 100%;
-
-        height: 8px;
-
-        background: #edf1f3;
-
-        border-radius: 10px;
-
-        overflow: hidden;
-
-        margin-top: 12px;
-
-    }
-
-
-    .progress-bar-value {
-
-        height: 100%;
-
-        width: 18%;
-
-        background: #00b8d4;
-
-        border-radius: 10px;
-
-    }
-
-
-    /* ========================================================
-       PANEL DERECHO
-       ======================================================== */
-
-    .side-card {
-
-        background: #ffffff;
-
-        border-radius: 14px;
-
-        padding: 14px;
-
-        border: 1px solid #dcecf2;
-
-        box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
-
-        margin-bottom: 15px;
-
-    }
-
-
-    /* ========================================================
-       BOTÓN DE RUTA
-       ======================================================== */
-
-    .route-action {
-
-        width: 100%;
-
-        border: 0;
-
-        border-radius: 9px;
-
-        padding: 14px;
-
-        color: #ffffff;
-
-        font-size: 14px;
-
-        font-weight: 700;
-
-        cursor: pointer;
-
-        transition: .2s ease;
-
-    }
-
-
-    .route-action.start {
-
-        background: #00a8c8;
-
-        box-shadow: 0 5px 13px rgba(0, 168, 200, .25);
-
-    }
-
-
-    .route-action.start:hover {
-
-        background: #008cab;
-
-        transform: translateY(-1px);
-
-    }
-
-
-    .route-action.finish {
-
-        background: #f44336;
-
-        box-shadow: 0 5px 13px rgba(244, 67, 54, .22);
-
-    }
-
-
-    .route-action.finish:hover {
-
-        background: #d93227;
-
-        transform: translateY(-1px);
-
-    }
-
-
-    /* ========================================================
-       ESTADO
-       ======================================================== */
-
-    .route-status {
-
-        display: inline-flex;
-
-        align-items: center;
-
-        gap: 6px;
-
-        margin-top: 10px;
-
-        padding: 4px 9px;
-
-        border-radius: 20px;
-
-        font-size: 11px;
-
-        font-weight: 700;
-
-        background: #e7f7eb;
-
-        color: #2e7d32;
-
-    }
-
-
-    .route-status.active {
-
-        background: #fff0ee;
-
-        color: #d32f2f;
-
-    }
-
-
-    /* ========================================================
-       TELEMETRÍA
-       ======================================================== */
-
-    .side-title {
-
-        margin: 0 0 12px;
-
-        color: #253b53;
-
-        font-size: 15px;
-
-        font-weight: 700;
-
-    }
-
-
-    .telemetry-grid {
-
-        display: grid;
-
-        grid-template-columns: 1fr 1fr;
-
-        gap: 8px;
-
-    }
-
-
-    .telemetry-item {
-
-        background: #e9f9fc;
-
-        border-radius: 8px;
-
-        padding: 12px 8px;
-
-        text-align: center;
-
-    }
-
-
-    .telemetry-label {
-
-        display: block;
-
-        color: #607d8b;
-
-        font-size: 10px;
-
-    }
-
-
-    .telemetry-value {
-
-        display: block;
-
-        margin-top: 3px;
-
-        color: #173b83;
-
-        font-size: 14px;
-
-        font-weight: 800;
-
-    }
-
-
-    /* ========================================================
-       ALERTAS
-       ======================================================== */
-
-    .alert-box {
-
-        border-radius: 8px;
-
-        background: #f8fafb;
-
-        padding: 11px;
-
-        font-size: 12px;
-
-        color: #455a64;
-
-        line-height: 1.45;
-
-    }
-
-
-    .alert-box i {
-
-        color: #f39c12;
-
-        margin-right: 5px;
-
-    }
-
-
-    /* ========================================================
-       RESPONSIVE
-       ======================================================== */
-
-    @media (max-width: 1000px) {
-
-        .conductor-grid {
-
-            grid-template-columns: 1fr;
-
-        }
-
-    }
-
-
-    @media (max-width: 600px) {
-
-        .conductor-page {
-
-            padding: 15px;
-
-        }
-
-
-        .conductor-title {
-
-            font-size: 23px;
-
-        }
-
-
-        .map-placeholder {
-
-            height: 280px;
-
-        }
-
-    }
-
-</style>
-
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
 <div class="conductor-page">
 
@@ -751,14 +83,6 @@ $estadoRuta = $datosConductor["estadoRuta"];
 
                     <?= htmlspecialchars($conductor["estado"]); ?>
 
-                    <?php if (!empty($conductor["usuario"])) { ?>
-
-                        ·
-                        <i class="fas fa-user-check me-1"></i>
-                        Usuario: <?= htmlspecialchars($conductor["usuario"]); ?>
-
-                    <?php } ?>
-
                 </span>
 
             </div>
@@ -776,8 +100,11 @@ $estadoRuta = $datosConductor["estadoRuta"];
     <div class="route-selector-card">
 
         <label
+
             for="rutaConductor"
+
             class="route-label"
+
         >
 
             Seleccionar trayecto:
@@ -786,15 +113,19 @@ $estadoRuta = $datosConductor["estadoRuta"];
 
 
         <select
+
             id="rutaConductor"
+
             class="route-select"
+
         >
 
             <?php foreach ($rutas as $ruta) { ?>
 
                 <option
+
                     value="<?= $ruta["id"]; ?>"
-                    data-vehiculo="<?= htmlspecialchars($ruta["vehiculo"]); ?>"
+
                 >
 
                     <?= htmlspecialchars($ruta["nombre"]); ?>
@@ -802,6 +133,23 @@ $estadoRuta = $datosConductor["estadoRuta"];
                 </option>
 
             <?php } ?>
+
+        </select>
+
+
+        <select
+
+            id="paradaConductor"
+
+            class="route-select stop-select"
+
+        >
+
+            <option value="">
+
+                Seleccione destino...
+
+            </option>
 
         </select>
 
@@ -814,7 +162,7 @@ $estadoRuta = $datosConductor["estadoRuta"];
 
             <strong id="vehiculoRuta">
 
-                <?= htmlspecialchars($rutaSeleccionada["vehiculo"]); ?>
+                <?= htmlspecialchars($rutas[0]["vehiculo"] ?? '-'); ?>
 
             </strong>
 
@@ -838,19 +186,7 @@ $estadoRuta = $datosConductor["estadoRuta"];
         <div class="map-card">
 
 
-            <div class="map-placeholder">
-
-                <i class="fas fa-map-marked-alt"></i>
-
-                <strong>
-                    Mapa de Navegación en Tiempo Real
-                </strong>
-
-                <span>
-                    La integración del mapa se puede conectar posteriormente.
-                </span>
-
-            </div>
+            <div id="map"></div>
 
 
             <div class="route-progress">
@@ -858,9 +194,9 @@ $estadoRuta = $datosConductor["estadoRuta"];
 
                 <div class="route-progress-title">
 
-                    <i class="fas fa-bell me-1"></i>
+                    <i class="fas fa-location-arrow me-1"></i>
 
-                    LLEGANDO A: Centro Comercial Sabana
+                    <span id="llegando">Seleccione una ruta</span>
 
                 </div>
 
@@ -874,18 +210,16 @@ $estadoRuta = $datosConductor["estadoRuta"];
 
                 <div class="current-stop">
 
-                    Parada Actual: Punto de Inicio
+                    <span id="paradaActual">Punto de inicio</span>
 
-                    <span class="time-remaining">
-                        12 min
-                    </span>
+                    <span class="time-remaining" id="eta">ETA: --:--</span>
 
                 </div>
 
 
                 <div class="progress-bar-container">
 
-                    <div class="progress-bar-value"></div>
+                    <div class="progress-bar-value" id="progressBar"></div>
 
                 </div>
 
@@ -911,32 +245,40 @@ $estadoRuta = $datosConductor["estadoRuta"];
 
 
                 <button
+
                     type="button"
+
                     id="btnRuta"
+
                     class="route-action start"
+
                 >
 
-                    <i
-                        id="iconoRuta"
-                        class="fas fa-play me-1"
-                    ></i>
+                    <i class="fas fa-play me-1"></i>
 
                     <span id="textoRuta">
+
                         INICIAR RUTA
+
                     </span>
 
                 </button>
 
 
                 <div
+
                     id="estadoRuta"
+
                     class="route-status"
+
                 >
 
                     <i class="fas fa-circle"></i>
 
                     <span>
+
                         LISTA PARA INICIAR
+
                     </span>
 
                 </div>
@@ -964,11 +306,15 @@ $estadoRuta = $datosConductor["estadoRuta"];
                     <div class="telemetry-item">
 
                         <span class="telemetry-label">
+
                             Velocidad
+
                         </span>
 
-                        <span class="telemetry-value">
+                        <span class="telemetry-value" id="velocidad">
+
                             0 km/h
+
                         </span>
 
                     </div>
@@ -977,14 +323,21 @@ $estadoRuta = $datosConductor["estadoRuta"];
                     <div class="telemetry-item">
 
                         <span class="telemetry-label">
+
                             Estado
+
                         </span>
 
                         <span
+
                             class="telemetry-value"
+
                             id="estadoTiempo"
+
                         >
+
                             A tiempo
+
                         </span>
 
                     </div>
@@ -1027,185 +380,211 @@ $estadoRuta = $datosConductor["estadoRuta"];
 </div>
 
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
+document.addEventListener("DOMContentLoaded", () => {
 
+    const rutas = <?= json_encode($rutas, JSON_UNESCAPED_UNICODE); ?>;
+    const rutaSel = document.getElementById("rutaConductor");
+    const paradaSel = document.getElementById("paradaConductor");
+    const btn = document.getElementById("btnRuta");
+    const map = L.map("map").setView([4.8617, -74.0539], 13);
 
-        /* =================================================
-           ELEMENTOS
-           ================================================= */
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; OpenStreetMap"
+    }).addTo(map);
 
-        const botonRuta =
-            document.getElementById("btnRuta");
+    let bus = null, linea = null, timer = null, activo = false;
 
+    const busIcon = L.divIcon({
+        html: '<i class="fas fa-bus"></i>',
+        className: "bus-icon",
+        iconSize: [38, 38],
+        iconAnchor: [19, 19]
+    });
 
-        const textoRuta =
-            document.getElementById("textoRuta");
+    const stopIcon = L.divIcon({
+        html: '<i class="fas fa-location-dot"></i>',
+        className: "stop-icon",
+        iconSize: [30, 30],
+        iconAnchor: [15, 15]
+    });
 
-
-        const iconoRuta =
-            document.getElementById("iconoRuta");
-
-
-        const estadoRuta =
-            document.getElementById("estadoRuta");
-
-
-        const selectorRuta =
-            document.getElementById("rutaConductor");
-
-
-        const vehiculoRuta =
-            document.getElementById("vehiculoRuta");
-
-
-        let rutaActiva = false;
-
-
-
-        /* =================================================
-           CAMBIAR VEHÍCULO SEGÚN RUTA
-           ================================================= */
-
-        if (selectorRuta) {
-
-            selectorRuta.addEventListener(
-                "change",
-                function () {
-
-                    const opcion =
-                        this.options[this.selectedIndex];
-
-
-                    const vehiculo =
-                        opcion.getAttribute(
-                            "data-vehiculo"
-                        );
-
-
-                    vehiculoRuta.textContent =
-                        vehiculo;
-
-                }
+    async function lugar(texto) {
+        try {
+            const r = await fetch(
+                "https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" +
+                encodeURIComponent(texto + ", Chía, Cundinamarca, Colombia")
             );
-
+            const d = await r.json();
+            return d.length ? [+d[0].lat, +d[0].lon] : null;
+        } catch (e) {
+            return null;
         }
-
-
-
-        /* =================================================
-           INICIAR / FINALIZAR RUTA
-           ================================================= */
-
-        if (botonRuta) {
-
-            botonRuta.addEventListener(
-                "click",
-                function () {
-
-
-                    const rutaId =
-                        selectorRuta.value;
-
-
-                    if (!rutaActiva) {
-
-
-                        /* =========================
-                           INICIAR
-                           ========================= */
-
-                        rutaActiva = true;
-
-
-                        textoRuta.textContent =
-                            "FINALIZAR RUTA";
-
-
-                        iconoRuta.className =
-                            "fas fa-stop me-1";
-
-
-                        botonRuta.classList.remove(
-                            "start"
-                        );
-
-
-                        botonRuta.classList.add(
-                            "finish"
-                        );
-
-
-                        estadoRuta.classList.add(
-                            "active"
-                        );
-
-
-                        estadoRuta.innerHTML =
-                            '<i class="fas fa-circle"></i> EN RUTA';
-
-
-                        console.log(
-                            "Ruta iniciada:",
-                            rutaId
-                        );
-
-
-                    } else {
-
-
-                        /* =========================
-                           FINALIZAR
-                           ========================= */
-
-                        rutaActiva = false;
-
-
-                        textoRuta.textContent =
-                            "INICIAR RUTA";
-
-
-                        iconoRuta.className =
-                            "fas fa-play me-1";
-
-
-                        botonRuta.classList.remove(
-                            "finish"
-                        );
-
-
-                        botonRuta.classList.add(
-                            "start"
-                        );
-
-
-                        estadoRuta.classList.remove(
-                            "active"
-                        );
-
-
-                        estadoRuta.innerHTML =
-                            '<i class="fas fa-circle"></i> FINALIZADA';
-
-
-                        console.log(
-                            "Ruta finalizada:",
-                            rutaId
-                        );
-
-                    }
-
-                }
-            );
-
-        }
-
-
     }
-);
 
+    async function carretera(origen, destino) {
+        const url = "https://router.project-osrm.org/route/v1/driving/" +
+            origen[1] + "," + origen[0] + ";" + destino[1] + "," + destino[0] +
+            "?overview=full&geometries=geojson";
+
+        const r = await fetch(url);
+        const d = await r.json();
+
+        if (!d.routes?.length) return null;
+        return d.routes[0].geometry.coordinates.map(p => [p[1], p[0]]);
+    }
+
+    function limpiar() {
+        if (timer) clearInterval(timer);
+        if (linea) map.removeLayer(linea);
+        if (bus) map.removeLayer(bus);
+        timer = null;
+        linea = null;
+        bus = null;
+        activo = false;
+        document.getElementById("progressBar").style.width = "0%";
+        document.getElementById("eta").textContent = "ETA: --:--";
+        document.getElementById("velocidad").textContent = "0 km/h";
+        btn.className = "route-action start";
+        btn.innerHTML = '<i class="fas fa-play me-1"></i> INICIAR RUTA';
+    }
+
+    async function cargar() {
+
+        limpiar();
+
+        const ruta = rutas.find(r => String(r.id) === String(rutaSel.value));
+        if (!ruta) return;
+
+        document.getElementById("vehiculoRuta").textContent = ruta.vehiculo || "Sin asignar";
+        document.getElementById("llegando").textContent = ruta.origen + " → " + ruta.destino;
+
+        paradaSel.innerHTML = '<option value="destino">Destino: ' + ruta.destino + "</option>";
+
+        if (ruta.paradas?.length)
+            ruta.paradas.forEach((p, i) => {
+                const o = document.createElement("option");
+                o.value = i;
+                o.textContent = "Paradero: " + p.nombre;
+                paradaSel.appendChild(o);
+            });
+
+        const inicio = await lugar(ruta.origen);
+        const destino = await lugar(ruta.destino);
+
+        if (!inicio || !destino) return;
+
+        ruta.inicioCoords = inicio;
+        ruta.destinoCoords = destino;
+
+        bus = L.marker(inicio, { icon: busIcon }).addTo(map);
+        map.fitBounds(L.latLngBounds([inicio, destino]), { padding: [40, 40] });
+
+        if (ruta.paradas?.length)
+            for (const p of ruta.paradas) {
+                const c = await lugar(p.ubicacion);
+                if (c) {
+                    p.coords = c;
+                    L.marker(c, { icon: stopIcon }).addTo(map).bindTooltip(p.nombre);
+                }
+            }
+    }
+
+    async function iniciar() {
+
+        const ruta = rutas.find(r => String(r.id) === String(rutaSel.value));
+        if (!ruta) return;
+
+        let destino = ruta.destinoCoords;
+        let nombre = ruta.destino;
+
+        if (paradaSel.value !== "destino") {
+            const p = ruta.paradas[paradaSel.value];
+            if (p?.coords) {
+                destino = p.coords;
+                nombre = p.nombre;
+            }
+        }
+
+        if (!destino) return alert("No se pudo localizar el destino.");
+
+        const origen = bus.getLatLng();
+        const puntos = await carretera(
+            [origen.lat, origen.lng],
+            destino
+        );
+
+        if (!puntos) return alert("No se pudo calcular la ruta por carretera.");
+
+        if (linea) map.removeLayer(linea);
+
+        linea = L.polyline(puntos, {
+            color: "#00a4c4",
+            weight: 5,
+            opacity: .8
+        }).addTo(map);
+
+        activo = true;
+        rutaSel.disabled = true;
+        paradaSel.disabled = true;
+        btn.className = "route-action finish";
+        btn.innerHTML = '<i class="fas fa-stop me-1"></i> FINALIZAR RUTA';
+
+        document.getElementById("estadoRuta").innerHTML =
+            '<i class="fas fa-circle"></i><span>EN RUTA</span>';
+        document.getElementById("llegando").textContent = "LLEGANDO A: " + nombre;
+
+        let i = 0;
+        const total = puntos.length;
+
+        timer = setInterval(() => {
+
+            if (i >= total) {
+                clearInterval(timer);
+                document.getElementById("progressBar").style.width = "100%";
+                document.getElementById("eta").textContent = "ETA: 0:00";
+                document.getElementById("velocidad").textContent = "0 km/h";
+                return;
+            }
+
+            bus.setLatLng(puntos[i]);
+
+            const progreso = Math.round(i / (total - 1) * 100);
+            document.getElementById("progressBar").style.width = progreso + "%";
+
+            const segundos = Math.round(60 * (1 - progreso / 100));
+            document.getElementById("eta").textContent =
+                "ETA: " + Math.floor(segundos / 60) + ":" +
+                String(segundos % 60).padStart(2, "0");
+
+            document.getElementById("velocidad").textContent = "25 km/h";
+            document.getElementById("paradaActual").textContent = "En recorrido";
+
+            i++;
+
+        }, 1000);
+    }
+
+    function finalizar() {
+        if (timer) clearInterval(timer);
+        timer = null;
+        activo = false;
+        rutaSel.disabled = false;
+        paradaSel.disabled = false;
+        btn.className = "route-action start";
+        btn.innerHTML = '<i class="fas fa-play me-1"></i> INICIAR RUTA';
+        document.getElementById("velocidad").textContent = "0 km/h";
+        document.getElementById("estadoRuta").innerHTML =
+            '<i class="fas fa-circle"></i><span>FINALIZADA</span>';
+    }
+
+    btn.addEventListener("click", () => activo ? finalizar() : iniciar());
+    rutaSel.addEventListener("change", cargar);
+
+    cargar();
+
+});
 </script>

@@ -1,13 +1,22 @@
 <?php
+/* =========================================================
+   SIMU - Envío de correos con PHPMailer (SMTP Gmail)
+   ========================================================= */
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 if (!function_exists('enviarCorreoSimu')) {
 
-    define('SIMU_CORREO_USUARIO', 'Simucodex@gmail.com');
-    define('SIMU_CORREO_CLAVE',   'rbys wmex sman ohdy');
-    define('SIMU_CORREO_NOMBRE',  'Sistema SIMU');
-
+    /* -----------------------------------------------------
+       1. CONFIGURACIÓN
+       ----------------------------------------------------- */
+define('SIMU_CORREO_USUARIO', 'Simucodex@gmail.com');
+define('SIMU_CORREO_CLAVE',   'rbys wmex sman ohdy');
+define('SIMU_CORREO_NOMBRE',  'Sistema SIMU');
+    /* -----------------------------------------------------
+       2. CARGA DE LA LIBRERÍA (Composer o carpeta manual)
+       ----------------------------------------------------- */
     if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
         require_once(__DIR__ . '/../vendor/autoload.php');
     } elseif (file_exists(__DIR__ . '/../PHPMailer/src/PHPMailer.php')) {
@@ -16,6 +25,9 @@ if (!function_exists('enviarCorreoSimu')) {
         require_once(__DIR__ . '/../PHPMailer/src/SMTP.php');
     }
 
+    /* -----------------------------------------------------
+       3. FUNCIÓN DE ENVÍO
+       ----------------------------------------------------- */
     function enviarCorreoSimu($destinatario, $asunto, $mensajeHtml) {
         $GLOBALS['simu_error_correo'] = '';
 
@@ -24,8 +36,8 @@ if (!function_exists('enviarCorreoSimu')) {
             return false;
         }
 
-        if (SIMU_CORREO_USUARIO === 'tucorreo@gmail.com') {
-            $GLOBALS['simu_error_correo'] = 'Falta configurar el correo y la contraseña de aplicación en ccorreo.php.';
+        if (SIMU_CORREO_CLAVE === 'AQUI_TUS_16_LETRAS') {
+            $GLOBALS['simu_error_correo'] = 'Falta la contraseña de aplicación en ccorreo.php.';
             return false;
         }
 
@@ -40,6 +52,7 @@ if (!function_exists('enviarCorreoSimu')) {
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port       = 587;
             $mail->CharSet    = 'UTF-8';
+            $mail->Timeout    = 20;
 
             $mail->setFrom(SIMU_CORREO_USUARIO, SIMU_CORREO_NOMBRE);
             $mail->addAddress($destinatario);
@@ -53,11 +66,12 @@ if (!function_exists('enviarCorreoSimu')) {
             return true;
 
         } catch (Exception $e) {
-            $GLOBALS['simu_error_correo'] = $mail->ErrorInfo;
+            $GLOBALS['simu_error_correo'] = $mail->ErrorInfo !== '' ? $mail->ErrorInfo : $e->getMessage();
             return false;
         }
     }
 
+    /* Devuelve el motivo del último fallo (solo para depurar) */
     function errorCorreoSimu() {
         return $GLOBALS['simu_error_correo'] ?? '';
     }

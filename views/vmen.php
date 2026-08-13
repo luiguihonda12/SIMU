@@ -29,8 +29,7 @@ $currentPage = $_GET['pg'] ?? 'creaUsu';
 
 
         <span
-            class="badge bg-secondary rounded-pill"
-            style="font-size: 0.65rem;"
+            class="badge bg-secondary rounded-pill vmen-mini"
         >
             V 1.0
         </span>
@@ -145,6 +144,23 @@ $currentPage = $_GET['pg'] ?? 'creaUsu';
 
                     <span>
                         Detalle PQRS
+                    </span>
+
+                </a>
+
+
+                <!-- VISTA 27 -->
+
+                <a
+                    href="index.php?pg=menuCliente"
+                    class="sidebar-subitem
+                    <?= ($currentPage == 'menuCliente') ? 'active' : ''; ?>"
+                >
+
+                    <i class="fas fa-user"></i>
+
+                    <span>
+                        Menú Inicial Cliente
                     </span>
 
                 </a>
@@ -589,7 +605,7 @@ $currentPage = $_GET['pg'] ?? 'creaUsu';
 
         <!-- =================================================
              RUTAS Y HORARIOS
-             VISTAS 6, 7, 8, 9 Y 10
+             VISTAS 7, 8, 9 Y 10
              ================================================= -->
 
         <div
@@ -597,7 +613,6 @@ $currentPage = $_GET['pg'] ?? 'creaUsu';
             <?= in_array(
                 $currentPage,
                 [
-                    'editarRutas',
                     'registrarParaderos',
                     'edicionRuta',
                     'listadoRutas',
@@ -631,23 +646,6 @@ $currentPage = $_GET['pg'] ?? 'creaUsu';
 
 
             <div class="sidebar-dropdown-content">
-
-
-                <!-- VISTA 6 -->
-
-                <a
-                    href="index.php?pg=editarRutas"
-                    class="sidebar-subitem
-                    <?= ($currentPage == 'editarRutas') ? 'active' : ''; ?>"
-                >
-
-                    <i class="fas fa-edit"></i>
-
-                    <span>
-                        Editar Rutas
-                    </span>
-
-                </a>
 
 
                 <!-- VISTA 7 -->

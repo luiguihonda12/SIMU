@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!$mUsuario->existeCorreo($correo)) {
             $res['msg'] = 'El correo no está registrado en el sistema.';
         } else {
+            /* Código de recuperación de 6 dígitos */
             $codigo = str_pad((string)random_int(0, 999999), 6, '0', STR_PAD_LEFT);
             $modelo = new Molvid();
 

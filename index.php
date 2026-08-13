@@ -22,7 +22,7 @@
 
     <!-- Hojas de Estilo del Menú y General -->
     <link rel="stylesheet" type="text/css" href="css/menu.css?v=1">
-    <link rel="stylesheet" type="text/css" href="css/style.css?v=2">
+    <link rel="stylesheet" type="text/css" href="css/style.css?v=3">
 
     <!-- Aplica el modo oscuro guardado antes de renderizar (evita parpadeo) -->
     <script>
@@ -74,6 +74,8 @@
                     'perfilUsuario'      => 'views/vperfilusu.php',
                     'editarUsuario'      => 'views/veditarusu.php',
                     'vistaUsuario'       => 'views/vvistausu.php',
+                    // Menú inicial cliente
+                    'menuCliente'        => 'views/vmenucli.php',
                     // Conductor
                     'conductor'          => 'views/vcondu.php',
                     'dashboardConductor' => 'views/vdascon.php',
@@ -92,7 +94,6 @@
                     'gestionRoles'           => 'views/vgesr.php',
                     'gesr'                   => 'views/vgesr.php',
                     // Rutas y Horarios
-                    'editarRutas'        => 'views/vedrut.php',
                     'registrarParaderos' => 'views/vrepar.php',
                     'edicionRuta'        => 'views/vmodru.php',
                     'listadoRutas'       => 'views/vlisru.php',
@@ -112,14 +113,14 @@
                     $moduloNombre = ucfirst($pg);
                     ?>
                     <div class="registration-container text-center py-5">
-                        <div class="mb-4 text-warning" style="font-size: 3.5rem;">
+                        <div class="mb-4 text-warning mod-dev-icon">
                             <i class="fas fa-hammer"></i>
                         </div>
                         <h2 class="h3 fw-bold text-dark mb-2">Módulo "<?=htmlspecialchars($moduloNombre);?>" en Desarrollo</h2>
                         <p class="text-muted mb-4">
                             Este módulo estará disponible próximamente en el Sistema Integrado de Movilidad Urbana (SIMU).
                         </p>
-                        <a href="index.php?pg=creaUsu" class="btn btn-primary" style="max-width: 250px; margin: 0 auto;">
+                        <a href="index.php?pg=creaUsu" class="btn btn-primary mod-dev-btn">
                             <i class="fas fa-user-plus me-2"></i>Ir a Crear Usuario
                         </a>
                     </div>
@@ -135,6 +136,6 @@
 
     <!-- Scripts Bootstrap y Validaciones SIMU -->
     <script src="js/code.js?v=3"></script>
-    <script src="js/valida.js?v=2"></script>
+    <script src="js/valida.js?v=3"></script>
 </body>
 </html>

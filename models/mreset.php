@@ -3,6 +3,9 @@ require_once(__DIR__ . '/conexion.php');
 
 class Mreset extends Conexion
 {
+    /* Actualiza la contraseña usando el token de recuperación y lo invalida.
+       Se valida con rowCount() porque execute() devuelve true aunque no
+       se haya modificado ninguna fila. */
     public function actualizarPasswordPorToken($token, $nuevoPassword)
     {
         $con  = $this->get_conexion();

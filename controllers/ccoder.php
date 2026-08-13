@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $modelo = new Mcoder();
 
         if ($modelo->verificarCodigo($correo, $codigo)) {
+            /* CASO 1: activación de una cuenta nueva */
             if ($modelo->activarUsuario($correo)) {
                 $res['ok']       = true;
                 $res['msg']      = 'Cuenta verificada exitosamente.';
@@ -27,7 +28,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
         } elseif ($modelo->verificarCodigoRecuperacion($correo, $codigo)) {
-            $token = bin2hex(random_bytes(32));
+            /* CASO 2: recuperación. El código de 6 dígitos se reemplaza
+               por un token seguro de un solo uso para el paso final. */
+            $token = bin2hex(random_bytes(32)); // 64 caracteres
 
             if ($modelo->guardarTokenReset($correo, $token)) {
                 $res['ok']       = true;

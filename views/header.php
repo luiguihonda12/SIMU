@@ -25,7 +25,6 @@ $sesCorreo = $_SESSION['correo']     ?? '';
                 src="img/logo-simu.png"
                 alt="SIMU - Sistema Integrado de Movilidad Urbana"
                 class="header-logo-img"
-                style="height: 42px; max-height: 42px; width: auto; display: block; object-fit: contain;"
             >
 
             <div class="d-none d-lg-block ps-3 border-start border-secondary border-opacity-50">

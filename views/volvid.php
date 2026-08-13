@@ -3,14 +3,14 @@
         <div class="col-md-6 col-lg-5">
             <div class="card shadow-sm border-0 p-4 rounded-4">
                 <div class="text-center mb-3">
-                    <div class="bg-light text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                    <div class="bg-light text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-2 auth-icon-circle">
                         <i class="fas fa-lock"></i>
                     </div>
                     <h3 class="fw-bold">Recuperar Contraseña</h3>
                     <p class="text-muted small">Te enviaremos un código de verificación a tu correo</p>
                 </div>
 
-                <div id="olvMsg" class="alert" style="display:none;"></div>
+                <div id="olvMsg" class="alert js-hidden"></div>
 
                 <form id="formOlvido" onsubmit="enviarInstrucciones(event)">
                     <div class="mb-4">

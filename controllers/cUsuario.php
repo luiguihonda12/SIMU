@@ -39,10 +39,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'telefono'            => $telefono === '' ? null : $telefono,
                 'contrasena'          => password_hash($pass, PASSWORD_DEFAULT),
                 'codigo_verificacion' => $codigo,
-                'estado'              => 0,
+                'estado'              => 0, // 0 = pendiente de verificación
                 'id_rol'              => $rol
             );
 
+            /* Se guarda en la base de datos */
             if ($mUsuario->setUsuario($datos)) {
 
                 require_once(__DIR__ . '/ccorreo.php');
@@ -59,6 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $res['msg']            = 'Usuario creado. Ingresa el código enviado a tu correo para activar la cuenta.';
                 $res['correo']         = $correo;
                 $res['correo_enviado'] = $enviado;
+                /* Respaldo mientras configuras PHPMailer */
                 $res['codigo_debug']   = $enviado ? '' : $codigo;
                 $res['error_correo']   = $enviado ? '' : errorCorreoSimu();
             } else {

@@ -30,11 +30,11 @@ class Crepar
                 'id_ruta'   => $_REQUEST['id_ruta'] ?? ''
             ];
 
-            if ($datos['nombre'] == '' || $datos['ubicacion'] == '' || $datos['id_ruta'] == '') {
-                $mensaje = 'Debe diligenciar el nombre, la ubicacion y la ruta del paradero.';
+            if ($datos['nombre'] == '' || $datos['ubicacion'] == '') {
+                $mensaje = 'Debe diligenciar el nombre y la ubicacion del paradero.';
                 $tipo    = 'danger';
             } elseif ($this->modelo->existe($datos['nombre'], $datos['id_ruta'])) {
-                $mensaje = 'Ese paradero ya se encuentra registrado en la ruta seleccionada.';
+                $mensaje = 'Ese paradero ya se encuentra registrado.';
                 $tipo    = 'danger';
             } elseif ($this->modelo->registrar($datos)) {
                 $mensaje = 'El paradero fue registrado correctamente.';
@@ -58,10 +58,10 @@ class Crepar
         }
 
         return [
-            'rutas'      => $this->modelo->listarRutas(),
-            'paraderos'  => $this->modelo->listar(),
-            'mensaje'    => $mensaje,
-            'tipo'       => $tipo
+            'rutas'     => $this->modelo->listarRutas(),
+            'paraderos' => $this->modelo->listar(),
+            'mensaje'   => $mensaje,
+            'tipo'      => $tipo
         ];
     }
 }

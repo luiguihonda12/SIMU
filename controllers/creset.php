@@ -1,5 +1,6 @@
 <?php
 require_once(__DIR__ . '/../models/mreset.php');
+require_once(__DIR__ . '/cclave.php');
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -7,14 +8,16 @@ $res = array('ok' => false, 'msg' => '');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $token    = trim($_POST['token'] ?? '');
-    $password = $_POST['password'] ?? '';
+    $token     = trim($_POST['token'] ?? '');
+    $password  = $_POST['password'] ?? '';
     $confirmar = $_POST['confirm_password'] ?? '';
+
+    $errorClave = validarClaveSimu($password);
 
     if ($token === '' || $password === '') {
         $res['msg'] = 'El token y la nueva contraseña son obligatorios.';
-    } elseif (strlen($password) < 6) {
-        $res['msg'] = 'La contraseña debe tener al menos 6 caracteres.';
+    } elseif ($errorClave !== '') {
+        $res['msg'] = $errorClave;
     } elseif ($password !== $confirmar) {
         $res['msg'] = 'Las contraseñas no coinciden.';
     } else {

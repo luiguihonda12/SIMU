@@ -1,7 +1,7 @@
-<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
-    <div class="card shadow p-4" style="width: 100%; max-width: 400px;">
+<div class="container auth-page d-flex justify-content-center align-items-center">
+    <div class="card shadow p-4 auth-card">
         <div class="text-center mb-3">
-            <i class="bi bi-box-arrow-in-right text-primary" style="font-size: 2.5rem;"></i>
+            <i class="bi bi-box-arrow-in-right text-primary auth-icon"></i>
             <h3 class="fw-bold mt-2">Iniciar Sesión</h3>
             <p class="text-muted small">Acceso al Sistema Integrado de Movilidad Urbana</p>
         </div>
@@ -25,9 +25,21 @@
             </div>
         <?php endif; ?>
 
+        <?php if (isset($_GET['error']) && $_GET['error'] == 'acceso_no_autorizado'): ?>
+            <div class="alert alert-warning text-center py-2 small" role="alert">
+                Debes iniciar sesión para acceder a esa página.
+            </div>
+        <?php endif; ?>
+
         <?php if (isset($_GET['msg']) && $_GET['msg'] == 'password_reset'): ?>
             <div class="alert alert-success text-center py-2 small" role="alert">
                 <strong>Contraseña actualizada:</strong> Ya puedes iniciar sesión con tu nueva contraseña.
+            </div>
+        <?php endif; ?>
+
+        <?php if (isset($_GET['msg']) && $_GET['msg'] == 'sesion_cerrada'): ?>
+            <div class="alert alert-success text-center py-2 small" role="alert">
+                Sesión cerrada correctamente.
             </div>
         <?php endif; ?>
 
@@ -38,7 +50,10 @@
             </div>
             <div class="mb-3">
                 <label for="clave" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="clave" name="clave" required>
+                <div class="password-wrapper">
+                    <input type="password" class="form-control" id="clave" name="clave" required>
+                    <i class="fas fa-eye eye-toggle js-ver-clave" data-target="clave" role="button" tabindex="0" title="Mostrar u ocultar contraseña"></i>
+                </div>
             </div>
             <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
         </form>

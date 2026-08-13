@@ -3,6 +3,10 @@ require_once(__DIR__ . '/conexion.php');
 
 class Mlogin extends Conexion
 {
+    /**
+     * Valida las credenciales de un usuario contra la tabla `usuario`.
+     * Acepta contraseñas encriptadas con password_hash() (bcrypt) o en texto plano.
+     */
     public static function validarUsuario($correo, $clave)
     {
         $modelo = new Mlogin();

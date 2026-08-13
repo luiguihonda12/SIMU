@@ -16,7 +16,7 @@ $roles = $mRol->getRoles();
     </header>
 
     <!-- Mensaje de error al registrar -->
-    <div id="regError" class="reg-alert" style="display:none;">
+    <div id="regError" class="reg-alert js-hidden">
         <i class="fas fa-exclamation-circle me-2"></i><span id="regErrorText"></span>
     </div>
 
@@ -51,6 +51,12 @@ $roles = $mRol->getRoles();
             </div>
             <div class="strength-meter"><div id="strengthBar"></div></div>
             <small id="strengthText">Seguridad: Baja</small>
+            <ul class="list-unstyled small mt-2 mb-0" id="reqClave">
+                <li id="reqLong" class="text-muted"><i class="fas fa-circle-xmark me-1"></i>Mínimo 6 caracteres</li>
+                <li id="reqMayus" class="text-muted"><i class="fas fa-circle-xmark me-1"></i>Al menos una letra mayúscula</li>
+                <li id="reqNums" class="text-muted"><i class="fas fa-circle-xmark me-1"></i>Mínimo 2 números</li>
+                <li id="reqSimb" class="text-muted"><i class="fas fa-circle-xmark me-1"></i>Al menos un símbolo (! @ # $ %)</li>
+            </ul>
         </div>
 
         <div class="input-group">
@@ -69,27 +75,27 @@ $roles = $mRol->getRoles();
 
     <!-- PASO 2: Verificación de Perfil -->
     <section id="step2" class="reg-step">
-        <div class="input-group" style="text-align: center;">
+        <div class="input-group text-center">
             <label class="form-label fw-semibold d-block mb-3">Código de Verificación</label>
-            <p style="font-size: 0.85rem; color: #666; margin-bottom: 15px;">
+            <p class="reg-code-desc">
                 Ingresa el código de 6 dígitos enviado a tu correo para activar tu perfil.
             </p>
 
             <!-- Aviso temporal: se muestra el código cuando el envío de correos aún no está configurado -->
-            <div id="regCodeHint" class="alert alert-info py-2 px-3 mx-auto" style="display:none; max-width: 420px; font-size: 0.85rem;"></div>
+            <div id="regCodeHint" class="alert alert-info py-2 px-3 mx-auto js-hidden reg-code-hint"></div>
 
             <div class="d-flex justify-content-center gap-2 mb-3">
-                <input type="text" class="form-control text-center fs-4 fw-bold code-input" maxlength="1" style="width: 45px; height: 50px;" required>
-                <input type="text" class="form-control text-center fs-4 fw-bold code-input" maxlength="1" style="width: 45px; height: 50px;" required>
-                <input type="text" class="form-control text-center fs-4 fw-bold code-input" maxlength="1" style="width: 45px; height: 50px;" required>
-                <input type="text" class="form-control text-center fs-4 fw-bold code-input" maxlength="1" style="width: 45px; height: 50px;" required>
-                <input type="text" class="form-control text-center fs-4 fw-bold code-input" maxlength="1" style="width: 45px; height: 50px;" required>
-                <input type="text" class="form-control text-center fs-4 fw-bold code-input" maxlength="1" style="width: 45px; height: 50px;" required>
+                <input type="text" class="form-control text-center fs-4 fw-bold code-input" maxlength="1" required>
+                <input type="text" class="form-control text-center fs-4 fw-bold code-input" maxlength="1" required>
+                <input type="text" class="form-control text-center fs-4 fw-bold code-input" maxlength="1" required>
+                <input type="text" class="form-control text-center fs-4 fw-bold code-input" maxlength="1" required>
+                <input type="text" class="form-control text-center fs-4 fw-bold code-input" maxlength="1" required>
+                <input type="text" class="form-control text-center fs-4 fw-bold code-input" maxlength="1" required>
             </div>
         </div>
 
         <input type="hidden" id="regCorreo">
-        <div id="regCodeError" class="reg-alert" style="display:none;">
+        <div id="regCodeError" class="reg-alert js-hidden">
             <i class="fas fa-exclamation-circle me-2"></i><span id="regCodeErrorText"></span>
         </div>
 
