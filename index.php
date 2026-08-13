@@ -70,6 +70,10 @@
                     'reset'              => 'views/vreset.php',
                     'vreset'             => 'views/vreset.php',
                     'confirmacionFinal'  => 'views/vreset.php',
+                    // Perfil de usuario
+                    'perfilUsuario'      => 'views/vperfilusu.php',
+                    'editarUsuario'      => 'views/veditarusu.php',
+                    'vistaUsuario'       => 'views/vvistausu.php',
                     // Conductor
                     'conductor'          => 'views/vcondu.php',
                     'dashboardConductor' => 'views/vdascon.php',

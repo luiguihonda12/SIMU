@@ -29,6 +29,23 @@ if (file_exists("controllers/cDashboard.php")) {
         </a>
     </div>
 
+    <!-- Filtro por rol -->
+    <div class="dash-filter">
+        <label for="filtroRol" class="dash-filter-label">
+            <i class="fas fa-filter me-1"></i>Filtrar por rol:
+        </label>
+        <select id="filtroRol" class="form-select dash-filter-select" onchange="if(this.value){location.href='index.php?pg=dashboard&rol='+this.value;}else{location.href='index.php?pg=dashboard';}">
+            <option value="">Todos los roles</option>
+            <?php if (is_array($listaRoles)) { ?>
+                <?php foreach ($listaRoles as $r) { ?>
+                    <option value="<?=(int)$r['id_rol'];?>" <?=((int)$filtroRol === (int)$r['id_rol']) ? 'selected' : '';?>>
+                        <?=htmlspecialchars($r['rol']);?>
+                    </option>
+                <?php } ?>
+            <?php } ?>
+        </select>
+    </div>
+
     <!-- Tabla de usuarios -->
     <div class="dash-table-card">
         <div class="dash-table-header">
@@ -42,6 +59,7 @@ if (file_exists("controllers/cDashboard.php")) {
                         <th>Nombre</th>
                         <th>Correo</th>
                         <th>Rol</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -52,11 +70,22 @@ if (file_exists("controllers/cDashboard.php")) {
                                 <td><strong><?=htmlspecialchars($u['nombre'] . ' ' . $u['apellidos']);?></strong></td>
                                 <td><?=htmlspecialchars($u['correo']);?></td>
                                 <td><span class="rol-badge"><?=htmlspecialchars($u['rol']);?></span></td>
+                                <td>
+                                    <button
+                                        type="button"
+                                        class="btn btn-sm btn-outline-danger btn-eliminar-usuario"
+                                        data-id="<?=(int)$u['id_usuario'];?>"
+                                        data-nombre="<?=htmlspecialchars($u['nombre'] . ' ' . $u['apellidos']);?>"
+                                        title="Eliminar usuario"
+                                    >
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
                             </tr>
                         <?php } ?>
                     <?php } else { ?>
                         <tr>
-                            <td colspan="4" class="text-center text-muted py-4">No hay usuarios registrados aún.</td>
+                            <td colspan="5" class="text-center text-muted py-4">No hay usuarios registrados aún.</td>
                         </tr>
                     <?php } ?>
                 </tbody>
@@ -64,3 +93,46 @@ if (file_exists("controllers/cDashboard.php")) {
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const botones = document.querySelectorAll('.btn-eliminar-usuario');
+
+    botones.forEach(function (boton) {
+
+        boton.addEventListener('click', function () {
+
+            const id = this.getAttribute('data-id');
+            const nombre = this.getAttribute('data-nombre');
+
+            if (!confirm('¿Estás seguro de eliminar al usuario "' + nombre + '"? Esta acción no se puede deshacer.')) {
+                return;
+            }
+
+            fetch('controllers/celusu.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'id_usuario=' + encodeURIComponent(id)
+            })
+            .then(function (respuesta) {
+                return respuesta.json();
+            })
+            .then(function (datos) {
+                alert(datos.msg);
+                if (datos.ok) {
+                    location.reload();
+                }
+            })
+            .catch(function () {
+                alert('Ocurrió un error al intentar eliminar el usuario.');
+            });
+
+        });
+
+    });
+
+});
+</script>

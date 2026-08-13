@@ -19,17 +19,23 @@ INSERT INTO `buseta` (`id_buseta`, `placa`, `capacidad`, `estado`, `id_ruta`, `i
 CREATE TABLE `conductor` (
   `id_conductor` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
-  `licencia` varchar(50) NOT NULL,
+  `documento` varchar(30) DEFAULT NULL,
   `telefono` varchar(20) DEFAULT NULL,
+  `correo` varchar(120) DEFAULT NULL,
+  `licencia` varchar(50) NOT NULL,
+  `tipo_licencia` varchar(30) DEFAULT NULL,
+  `estado` varchar(20) DEFAULT 'Activo',
+  `jornada` varchar(20) DEFAULT NULL,
+  `id_usuario` int(11) DEFAULT NULL,
   `id_buseta` int(11) DEFAULT NULL,
   `id_empresa` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 
-INSERT INTO `conductor` (`id_conductor`, `nombre`, `licencia`, `telefono`, `id_buseta`, `id_empresa`) VALUES
-(1, 'Pedro Gomez', 'LIC12345', '3111111111', 1, 1),
-(2, 'Maria Lopez', 'LIC67890', '3222222222', 2, 1);
+INSERT INTO `conductor` (`id_conductor`, `nombre`, `documento`, `telefono`, `correo`, `licencia`, `tipo_licencia`, `estado`, `jornada`, `id_usuario`, `id_buseta`, `id_empresa`) VALUES
+(1, 'Pedro Gomez', '1.000.000.001', '3111111111', 'pedro.gomez@simu.com', 'LIC12345', 'Servicio Público', 'Activo', 'Mañana', 2, 1, 1),
+(2, 'Maria Lopez', '1.000.000.002', '3222222222', 'maria.lopez@simu.com', 'LIC67890', 'Servicio Público', 'Activo', 'Tarde', NULL, 2, 1);
 
 
 
@@ -322,7 +328,8 @@ ALTER TABLE `buseta`
 --
 ALTER TABLE `conductor`
   ADD CONSTRAINT `fk_conductor_buseta` FOREIGN KEY (`id_buseta`) REFERENCES `buseta` (`id_buseta`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_conductor_empresa` FOREIGN KEY (`id_empresa`) REFERENCES `empresa` (`id_empresa`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_conductor_empresa` FOREIGN KEY (`id_empresa`) REFERENCES `empresa` (`id_empresa`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_conductor_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 ALTER TABLE `conductor_ruta`
   ADD CONSTRAINT `fk_conductor_ruta_conductor` FOREIGN KEY (`id_conductor`) REFERENCES `conductor` (`id_conductor`) ON DELETE CASCADE ON UPDATE CASCADE,

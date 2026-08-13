@@ -1,4 +1,13 @@
 
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+$sesNombre = $_SESSION['usuario']    ?? '';
+$sesCorreo = $_SESSION['correo']     ?? '';
+?>
+
 <header class="bg-institutional text-white py-2.5 barsup">
 
     <div class="container-fluid px-4 d-flex justify-content-between align-items-center">
@@ -91,11 +100,11 @@
                         <div class="user-info">
 
                             <strong>
-                                Mi cuenta
+                                <?= htmlspecialchars($sesNombre !== '' ? $sesNombre : 'Mi cuenta'); ?>
                             </strong>
 
                             <small>
-                                Usuario SIMU
+                                <?= htmlspecialchars($sesCorreo !== '' ? $sesCorreo : 'Usuario SIMU'); ?>
                             </small>
 
                         </div>
@@ -155,6 +164,27 @@
 
                         <span>
                             Vista Usuario
+                        </span>
+
+                    </a>
+
+
+                    <div class="user-dropdown-divider"></div>
+
+
+                    <!-- =================================================
+                         CERRAR SESIÓN
+                         ================================================= -->
+
+                    <a
+                        href="controllers/cLogout.php"
+                        class="user-dropdown-item user-dropdown-item-logout"
+                    >
+
+                        <i class="fas fa-sign-out-alt"></i>
+
+                        <span>
+                            Cerrar sesión
                         </span>
 
                     </a>

@@ -18,6 +18,12 @@ class Cedicon
         return $this->modelo->obtenerConductor($id);
     }
 
+    // Usuarios disponibles con rol Conductor
+    public function usuariosConductores()
+    {
+        return $this->modelo->listarUsuariosConductores();
+    }
+
     // Guardar cambios
     public function actualizar($datos)
     {

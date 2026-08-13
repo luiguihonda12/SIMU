@@ -1,4 +1,5 @@
 <?php
+require_once("conexion.php");
 
 /**
  * ============================================================
@@ -7,29 +8,63 @@
  * ============================================================
  */
 
-class Mcondu
+class Mcondu extends Conexion
 {
     /**
-     * Datos temporales del conductor.
+     * Obtener el conductor vinculado a un usuario.
      *
-     * Más adelante estos datos pueden venir
-     * directamente desde MySQL.
+     * Si se recibe $idConductor se busca ese registro.
+     * Si se recibe $idUsuario se busca el conductor asociado
+     * a la cuenta de usuario (rol Conductor).
      */
-    public function obtenerConductor()
+    public function obtenerConductor($idUsuario = null, $idConductor = null)
     {
-        return [
-            "id" => 1,
-            "nombre" => "Juan Bernal",
-            "documento" => "1.000.000.001",
-            "telefono" => "300 000 0000",
-            "licencia" => "C1",
-            "estado" => "Activo"
-        ];
-    }
+        $con = $this->get_conexion();
 
+        $sql = "
+            SELECT
+                c.id_conductor AS id,
+                c.nombre,
+                c.documento,
+                c.telefono,
+                c.correo,
+                c.licencia,
+                c.tipo_licencia AS tipoLicencia,
+                c.estado,
+                c.jornada,
+                c.id_usuario,
+                u.nombre AS usuario_nombre,
+                u.apellidos AS usuario_apellidos,
+                CONCAT(u.nombre, ' ', u.apellidos) AS usuario
+            FROM conductor c
+            LEFT JOIN usuario u ON c.id_usuario = u.id_usuario
+        ";
+
+        if ($idConductor !== null) {
+            $sql .= " WHERE c.id_conductor = :idConductor LIMIT 1";
+            $st = $con->prepare($sql);
+            $st->execute([':idConductor' => $idConductor]);
+        } else {
+            $sql .= " WHERE c.id_usuario = :idUsuario LIMIT 1";
+            $st = $con->prepare($sql);
+            $st->execute([':idUsuario' => $idUsuario]);
+        }
+
+        $conductor = $st->fetch(PDO::FETCH_ASSOC);
+
+        if (!$conductor) {
+            return null;
+        }
+
+        $conductor['estado'] = $conductor['estado'] ?? 'Activo';
+
+        return $conductor;
+    }
 
     /**
      * Rutas disponibles para el conductor.
+     *
+     * Datos temporales mientras se completa el módulo de rutas.
      */
     public function obtenerRutas()
     {
@@ -57,7 +92,6 @@ class Mcondu
         ];
     }
 
-
     /**
      * Iniciar una ruta.
      *
@@ -72,7 +106,6 @@ class Mcondu
             "mensaje" => "La ruta ha sido iniciada correctamente."
         ];
     }
-
 
     /**
      * Finalizar una ruta.

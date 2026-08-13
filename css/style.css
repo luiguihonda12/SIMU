@@ -429,6 +429,43 @@ html.dark-mode .reg-alert {
     align-items: center;
 }
 
+/* Filtro por rol */
+.dash-filter {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+}
+
+.dash-filter-label {
+    color: var(--simu-text-dark);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.dash-filter-select {
+    max-width: 280px;
+    border-color: #cbe3ea;
+    font-size: 0.85rem;
+}
+
+.dash-filter-select:focus {
+    border-color: var(--simu-cyan);
+    box-shadow: 0 0 0 0.2rem rgba(0, 168, 205, 0.15);
+}
+
+html.dark-mode .dash-filter-label {
+    color: #f1f5f9;
+}
+
+html.dark-mode .dash-filter-select {
+    background: #0f2434;
+    color: #f1f5f9;
+    border-color: #1d3a4d;
+}
+
 /* Tabla */
 .dash-table-card {
     background: #ffffff;

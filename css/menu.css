@@ -967,6 +967,31 @@
 }
 
 
+.user-dropdown-item-logout {
+
+    color:
+        #c0392b;
+
+}
+
+.user-dropdown-item-logout i {
+
+    color:
+        #e74c3c;
+
+}
+
+.user-dropdown-item-logout:hover {
+
+    background:
+        #fdf1f0;
+
+    color:
+        #c0392b;
+
+}
+
+
 /* ==========================================================
    MODO OSCURO
    ========================================================== */

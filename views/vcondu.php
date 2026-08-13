@@ -751,6 +751,14 @@ $estadoRuta = $datosConductor["estadoRuta"];
 
                     <?= htmlspecialchars($conductor["estado"]); ?>
 
+                    <?php if (!empty($conductor["usuario"])) { ?>
+
+                        ·
+                        <i class="fas fa-user-check me-1"></i>
+                        Usuario: <?= htmlspecialchars($conductor["usuario"]); ?>
+
+                    <?php } ?>
+
                 </span>
 
             </div>

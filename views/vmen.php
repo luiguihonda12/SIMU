@@ -181,8 +181,7 @@ $currentPage = $_GET['pg'] ?? 'creaUsu';
                     'registro',
                     'codigoVerificacion',
                     'olvidoContrasena',
-                    'confirmacionFinal',
-                    'listadoUsuarios'
+                    'confirmacionFinal'
                 ]
             ) ? 'open' : ''; ?>"
         >
@@ -311,23 +310,6 @@ $currentPage = $_GET['pg'] ?? 'creaUsu';
 
                     <span>
                         Crear Usuario
-                    </span>
-
-                </a>
-
-
-                <!-- VISTA 11 -->
-
-                <a
-                    href="index.php?pg=listadoUsuarios"
-                    class="sidebar-subitem
-                    <?= ($currentPage == 'listadoUsuarios') ? 'active' : ''; ?>"
-                >
-
-                    <i class="fas fa-users"></i>
-
-                    <span>
-                        Listado de Usuarios
                     </span>
 
                 </a>

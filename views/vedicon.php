@@ -12,6 +12,7 @@ $id = $_GET['id'] ?? 1;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $datos = [
+        'id' => trim($_POST['id'] ?? ''),
         'nombre' => trim($_POST['nombre'] ?? ''),
         'documento' => trim($_POST['documento'] ?? ''),
         'telefono' => trim($_POST['telefono'] ?? ''),
@@ -19,7 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'licencia' => trim($_POST['licencia'] ?? ''),
         'tipoLicencia' => trim($_POST['tipoLicencia'] ?? ''),
         'estado' => trim($_POST['estado'] ?? ''),
-        'jornada' => trim($_POST['jornada'] ?? '')
+        'jornada' => trim($_POST['jornada'] ?? ''),
+        'id_usuario' => trim($_POST['id_usuario'] ?? '')
     ];
 
     if (
@@ -48,6 +50,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $conductor = $controlador->mostrar($id);
+
+if (!$conductor) {
+    $conductor = [
+        'id' => $id,
+        'nombre' => 'Conductor no encontrado',
+        'documento' => '',
+        'telefono' => '',
+        'correo' => '',
+        'licencia' => '',
+        'tipoLicencia' => 'Servicio Público',
+        'estado' => 'Activo',
+        'jornada' => 'Mañana',
+        'id_usuario' => null
+    ];
+}
+
+$usuariosConductores = $controlador->usuariosConductores();
 
 ?>
 
@@ -385,6 +404,12 @@ $conductor = $controlador->mostrar($id);
                 action="index.php?pg=editarConductor&id=<?= urlencode($id); ?>"
             >
 
+                <input
+                    type="hidden"
+                    name="id"
+                    value="<?= htmlspecialchars($conductor['id'] ?? $id); ?>"
+                >
+
                 <div class="ec-grid">
 
 
@@ -398,7 +423,7 @@ $conductor = $controlador->mostrar($id);
                         <input
                             type="text"
                             name="nombre"
-                            value="<?= htmlspecialchars($conductor['nombre']); ?>"
+                            value="<?= htmlspecialchars($conductor['nombre'] ?? ''); ?>"
                             required
                         >
 
@@ -449,9 +474,42 @@ $conductor = $controlador->mostrar($id);
                         <input
                             type="email"
                             name="correo"
-                            value="<?= htmlspecialchars($conductor['correo']); ?>"
+                            value="<?= htmlspecialchars($conductor['correo'] ?? ''); ?>"
                             required
                         >
+
+                    </div>
+
+
+                    <!-- // Usuario vinculado -->
+                    <div class="ec-field full">
+
+                        <label>
+                            Usuario vinculado
+                        </label>
+
+                        <select name="id_usuario">
+
+                            <option value="">
+                                -- Sin usuario vinculado --
+                            </option>
+
+                            <?php foreach ($usuariosConductores as $uc) { ?>
+
+                                <option
+                                    value="<?= htmlspecialchars($uc['id_usuario']); ?>"
+                                    <?= !empty($conductor['id_usuario']) && (int)$conductor['id_usuario'] === (int)$uc['id_usuario'] ? 'selected' : ''; ?>
+                                >
+                                    <?= htmlspecialchars($uc['nombre']); ?>
+                                </option>
+
+                            <?php } ?>
+
+                        </select>
+
+                        <small>
+                            El usuario seleccionado debe tener el rol Conductor.
+                        </small>
 
                     </div>
 

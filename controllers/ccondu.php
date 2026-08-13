@@ -23,10 +23,35 @@ class Ccondu
 
     /**
      * Mostrar la pantalla principal del conductor.
+     *
+     * Busca el conductor vinculado al usuario de la sesión.
+     * Si no existe vínculo, usa el primer conductor de la BD.
      */
     public function index()
     {
-        $conductor = $this->modelo->obtenerConductor();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        $idUsuario = $_SESSION['id_usuario'] ?? null;
+
+        $conductor = $this->modelo->obtenerConductor($idUsuario);
+
+        if (!$conductor) {
+            $conductor = $this->modelo->obtenerConductor(null, 1);
+        }
+
+        if (!$conductor) {
+            $conductor = [
+                "id" => null,
+                "nombre" => "Sin conductor asignado",
+                "licencia" => "-",
+                "telefono" => "-",
+                "id_usuario" => null,
+                "estado" => "Activo",
+                "usuario" => null
+            ];
+        }
 
         $rutas = $this->modelo->obtenerRutas();
 
