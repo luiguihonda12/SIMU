@@ -7,11 +7,9 @@
    importación parcial no deja la BD a medias.
    ========================================================= */
 
-$host = getenv('MYSQLHOST') ?: 'localhost';
-$db   = getenv('MYSQLDATABASE') ?: 'movilidad_mer';
-$user = getenv('MYSQLUSER') ?: 'root';
-$pass = getenv('MYSQLPASSWORD') ?: '';
-$port = getenv('MYSQLPORT') ?: '3306';
+/* Reutiliza la configuración de entorno de models/config.php
+   (soporta MYSQLHOST/MYSQL_URL y variantes). */
+require __DIR__ . '/../models/config.php';
 
 $sqlFile = __DIR__ . '/movilidad_mer.sql';
 
