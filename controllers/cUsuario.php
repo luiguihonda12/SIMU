@@ -21,6 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ($rol <= 0) {
         $res['msg'] = 'Debes seleccionar un rol válido.';
     } else {
+        try {
         require_once(__DIR__ . "/../models/mUsuario.php");
         $mUsuario = new mUsuario();
 
@@ -66,6 +67,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 $res['msg'] = 'Ocurrió un error al guardar el usuario en la base de datos.';
             }
+        }
+        } catch (Throwable $e) {
+            $res['msg'] = 'Error del servidor: ' . $e->getMessage();
         }
     }
 } else {

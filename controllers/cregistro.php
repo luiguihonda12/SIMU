@@ -22,6 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ($errorClave !== '') {
         $res['msg'] = $errorClave;
     } else {
+        try {
         require_once(__DIR__ . "/../models/mregistro.php");
         $mRegistro = new Mregistro();
 
@@ -65,6 +66,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 $res['msg'] = 'Ocurrió un error al guardar el usuario en la base de datos.';
             }
+        }
+        } catch (Throwable $e) {
+            $res['msg'] = 'Error del servidor: ' . $e->getMessage();
         }
     }
 } else {
