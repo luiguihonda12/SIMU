@@ -11,15 +11,16 @@ if (!function_exists('enviarCorreoSimu')) {
     /* -----------------------------------------------------
        1. CONFIGURACIÓN
        ----------------------------------------------------- */
-define('SIMU_CORREO_USUARIO', 'Simucodex@gmail.com');
-define('SIMU_CORREO_CLAVE',   'rbys wmex sman ohdy');
-define('SIMU_CORREO_NOMBRE',  'Sistema SIMU');
+define('SIMU_CORREO_USUARIO', getenv('SIMU_CORREO_USUARIO') ?: 'Simucodex@gmail.com');
+define('SIMU_CORREO_CLAVE',   getenv('SIMU_CORREO_CLAVE')   ?: 'rbys wmex sman ohdy');
+define('SIMU_CORREO_NOMBRE',  getenv('SIMU_CORREO_NOMBRE')  ?: 'Sistema SIMU');
     /* -----------------------------------------------------
        2. CARGA DE LA LIBRERÍA (Composer o carpeta manual)
        ----------------------------------------------------- */
     if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
         require_once(__DIR__ . '/../vendor/autoload.php');
-    } elseif (file_exists(__DIR__ . '/../PHPMailer/src/PHPMailer.php')) {
+    }
+    if (!class_exists('PHPMailer\\PHPMailer\\PHPMailer', false) && file_exists(__DIR__ . '/../PHPMailer/src/PHPMailer.php')) {
         require_once(__DIR__ . '/../PHPMailer/src/Exception.php');
         require_once(__DIR__ . '/../PHPMailer/src/PHPMailer.php');
         require_once(__DIR__ . '/../PHPMailer/src/SMTP.php');

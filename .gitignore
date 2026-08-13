@@ -1,0 +1,7 @@
+# Dependencias de Composer (se instalan durante el build en Railway)
+vendor/
+
+# Archivos temporales y de entorno local
+*.log
+.env
+.env.*

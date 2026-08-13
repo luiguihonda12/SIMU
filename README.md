@@ -112,6 +112,29 @@ También puedes crear un nuevo usuario desde **Crear Cuenta** (`?pg=creaUsu`), d
 - **Conductores:** consulta, edición y dashboard del conductor (actualmente con datos de ejemplo).
 - **PQRS:** listado con resumen por estado, detalle con gestión de estado/prioridad/responsable/respuesta, y registro de nuevas solicitudes. Los códigos se generan automáticamente (`PQRS-00027`, ...).
 
+## Despliegue en Railway
+
+Railway detecta el proyecto como una app PHP (por `index.php` en la raíz) y lo despliega con **FrankenPHP** (PHP 8.4). Los cambios necesarios ya están incluidos en el repositorio:
+
+- `models/config.php` y `models/conexion.php` leen las variables de entorno de Railway (`MYSQLHOST`, `MYSQLPORT`, `MYSQLUSER`, `MYSQLPASSWORD`, `MYSQLDATABASE`) y usan los valores locales como respaldo.
+- `composer.json` garantiza la instalación de la extensión `pdo_mysql`.
+- `db/importar.php` importa `db/movilidad_mer.sql` de forma idempotente (solo si la BD está vacía).
+- `start-container.sh` ejecuta la importación al arrancar y luego inicia FrankenPHP.
+- `controllers/ccorreo.php` permite sobrescribir el correo SMTP con variables de entorno (`SIMU_CORREO_USUARIO`, `SIMU_CORREO_CLAVE`, `SIMU_CORREO_NOMBRE`).
+
+### Pasos
+
+1. Sube el repositorio a GitHub (ya existe `origin` configurado).
+2. En [Railway](https://railway.app), crea un proyecto nuevo y usa **Deploy from GitHub repo**, seleccionando `SIMU`.
+3. Añade el servicio **MySQL** al mismo proyecto (Railway lo crea automáticamente).
+4. **Conecta** el servicio MySQL al servicio de la app (tab *Variables* o *Connect*). Railway inyecta `MYSQLHOST`, `MYSQLPORT`, `MYSQLUSER`, `MYSQLPASSWORD` y `MYSQLDATABASE` automáticamente.
+5. Railway construye y despliega. Al primer arranque, `start-container.sh` importa la base de datos.
+6. Genera un dominio público: pestaña **Settings → Networking → Generate Domain**.
+
+La aplicación queda disponible en `https://<tu-dominio>.up.railway.app/index.php` (o directamente en `/`).
+
+> **Nota sobre correos:** Gmail exige una contraseña de aplicación. Si quieres usar otro correo, define las variables `SIMU_CORREO_USUARIO` y `SIMU_CORREO_CLAVE` en las variables de entorno del servicio.
+
 ## Notas
 
 - Los datos de sesión se almacenan con `$_SESSION` (nombre, correo e id de usuario).

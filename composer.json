@@ -1,0 +1,13 @@
+{
+    "name": "simu/simu",
+    "description": "Sistema Integrado de Movilidad Urbana",
+    "type": "project",
+    "require": {
+        "php": ">=8.2",
+        "ext-pdo": "*",
+        "ext-pdo_mysql": "*"
+    },
+    "config": {
+        "optimize-autoloader": true
+    }
+}
