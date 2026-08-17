@@ -1,7 +1,3 @@
-/* ==========================================================
-   SIMU - Estilos Generales y Sistema de Diseño Moderno
-   Basado en la paleta de colores del logo SIMU (Cian & Verde)
-   ========================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
@@ -29,7 +25,7 @@ body {
     min-height: 100vh;
 }
 
-/* Header Institucional */
+
 header.barsup {
     background: linear-gradient(135deg, #071924 0%, #0f2c3c 60%, #00a8cd 100%);
     box-shadow: 0 4px 20px rgba(0, 168, 205, 0.2);
@@ -553,12 +549,17 @@ html.dark-mode .dash-table-card .table thead th {
 }
 
 html.dark-mode .dash-table-card .table tbody td {
+    background: #0d1f2d;
     color: #e2e8f0;
     border-color: #1d3a4d;
 }
 
-html.dark-mode .dash-table-card .table tbody tr:hover {
+html.dark-mode .dash-table-card .table tbody tr:hover td {
     background: rgba(0, 168, 205, 0.08);
+}
+
+html.dark-mode .dash-table-card .table tbody tr {
+    background: #0d1f2d;
 }
 
 html.dark-mode .rol-badge {
@@ -660,6 +661,265 @@ html.dark-mode {
     --simu-text-dark: #e2e8f0;
     --simu-text-muted: #94a3b8;
     color-scheme: dark;
+}
+
+/* Tablas genéricas en modo oscuro */
+html.dark-mode table {
+    background-color: #0d1f2d;
+    color: #e2e8f0;
+}
+
+html.dark-mode table th {
+    background: #123344;
+    color: #8fa3b1;
+    border-color: #1d3a4d;
+}
+
+html.dark-mode table td {
+    background: #0d1f2d;
+    color: #e2e8f0;
+    border-color: #1d3a4d;
+}
+
+html.dark-mode table tbody tr:hover td {
+    background: #16283a;
+}
+
+html.dark-mode .table-bordered,
+html.dark-mode .table-bordered th,
+html.dark-mode .table-bordered td {
+    border-color: #1d3a4d;
+}
+
+html.dark-mode .table-hover tbody tr:hover td {
+    background: #16283a;
+}
+
+/* Elementos de texto genéricos en modo oscuro */
+html.dark-mode h1,
+html.dark-mode h2,
+html.dark-mode h3,
+html.dark-mode h4,
+html.dark-mode h5,
+html.dark-mode h6,
+html.dark-mode p,
+html.dark-mode span,
+html.dark-mode label,
+html.dark-mode div,
+html.dark-mode small,
+html.dark-mode .text-secondary,
+html.dark-mode .text-muted,
+html.dark-mode .text-dark {
+    color: #e2e8f0 !important;
+}
+
+html.dark-mode .text-muted {
+    color: #94a3b8 !important;
+}
+
+html.dark-mode a {
+    color: #6cd9ee;
+}
+
+html.dark-mode a:hover {
+    color: #9be7f7;
+}
+
+html.dark-mode .card:not(.auth-card):not(.pqrs-card):not(.dc-card):not(.ec-card):not(.eu-card):not(.vu-card):not(.pu-card):not(.gpqrs-card):not(.dash-table-card) {
+    background: #0f2434;
+    border-color: #1d3a4d;
+}
+
+html.dark-mode .card:not(.auth-card):not(.pqrs-card):not(.dc-card):not(.ec-card):not(.eu-card):not(.vu-card):not(.pu-card):not(.gpqrs-card):not(.dash-table-card) h1,
+html.dark-mode .card:not(.auth-card):not(.pqrs-card):not(.dc-card):not(.ec-card):not(.eu-card):not(.vu-card):not(.pu-card):not(.gpqrs-card):not(.dash-table-card) h2,
+html.dark-mode .card:not(.auth-card):not(.pqrs-card):not(.dc-card):not(.ec-card):not(.eu-card):not(.vu-card):not(.pu-card):not(.gpqrs-card):not(.dash-table-card) h3,
+html.dark-mode .card:not(.auth-card):not(.pqrs-card):not(.dc-card):not(.ec-card):not(.eu-card):not(.vu-card):not(.pu-card):not(.gpqrs-card):not(.dash-table-card) h3,
+html.dark-mode .card:not(.auth-card):not(.pqrs-card):not(.dc-card):not(.ec-card):not(.eu-card):not(.vu-card):not(.pu-card):not(.gpqrs-card):not(.dash-table-card) h4,
+html.dark-mode .card:not(.auth-card):not(.pqrs-card):not(.dc-card):not(.ec-card):not(.eu-card):not(.vu-card):not(.pu-card):not(.gpqrs-card):not(.dash-table-card) h5,
+html.dark-mode .card:not(.auth-card):not(.pqrs-card):not(.dc-card):not(.ec-card):not(.eu-card):not(.vu-card):not(.pu-card):not(.gpqrs-card):not(.dash-table-card) h6,
+html.dark-mode .card:not(.auth-card):not(.pqrs-card):not(.dc-card):not(.ec-card):not(.eu-card):not(.vu-card):not(.pu-card):not(.gpqrs-card):not(.dash-table-card) .card-title,
+html.dark-mode .card:not(.auth-card):not(.pqrs-card):not(.dc-card):not(.ec-card):not(.eu-card):not(.vu-card):not(.pu-card):not(.gpqrs-card):not(.dash-table-card) .card-header {
+    color: #f1f5f9;
+}
+
+html.dark-mode .form-label,
+html.dark-mode .form-control,
+html.dark-mode .form-select {
+    background: #0d1f2d;
+    border-color: #1d3a4d;
+    color: #e2e8f0;
+}
+
+html.dark-mode .form-control:focus,
+html.dark-mode .form-select:focus {
+    border-color: var(--simu-cyan);
+    box-shadow: 0 0 0 3px rgba(0, 168, 205, 0.25);
+    background: #0d1f2d;
+    color: #e2e8f0;
+}
+
+html.dark-mode .btn-secondary,
+html.dark-mode .btn-outline-secondary {
+    background: #1d3a4d;
+    border-color: #1d3a4d;
+    color: #cbd5e1;
+}
+
+html.dark-mode .btn-secondary:hover,
+html.dark-mode .btn-outline-secondary:hover {
+    background: #0d1f2d;
+    border-color: var(--simu-cyan);
+    color: #6cd9ee;
+}
+
+html.dark-mode .alert {
+    background: #1d3a4d;
+    border-color: #1d3a4d;
+    color: #e2e8f0;
+}
+
+html.dark-mode .alert-success {
+    background: rgba(46, 125, 50, 0.2);
+    border-color: #2e7d32;
+    color: #6fe08a;
+}
+
+html.dark-mode .alert-danger {
+    background: rgba(211, 47, 47, 0.2);
+    border-color: #d32f2f;
+    color: #ff8a80;
+}
+
+html.dark-mode .alert-warning {
+    background: rgba(228, 155, 0, 0.2);
+    border-color: #e49b00;
+    color: #f6c453;
+}
+
+html.dark-mode .alert-info {
+    background: rgba(0, 168, 200, 0.2);
+    border-color: #00a8c8;
+    color: #7fd8ee;
+}
+
+html.dark-mode .table-striped tbody tr:nth-of-type(odd) td {
+    background: #123344;
+}
+
+html.dark-mode .table-striped tbody tr:nth-of-type(odd):hover td {
+    background: #16283a;
+}
+
+html.dark-mode .badge {
+    background: #1d3a4d;
+    color: #cbd5e1;
+}
+
+html.dark-mode .badge.bg-primary {
+    background: var(--simu-cyan) !important;
+    color: #fff !important;
+}
+
+html.dark-mode .badge.bg-success {
+    background: #2e7d32 !important;
+    color: #fff !important;
+}
+
+html.dark-mode .badge.bg-danger {
+    background: #d32f2f !important;
+    color: #fff !important;
+}
+
+html.dark-mode .badge.bg-warning {
+    background: #e49b00 !important;
+    color: #fff !important;
+}
+
+html.dark-mode .badge.bg-info {
+    background: #00a8c8 !important;
+    color: #fff !important;
+}
+
+html.dark-mode .modal-content {
+    background: #0f2434;
+    border-color: #1d3a4d;
+}
+
+html.dark-mode .modal-header,
+html.dark-mode .modal-footer {
+    border-color: #1d3a4d;
+}
+
+html.dark-mode .dropdown-menu {
+    background: #0f2434;
+    border-color: #1d3a4d;
+}
+
+html.dark-mode .dropdown-item {
+    color: #e2e8f0;
+}
+
+html.dark-mode .dropdown-item:hover,
+html.dark-mode .dropdown-item:focus {
+    background: #1d3a4d;
+    color: #6cd9ee;
+}
+
+html.dark-mode .sidebar-subitem,
+html.dark-mode .sidebar-dropdown-btn {
+    color: #e2e8f0;
+}
+
+html.dark-mode .sidebar-subitem:hover,
+html.dark-mode .sidebar-dropdown-btn:hover {
+    background: rgba(0, 168, 205, 0.1);
+    color: #6cd9ee;
+}
+
+html.dark-mode .sidebar-subitem.active {
+    background: rgba(0, 168, 205, 0.2);
+    color: #6cd9ee;
+}
+
+html.dark-mode .input-group-text {
+    background: #0d1f2d;
+    border-color: #1d3a4d;
+    color: #e2e8f0;
+}
+
+html.dark-mode .list-group-item {
+    background: #0d1f2d;
+    border-color: #1d3a4d;
+    color: #e2e8f0;
+}
+
+html.dark-mode .list-group-item:hover {
+    background: #1d3a4d;
+    color: #6cd9ee;
+}
+
+html.dark-mode .pagination .page-link {
+    background: #0d1f2d;
+    border-color: #1d3a4d;
+    color: #cbd5e1;
+}
+
+html.dark-mode .pagination .page-link:hover {
+    background: #1d3a4d;
+    color: #6cd9ee;
+    border-color: var(--simu-cyan);
+}
+
+html.dark-mode .pagination .page-item.active .page-link {
+    background: var(--simu-cyan);
+    border-color: var(--simu-cyan);
+    color: #fff;
+}
+
+html.dark-mode .page-item.disabled .page-link {
+    color: #64748b;
+    background: #0d1f2d;
+    border-color: #1d3a4d;
 }
 
 html.dark-mode body,
@@ -4652,8 +4912,13 @@ html.dark-mode .gpqrs-table th {
 }
 
 html.dark-mode .gpqrs-table td {
+    background: #0d1f2d;
     color: #cbd5e1;
     border-color: #1d3a4d;
+}
+
+html.dark-mode .gpqrs-table tr {
+    background: #0d1f2d;
 }
 
 html.dark-mode .gpqrs-table tr:hover td {
