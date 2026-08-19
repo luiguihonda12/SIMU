@@ -19,8 +19,18 @@ $sesRol     = $_SESSION['rol']        ?? '';
              LOGO Y NOMBRE DEL SISTEMA
              ===================================================== -->
 
+        <?php
+            $logoDestino = 'index.php?pg=login';
+            if ($sesIdRol === 1) {
+                $logoDestino = 'index.php?pg=dashboard';
+            } elseif ($sesIdRol === 2) {
+                $logoDestino = 'index.php?pg=dashboardConductor';
+            } elseif ($sesIdRol === 3) {
+                $logoDestino = 'index.php?pg=menuCliente';
+            }
+        ?>
         <a
-            href="index.php"
+            href="<?= $logoDestino ?>"
             class="logo-container text-decoration-none d-flex align-items-center gap-3"
         >
 
