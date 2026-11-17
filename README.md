@@ -94,16 +94,6 @@ $pass = "";
 ?>
 ```
 
-## Usuarios de prueba
-
-| Rol          | Correo            | Contraseña |
-|--------------|-------------------|------------|
-| Administrador| luis@email.com    | 123456     |
-| Conductor    | carlos@email.com  | 123456     |
-| Cliente      | ana@email.com     | 123456     |
-
-También puedes crear un nuevo usuario desde **Crear Cuenta** (`?pg=creaUsu`), donde se asigna el rol (Administrador, Conductor o Cliente).
-
 ## Módulos del sistema
 
 - **Crear cuenta:** registro de usuarios con selección de rol y medidor de seguridad de contraseña.
