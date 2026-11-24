@@ -81,19 +81,6 @@ models/   mModulo.php     ->  extiende Conexion (PDO) y consulta la BD
    http://localhost/SIMU/index.php
    ```
 
-## Configuración
-
-Los datos de conexión a la base de datos se encuentran en `models/config.php`:
-
-```php
-<?php
-$host = "localhost";
-$db   = "movilidad_mer";
-$user = "root";
-$pass = "";
-?>
-```
-
 ## Módulos del sistema
 
 - **Crear cuenta:** registro de usuarios con selección de rol y medidor de seguridad de contraseña.
