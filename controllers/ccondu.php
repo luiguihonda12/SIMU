@@ -1,32 +1,15 @@
 <?php
-
-/**
- * ============================================================
- * CONTROLADOR: CONDUCTOR
- * Vista 16 - Conductor
- * ============================================================
- */
-
 require_once __DIR__ . '/../models/mcondu.php';
-
 
 class Ccondu
 {
     private $modelo;
-
 
     public function __construct()
     {
         $this->modelo = new Mcondu();
     }
 
-
-    /**
-     * Mostrar la pantalla principal del conductor.
-     *
-     * Busca el conductor vinculado al usuario de la sesión.
-     * Si no existe vínculo, usa el primer conductor de la BD.
-     */
     public function index()
     {
         if (session_status() === PHP_SESSION_NONE) {
@@ -34,57 +17,30 @@ class Ccondu
         }
 
         $idUsuario = $_SESSION['id_usuario'] ?? null;
-
-        $conductor = $this->modelo->obtenerConductor($idUsuario);
-
-        if (!$conductor) {
-            $conductor = $this->modelo->obtenerConductor(null, 1);
+        
+        // Verificar y sincronizar si el usuario actual es conductor pero no está en la tabla conductor
+        if ($idUsuario) {
+            $this->modelo->sincronizarConductorUsuario($idUsuario);
         }
 
-        if (!$conductor) {
-            $conductor = [
-                "id" => null,
-                "nombre" => "Sin conductor asignado",
-                "licencia" => "-",
-                "telefono" => "-",
-                "id_usuario" => null,
-                "estado" => "Activo",
-                "usuario" => null
-            ];
+        $idConductorGet = $_GET['id'] ?? null;
+        
+        // Si pasan un ID por URL, tiene prioridad; si no, busca por el usuario de la sesión
+        $conductor = null;
+        if ($idConductorGet) {
+            $conductor = $this->modelo->obtenerConductorPorId($idConductorGet);
+        } elseif ($idUsuario) {
+            $conductor = $this->modelo->obtenerConductorPorUsuario($idUsuario);
         }
 
         $rutas = $this->modelo->obtenerRutas();
-
-        $rutaSeleccionada = $rutas[0] ?? null;
-
-        $rutaActiva = false;
-
-        $estadoRuta = "LISTA PARA INICIAR";
+        $listaConductores = $this->modelo->listarTodosConductores();
 
         return [
             "conductor" => $conductor,
             "rutas" => $rutas,
-            "rutaSeleccionada" => $rutaSeleccionada,
-            "rutaActiva" => $rutaActiva,
-            "estadoRuta" => $estadoRuta
+            "listaConductores" => $listaConductores,
+            "idSeleccionado" => $idConductorGet ?? ($conductor['id'] ?? null)
         ];
-    }
-
-
-    /**
-     * Iniciar ruta.
-     */
-    public function iniciarRuta($rutaId)
-    {
-        return $this->modelo->iniciarRuta($rutaId);
-    }
-
-
-    /**
-     * Finalizar ruta.
-     */
-    public function finalizarRuta($rutaId)
-    {
-        return $this->modelo->finalizarRuta($rutaId);
     }
 }

@@ -808,18 +808,6 @@ $esCliente = ($idRolSesion === 3);
                     </a>
 
 
-                    <a href="index.php?pg=detallePQRS" class="sidebar-subitem
-                    <?= ($currentPage == 'detallePQRS') ? 'active' : ''; ?>">
-
-                        <i class="fas fa-file-alt"></i>
-
-                        <span>
-                            Detalle PQRS
-                        </span>
-
-                    </a>
-
-
                 </div>
 
             </div>
