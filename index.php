@@ -59,7 +59,9 @@ $allowedPages = [
     // PQRS
     'detallePQRS' => 'views/vdpqrs.php',
     'gestionPQRS' => 'views/vgpqrs.php',
-    'nuevaPQRS' => 'views/vnpqrs.php'
+    'nuevaPQRS' => 'views/vnpqrs.php',
+    // Información institucional
+    'politicas' => 'views/vpoliticas.php'
 ];
 
 
@@ -79,7 +81,8 @@ $paginasPublicas = [
     'vreset',
     'confirmacionFinal',
     'creaUsu',
-    'crearUsuario'
+    'crearUsuario',
+    'politicas'
 ];
 
 $paginasConductor = [
