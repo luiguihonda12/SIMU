@@ -2,6 +2,10 @@
 require_once(__DIR__ . '/../models/molvid.php');
 require_once(__DIR__ . '/../models/mUsuario.php');
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 header('Content-Type: application/json; charset=utf-8');
 
 $res = array('ok' => false, 'msg' => '');
@@ -12,7 +16,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($correo === '' || !filter_var($correo, FILTER_VALIDATE_EMAIL)) {
         $res['msg'] = 'Ingrese un correo electrónico válido.';
+    } elseif (isset($_SESSION['simu_recuperacion_ultima'])
+        && time() - (int)$_SESSION['simu_recuperacion_ultima'] < 60) {
+        // Evita solicitudes repetidas que invaliden el código anterior.
+        $res['msg'] = 'Espera un momento antes de solicitar otro código de recuperación.';
     } else {
+        $_SESSION['simu_recuperacion_ultima'] = time();
         $mUsuario = new mUsuario();
 
         if (!$mUsuario->existeCorreo($correo)) {

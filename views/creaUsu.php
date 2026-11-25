@@ -1,8 +1,17 @@
 <?php
-// Cargar roles disponibles desde la base de datos (patrón MVC)
-require_once(__DIR__ . "/../models/mUsuario.php");
-$mRol = new mUsuario();
-$roles = $mRol->getRoles();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Solo un administrador autenticado puede elegir el rol; el registro público es siempre Cliente.
+$esAdmin = isset($_SESSION['id_usuario']) && (int)($_SESSION['id_rol'] ?? 0) === 1;
+
+$roles = [];
+if ($esAdmin) {
+    require_once(__DIR__ . "/../models/mUsuario.php");
+    $mRol = new mUsuario();
+    $roles = $mRol->getRoles();
+}
 ?>
 
 <div class="registration-container">
@@ -60,14 +69,20 @@ $roles = $mRol->getRoles();
         </div>
 
         <div class="input-group">
-            <label for="rol">Rol del usuario</label>
-            <select id="rol">
-                <?php foreach ($roles as $rolItem): ?>
-                    <option value="<?= (int)$rolItem['id_rol']; ?>" <?= (int)$rolItem['id_rol'] === 3 ? 'selected' : ''; ?>>
-                        <?= htmlspecialchars($rolItem['rol']); ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
+            <?php if ($esAdmin) { ?>
+                <label for="rol">Rol del usuario</label>
+                <select id="rol">
+                    <?php foreach ($roles as $rolItem): ?>
+                        <option value="<?= (int)$rolItem['id_rol']; ?>" <?= (int)$rolItem['id_rol'] === 3 ? 'selected' : ''; ?>>
+                            <?= htmlspecialchars($rolItem['rol']); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            <?php } else { ?>
+                <label>Rol del usuario</label>
+                <input type="hidden" id="rol" value="3">
+                <p class="text-muted small mb-0">Tu cuenta se creará con el rol <strong>Cliente</strong>.</p>
+            <?php } ?>
         </div>
 
         <button type="button" id="btnRegistrar" class="btn btn-primary" onclick="registrarUsuario()">Crear cuenta y continuar <i class="fas fa-arrow-right ms-2"></i></button>

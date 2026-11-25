@@ -1,4 +1,7 @@
 <?php
+require_once __DIR__ . '/cseguridad_api.php';
+simuExigirAdmin();
+
 require_once __DIR__ . '/../models/mrepar.php';
 
 /**

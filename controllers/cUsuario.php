@@ -3,6 +3,14 @@ header('Content-Type: application/json; charset=utf-8');
 
 $res = array('ok' => false, 'msg' => '');
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// El registro público siempre crea cuentas Cliente (id_rol = 3).
+// Solo un administrador autenticado puede elegir otro rol desde el menú.
+$esAdmin = isset($_SESSION['id_usuario']) && (int)($_SESSION['id_rol'] ?? 0) === 1;
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $nombre    = trim($_POST['nombre'] ?? '');
@@ -10,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $correo    = trim($_POST['email'] ?? '');
     $telefono  = trim($_POST['telefono'] ?? '');
     $pass      = $_POST['pass'] ?? '';
-    $rol       = (int)($_POST['rol'] ?? 0);
+    $rol       = $esAdmin ? (int)($_POST['rol'] ?? 0) : 3;
 
     if ($nombre === '' || $apellidos === '' || $correo === '' || $pass === '') {
         $res['msg'] = 'Todos los campos obligatorios deben estar diligenciados.';

@@ -175,6 +175,8 @@ CREATE TABLE `usuario` (
   `contrasena` varchar(255) NOT NULL,
   `codigo_verificacion` varchar(10) DEFAULT NULL,
   `token_recuperacion` varchar(64) DEFAULT NULL,
+  `recuperacion_expira_en` datetime DEFAULT NULL,
+  `recuperacion_intentos` int(11) NOT NULL DEFAULT 0,
   `estado` tinyint(1) NOT NULL DEFAULT 1,
   `id_rol` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

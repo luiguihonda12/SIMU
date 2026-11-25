@@ -12,8 +12,15 @@ class Mreset extends Conexion
         $hash = password_hash($nuevoPassword, PASSWORD_DEFAULT);
 
         $sql = "UPDATE usuario
-                SET contrasena = :contrasena, token_recuperacion = NULL, estado = 1
-                WHERE token_recuperacion = :token";
+                SET contrasena             = :contrasena,
+                    token_recuperacion     = NULL,
+                    recuperacion_expira_en = NULL,
+                    recuperacion_intentos  = 0,
+                    estado                 = 1
+                WHERE token_recuperacion = :token
+                  AND recuperacion_expira_en IS NOT NULL
+                  AND recuperacion_expira_en >= NOW()
+                  AND recuperacion_intentos < 5";
         $st = $con->prepare($sql);
         $st->execute([':contrasena' => $hash, ':token' => $token]);
 

@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
         } else {
-            $res['msg'] = 'Código inválido o ya utilizado.';
+            $res['msg'] = 'Código inválido, expirado o ya utilizado. Solicita uno nuevo si es necesario.';
         }
     }
 } else {
