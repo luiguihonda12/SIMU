@@ -1,103 +1,60 @@
-<div class="container py-4">
+<div class="dashboard-container">
 
-    <div class="card shadow-sm">
+    <header class="dash-header">
+        <h1 class="dash-title"><i class="fas fa-user-shield"></i> Gestión de Roles</h1>
+        <p class="dash-subtitle">Crea, edita y administra los roles de acceso del sistema SIMU</p>
+    </header>
 
-        <div class="card-header">
-
-            <h4>
-                Gestión de Roles
-            </h4>
-
+    <div class="dash-table-card mb-4">
+        <div class="dash-table-header">
+            <h3><i class="fas fa-plus-circle"></i> Crear o Editar Rol</h3>
         </div>
-
-
         <div class="card-body">
-
-            <form
-                id="frmRol"
-                class="row g-2 mb-4"
-            >
-
-                <input
-                    type="hidden"
-                    name="accion"
-                    id="rolAccion"
-                    value="crear"
-                >
-
-                <input
-                    type="hidden"
-                    name="id_rol"
-                    id="rolId"
-                >
-
+            <form id="frmRol" class="row g-3 align-items-center">
+                <input type="hidden" name="accion" id="rolAccion" value="crear">
+                <input type="hidden" name="id_rol" id="rolId">
 
                 <div class="col-md-8">
-
                     <input
                         type="text"
                         name="nombre_del_rol"
                         id="rolNombre"
                         class="form-control"
-                        placeholder="Nombre del rol"
+                        placeholder="Nombre del rol (ej: Supervisor)"
                         required
                     >
-
                 </div>
 
-
-                <div class="col-md-4">
-
-                    <button
-                        type="submit"
-                        class="btn btn-primary"
-                        id="btnRol"
-                    >
+                <div class="col-md-4 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary" id="btnRol">
                         Crear rol
                     </button>
-
-
-                    <button
-                        type="button"
-                        class="btn btn-secondary d-none"
-                        id="btnCancelar"
-                    >
+                    <button type="button" class="btn btn-secondary d-none" id="btnCancelar">
                         Cancelar
                     </button>
-
                 </div>
-
             </form>
 
-
-            <div id="rolMsg"></div>
-
-
-            <div class="table-responsive">
-
-                <table
-                    class="table table-bordered"
-                    id="tablaRol"
-                >
-
-                    <thead>
-
-                        <tr>
-                            <th>ID</th>
-                            <th>Rol</th>
-                            <th>Acciones</th>
-                        </tr>
-
-                    </thead>
-
-                    <tbody></tbody>
-
-                </table>
-
-            </div>
-
+            <div id="rolMsg" class="mt-3"></div>
         </div>
+    </div>
 
+    <div class="dash-table-card">
+        <div class="dash-table-header">
+            <h3><i class="fas fa-table"></i> Roles Registrados</h3>
+        </div>
+        <div class="table-responsive">
+            <table class="table align-middle" id="tablaRol">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Rol</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
     </div>
 
 </div>

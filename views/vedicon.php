@@ -39,9 +39,14 @@ $conductor = !empty($id) ? $controlador->mostrar($id) : null;
 $usuariosConductores = $controlador->usuariosConductores();
 ?>
 
-<div class="container py-2">
+<div class="dashboard-container">
+    <header class="dash-header">
+        <h1 class="dash-title"><i class="fas fa-user-pen"></i> Editar Conductor</h1>
+        <p class="dash-subtitle">Selecciona un conductor y actualiza su licencia, estado, jornada o usuario vinculado</p>
+    </header>
+
     <!-- Selector de Conductor -->
-    <div class="card shadow-sm border-0 mb-4 bg-white">
+    <div class="card mb-4">
         <div class="card-body p-3">
             <div class="row align-items-center">
                 <div class="col-12 col-md-3">

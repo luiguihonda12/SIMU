@@ -59,9 +59,7 @@ $allowedPages = [
     // PQRS
     'detallePQRS' => 'views/vdpqrs.php',
     'gestionPQRS' => 'views/vgpqrs.php',
-    'nuevaPQRS' => 'views/vnpqrs.php',
-    // Información institucional
-    'politicas' => 'views/vpoliticas.php'
+    'nuevaPQRS' => 'views/vnpqrs.php'
 ];
 
 
@@ -81,8 +79,7 @@ $paginasPublicas = [
     'vreset',
     'confirmacionFinal',
     'creaUsu',
-    'crearUsuario',
-    'politicas'
+    'crearUsuario'
 ];
 
 $paginasConductor = [
@@ -176,9 +173,10 @@ if (!paginaPermitida($pg, $idRol, $paginasPublicas, $paginasConductor, $paginasC
     <script src="https://cdn.datatables.net/2.0.0/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.0.0/js/dataTables.bootstrap5.js"></script>
 
-    <!-- Hojas de Estilo del Menú y General -->
-    <link rel="stylesheet" type="text/css" href="css/menu.css?v=1">
-    <link rel="stylesheet" type="text/css" href="css/style.css?v=3">
+    <!-- Hojas de Estilo del Menú, General y Tema Moderno -->
+    <link rel="stylesheet" type="text/css" href="css/menu.css?v=2">
+    <link rel="stylesheet" type="text/css" href="css/style.css?v=4">
+    <link rel="stylesheet" type="text/css" href="css/modern.css?v=4">
 
     <!-- Aplica el modo oscuro guardado antes de renderizar (evita parpadeo) -->
     <script>
@@ -190,14 +188,28 @@ if (!paginaPermitida($pg, $idRol, $paginasPublicas, $paginasConductor, $paginasC
 
 <body>
 
-    <!-- Encabezado Institucional -->
-    <?php include 'views/header.php'; ?>
+    <?php
+    // Páginas de autenticación que tienen diseño de pantalla completa sin cabecera superior
+    $paginasAuthSinHeader = [
+        'login', 'vlogin',
+        'registro', 'vregistro',
+        'verificacion', 'vcoder', 'codigoVerificacion',
+        'olvido', 'volvid', 'olvidoContrasena',
+        'reset', 'vreset', 'confirmacionFinal'
+    ];
+    $esPaginaAuth = !$logueado && in_array($pg, $paginasAuthSinHeader);
+    ?>
+
+    <!-- Encabezado Institucional (se oculta en pantallas de autenticación para pantalla completa) -->
+    <?php if (!$esPaginaAuth): ?>
+        <?php include 'views/header.php'; ?>
+    <?php endif; ?>
 
     <!-- Capa Oscura para cerrar el menú en dispositivos móviles -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
     <!-- Layout Principal: Menú Vertical a la Izquierda, Contenido a la Derecha -->
-    <div class="app-layout">
+    <div class="app-layout <?= $esPaginaAuth ? 'auth-layout-page' : '' ?>">
 
         <!-- Menú Vertical en el Lado Izquierdo (solo con sesión activa) -->
         <?php if ($logueado) {
@@ -205,7 +217,7 @@ if (!paginaPermitida($pg, $idRol, $paginasPublicas, $paginasConductor, $paginasC
         } ?>
 
         <!-- Área Principal de Contenido (Dinámica) -->
-        <main class="main-content">
+        <main class="main-content <?= $esPaginaAuth ? 'main-content-auth' : '' ?>">
             <?php
             if (array_key_exists($pg, $allowedPages) && file_exists($allowedPages[$pg])) {
                 include $allowedPages[$pg];

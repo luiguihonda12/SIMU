@@ -1,18 +1,26 @@
-<div class="container py-4">
+<div class="dashboard-container">
 
-    <div class="card shadow-sm">
+    <header class="dash-header d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div>
+            <h1 class="dash-title"><i class="fas fa-toggle-on"></i> Cambiar Estado de Buseta</h1>
+            <p class="dash-subtitle">Actualiza la disponibilidad operativa del vehículo seleccionado</p>
+        </div>
+        <a href="index.php?pg=listb" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Volver
+        </a>
+    </header>
+
+    <div class="card">
 
         <div class="card-header">
-
             <h4>
-                Cambiar Estado de Buseta
+                <i class="fas fa-sliders"></i> Estado Operativo
             </h4>
-
         </div>
 
         <div class="card-body">
 
-            <div id="ceInfo"></div>
+            <div id="ceInfo" class="mb-3"></div>
 
             <form id="frmEstado">
 
@@ -22,53 +30,31 @@
                     id="ceId"
                 >
 
+                <div class="mb-4" style="max-width: 420px;">
+                    <label class="form-label" for="ceEstado">
+                        Nuevo estado
+                    </label>
+                    <select
+                        name="estado"
+                        id="ceEstado"
+                        class="form-select"
+                    >
+                        <option value="activa">Activa</option>
+                        <option value="inactiva">Inactiva</option>
+                        <option value="mantenimiento">Mantenimiento</option>
+                    </select>
+                </div>
 
-                <label class="form-label">
-                    Nuevo estado
-                </label>
+                <div class="d-flex flex-wrap gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-check"></i> Cambiar estado
+                    </button>
+                    <a href="index.php?pg=listb" class="btn btn-secondary">
+                        Volver al listado
+                    </a>
+                </div>
 
-
-                <select
-                    name="estado"
-                    id="ceEstado"
-                    class="form-select mb-3"
-                >
-
-                    <option value="activa">
-                        Activa
-                    </option>
-
-                    <option value="inactiva">
-                        Inactiva
-                    </option>
-
-                    <option value="mantenimiento">
-                        Mantenimiento
-                    </option>
-
-                </select>
-
-
-                <button
-                    type="submit"
-                    class="btn btn-primary"
-                >
-                    Cambiar estado
-                </button>
-
-
-                <a
-                    href="index.php?pg=listb"
-                    class="btn btn-secondary"
-                >
-                    Volver
-                </a>
-
-
-                <div
-                    id="ceMsg"
-                    class="mt-3"
-                ></div>
+                <div id="ceMsg" class="mt-3"></div>
 
             </form>
 

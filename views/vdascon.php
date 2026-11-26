@@ -13,10 +13,15 @@ $alertas = $datos["alertas"];
 $idSeleccionado = $datos["idSeleccionado"];
 ?>
 
-<div class="container-fluid px-0">
+<div class="dashboard-container">
+
+    <header class="dash-header">
+        <h1 class="dash-title"><i class="fas fa-chart-line"></i> Dashboard Conductor</h1>
+        <p class="dash-subtitle">Consulta el rendimiento, rutas programadas y alertas operativas del conductor</p>
+    </header>
 
     <!-- Selector de Conductor para el Dashboard -->
-    <div class="card shadow-sm border-0 mb-4 bg-white">
+    <div class="card mb-4">
         <div class="card-body p-3">
             <div class="row align-items-center">
                 <div class="col-12 col-md-3">

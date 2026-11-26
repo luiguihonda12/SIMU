@@ -1,0 +1,1523 @@
+/* ==========================================================================
+   SIMU - Sistema Integrado de Movilidad Urbana
+   Capa de Diseño Moderno (Light & Dark Mode)
+   ========================================================================== */
+
+:root {
+    --simu-bg: #f1f6f9;
+    --simu-surface: #ffffff;
+    --simu-surface-2: #f7fafc;
+    --simu-surface-hover: #f0f9fc;
+    --simu-border: rgba(15, 23, 42, 0.08);
+    --simu-border-input: #d5e1e8;
+    --simu-border-strong: rgba(0, 168, 205, 0.32);
+
+    --simu-text: #0f172a;
+    --simu-text-secondary: #334155;
+    --simu-text-muted: #64748b;
+
+    --simu-primary: #00a8cd;
+    --simu-primary-dark: #0084a5;
+    --simu-primary-soft: rgba(0, 168, 205, 0.12);
+    --simu-primary-glow: rgba(0, 168, 205, 0.18);
+
+    --simu-accent: #10b981;
+    --simu-accent-soft: rgba(16, 185, 129, 0.14);
+
+    --simu-shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+    --simu-shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.04), 0 6px 18px -4px rgba(15, 45, 70, 0.06);
+    --simu-shadow-md: 0 4px 12px rgba(15, 23, 42, 0.05), 0 18px 36px -10px rgba(0, 118, 150, 0.12);
+    --simu-shadow-lg: 0 12px 42px -10px rgba(15, 23, 42, 0.16);
+
+    --simu-radius-sm: 10px;
+    --simu-radius-md: 14px;
+    --simu-radius-lg: 18px;
+    --simu-radius-xl: 22px;
+}
+
+html.dark-mode {
+    --simu-bg: #07131d;
+    --simu-surface: #0d202e;
+    --simu-surface-2: #122a3b;
+    --simu-surface-hover: #163246;
+    --simu-border: rgba(148, 163, 184, 0.14);
+    --simu-border-input: #1e3b4f;
+    --simu-border-strong: rgba(34, 211, 238, 0.35);
+
+    --simu-text: #f1f5f9;
+    --simu-text-secondary: #cbd5e1;
+    --simu-text-muted: #94a3b8;
+
+    --simu-primary: #22d3ee;
+    --simu-primary-dark: #00a8cd;
+    --simu-primary-soft: rgba(34, 211, 238, 0.14);
+    --simu-primary-glow: rgba(34, 211, 238, 0.22);
+
+    --simu-accent: #34d399;
+    --simu-accent-soft: rgba(52, 211, 153, 0.16);
+
+    --simu-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.25);
+    --simu-shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.30);
+    --simu-shadow-md: 0 12px 32px rgba(0, 0, 0, 0.42);
+    --simu-shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.55);
+}
+
+/* ==========================================================================
+   BASE Y CANVAS
+   ========================================================================== */
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-color: var(--simu-bg);
+    color: var(--simu-text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.005em;
+}
+
+.main-content {
+    background-color: var(--simu-bg);
+    background-image:
+        radial-gradient(at 92% 6%, rgba(0, 168, 205, 0.08) 0px, transparent 48%),
+        radial-gradient(at 8% 92%, rgba(16, 185, 129, 0.06) 0px, transparent 45%);
+    padding: 2rem clamp(1rem, 2.5vw, 2.25rem);
+}
+
+html.dark-mode .main-content {
+    background-color: var(--simu-bg);
+    background-image:
+        radial-gradient(at 92% 6%, rgba(0, 168, 205, 0.12) 0px, transparent 50%),
+        radial-gradient(at 8% 92%, rgba(16, 185, 129, 0.08) 0px, transparent 45%);
+}
+
+@keyframes simuPageEnter {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.main-content > * {
+    animation: simuPageEnter 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .main-content > * {
+        animation: none;
+    }
+}
+
+/* ==========================================================================
+   HEADER INSTITUCIONAL MODERNO
+   ========================================================================== */
+
+header.barsup {
+    position: sticky;
+    top: 0;
+    z-index: 1045;
+    padding: 0.7rem 0;
+    background: linear-gradient(125deg, #061520 0%, #0b2435 55%, #007d9c 100%);
+    border-bottom: 2px solid rgba(16, 185, 129, 0.55);
+    box-shadow: 0 4px 24px rgba(6, 21, 32, 0.18);
+    backdrop-filter: blur(12px);
+}
+
+.header-logo-img {
+    height: 40px !important;
+    max-height: 40px !important;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.25));
+}
+
+.style-subtitle {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: rgba(203, 238, 247, 0.85) !important;
+}
+
+.badge-simu-version {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 0.45rem;
+    background: rgba(16, 185, 129, 0.16);
+    color: #5eead4;
+    border: 1px solid rgba(52, 211, 153, 0.35);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    padding: 0.38rem 0.85rem !important;
+    backdrop-filter: blur(8px);
+}
+
+.simu-version-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #34d399;
+    box-shadow: 0 0 8px #34d399;
+}
+
+.btn-outline-simu {
+    color: #f8fafc;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    transition: all 0.2s ease;
+}
+
+.btn-outline-simu:hover,
+.btn-outline-simu:focus-visible {
+    color: #ffffff;
+    background: rgba(0, 168, 205, 0.32);
+    border-color: rgba(34, 211, 238, 0.6);
+    box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.2);
+}
+
+.user-menu-btn {
+    width: auto;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 0.75rem;
+    gap: 0.55rem;
+    border-radius: 11px;
+}
+
+.header-user-avatar-sm {
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #00a8cd 0%, #10b981 100%);
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.78rem;
+}
+
+.header-user-name {
+    font-size: 0.84rem;
+    font-weight: 600;
+    max-width: 130px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.theme-toggle,
+#sidebarToggleBtn {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 11px;
+}
+
+.user-dropdown {
+    width: 265px;
+    border-radius: 16px;
+    border: 1px solid var(--simu-border);
+    box-shadow: var(--simu-shadow-lg);
+    padding: 0.55rem;
+    backdrop-filter: blur(16px);
+}
+
+html.dark-mode .user-dropdown {
+    background: rgba(13, 32, 46, 0.96);
+    border-color: var(--simu-border);
+}
+
+.user-dropdown-item {
+    border-radius: 10px;
+    font-weight: 500;
+    padding: 0.68rem 0.85rem;
+}
+
+/* ==========================================================================
+   FOOTER MODERNO
+   ========================================================================== */
+
+footer.bg-institutional {
+    background: #061520;
+    border-top: 1px solid rgba(148, 163, 184, 0.14);
+    padding: 1rem 0;
+    color: #8ab4ce;
+}
+
+.simu-footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.simu-footer-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: #cbd5e1;
+    font-size: 0.82rem;
+}
+
+.simu-footer-copy {
+    color: #7da1b8 !important;
+    font-size: 0.8rem;
+}
+
+/* ==========================================================================
+   TIPOGRAFÍA Y ENCABEZADOS DE SECCIÓN
+   ========================================================================== */
+
+.dashboard-container {
+    max-width: 1180px;
+    margin: 0 auto;
+}
+
+.dash-header,
+.gpqrs-header,
+.pqrs-header,
+.pqrs-new-header,
+.pu-header,
+.vu-header,
+.eu-header,
+.ec-header {
+    margin-bottom: 1.5rem;
+}
+
+.dash-title,
+.gpqrs-title,
+.pqrs-title,
+.pqrs-new-title,
+.pu-title,
+.vu-title,
+.eu-title,
+.ec-title {
+    font-size: clamp(1.35rem, 2vw, 1.75rem);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    color: var(--simu-text);
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin: 0;
+}
+
+.dash-title i,
+.gpqrs-title i,
+.pqrs-title i,
+.pqrs-new-title i,
+.pu-title i,
+.vu-title i,
+.eu-title i,
+.ec-title i {
+    color: var(--simu-primary);
+}
+
+.dash-subtitle,
+.gpqrs-subtitle,
+.pqrs-subtitle,
+.pqrs-new-subtitle,
+.pu-subtitle,
+.vu-subtitle,
+.eu-subtitle,
+.ec-subtitle {
+    color: var(--simu-text-muted);
+    font-size: 0.93rem;
+    margin-top: 0.3rem;
+    margin-bottom: 0;
+}
+
+/* ==========================================================================
+   TARJETAS Y SUPERFICIES UNIFICADAS
+   ========================================================================== */
+
+.card,
+.stat-card,
+.dash-table-card,
+.gpqrs-card,
+.gpqrs-stat,
+.pqrs-card,
+.pu-card,
+.vu-card,
+.eu-card,
+.ec-card,
+.conductor-info,
+.route-selector-card,
+.map-card,
+.side-card,
+.registration-container {
+    background: var(--simu-surface);
+    border: 1px solid var(--simu-border);
+    border-radius: var(--simu-radius-lg);
+    box-shadow: var(--simu-shadow-sm);
+    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.stat-card:hover,
+.gpqrs-stat:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--simu-shadow-md);
+    border-color: var(--simu-border-strong);
+}
+
+.card-header,
+.dash-table-header,
+.gpqrs-card-header,
+.pqrs-card-header,
+.pu-card-header,
+.vu-card-header,
+.eu-card-header,
+.ec-card-header {
+    background: var(--simu-surface) !important;
+    border-bottom: 1px solid var(--simu-border) !important;
+    padding: 1.1rem 1.4rem;
+}
+
+.card-header h4,
+.card-header h5,
+.dash-table-header h3,
+.gpqrs-card-title,
+.pqrs-card-header h2,
+.pu-card-header h2,
+.vu-card-header h2,
+.eu-card-header h2,
+.ec-card-header h2 {
+    font-size: 1.02rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--simu-text);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+}
+
+.card-header i,
+.dash-table-header i,
+.gpqrs-card-title i,
+.pqrs-card-header i,
+.pu-card-header i,
+.vu-card-header i,
+.eu-card-header i,
+.ec-card-header i {
+    color: var(--simu-primary);
+}
+
+.card-body {
+    padding: 1.4rem;
+}
+
+/* Stat Cards */
+.stat-card {
+    padding: 1.35rem 1.45rem;
+}
+
+.stat-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #00a8cd 0%, #0082a3 100%);
+    box-shadow: 0 8px 18px -4px rgba(0, 168, 205, 0.38);
+    flex-shrink: 0;
+}
+
+.stat-value {
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    color: var(--simu-text);
+}
+
+.stat-label {
+    font-size: 0.76rem;
+    letter-spacing: 0.05em;
+    color: var(--simu-text-muted);
+}
+
+/* ==========================================================================
+   BOTONES MODERNOS
+   ========================================================================== */
+
+.btn {
+    border-radius: var(--simu-radius-sm);
+    font-weight: 600;
+    font-size: 0.89rem;
+    padding: 0.58rem 1.15rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-sm {
+    padding: 0.38rem 0.78rem;
+    font-size: 0.8rem;
+    border-radius: 8px;
+}
+
+.btn-lg {
+    padding: 0.85rem 1.45rem;
+    font-size: 1rem;
+    border-radius: 12px;
+}
+
+.btn-primary,
+.btn-info.text-white {
+    width: auto;
+    margin-top: 0;
+    border: none;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #00a8cd 0%, #0084a5 100%);
+    box-shadow: 0 4px 14px -2px rgba(0, 168, 205, 0.38);
+}
+
+.btn-primary:hover,
+.btn-primary:focus-visible,
+.btn-info.text-white:hover,
+.btn-info.text-white:focus-visible {
+    transform: translateY(-1px);
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #0098bc 0%, #006f8c 100%);
+    box-shadow: 0 8px 20px -4px rgba(0, 168, 205, 0.48);
+}
+
+.registration-container .btn-primary,
+.btn-primary.w-100,
+.btn-info.w-100 {
+    width: 100%;
+}
+
+.btn-success {
+    border: none;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    box-shadow: 0 4px 14px -2px rgba(16, 185, 129, 0.35);
+}
+
+.btn-success:hover {
+    transform: translateY(-1px);
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    box-shadow: 0 8px 20px -4px rgba(16, 185, 129, 0.45);
+}
+
+.btn-warning {
+    border: none;
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.btn-warning:hover {
+    background: #fde68a;
+    color: #78350f;
+}
+
+.btn-danger {
+    border: none;
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.btn-danger:hover {
+    background: #fecaca;
+    color: #991b1b;
+}
+
+.btn-secondary {
+    border: 1px solid var(--simu-border-input);
+    background: var(--simu-surface-2);
+    color: var(--simu-text-secondary);
+}
+
+.btn-secondary:hover {
+    background: var(--simu-surface-hover);
+    color: var(--simu-primary-dark);
+    border-color: var(--simu-border-strong);
+}
+
+html.dark-mode .btn-warning {
+    background: rgba(245, 158, 11, 0.18);
+    color: #fcd34d;
+}
+
+html.dark-mode .btn-warning:hover {
+    background: rgba(245, 158, 11, 0.28);
+    color: #fde68a;
+}
+
+html.dark-mode .btn-danger {
+    background: rgba(239, 68, 68, 0.18);
+    color: #fca5a5;
+}
+
+html.dark-mode .btn-danger:hover {
+    background: rgba(239, 68, 68, 0.28);
+    color: #fecaca;
+}
+
+.gpqrs-refresh,
+.pqrs-btn-save,
+.pu-btn-edit,
+.eu-btn-save,
+.ec-btn-save {
+    border-radius: var(--simu-radius-sm);
+    font-size: 0.86rem;
+    font-weight: 600;
+    padding: 0.6rem 1.15rem;
+    background: linear-gradient(135deg, #00a8cd 0%, #0084a5 100%);
+    box-shadow: 0 4px 12px rgba(0, 168, 205, 0.28);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    transition: all 0.2s ease;
+}
+
+.gpqrs-refresh:hover,
+.pqrs-btn-save:hover,
+.pu-btn-edit:hover,
+.eu-btn-save:hover,
+.ec-btn-save:hover {
+    transform: translateY(-1px);
+    background: linear-gradient(135deg, #0095b8 0%, #006f8c 100%);
+    color: #ffffff;
+}
+
+.gpqrs-refresh-secondary,
+.pqrs-btn-cancel,
+.eu-btn-cancel,
+.ec-btn-cancel {
+    border-radius: var(--simu-radius-sm);
+    font-size: 0.86rem;
+    font-weight: 600;
+    padding: 0.6rem 1.15rem;
+    background: var(--simu-surface-2);
+    color: var(--simu-text-secondary);
+    border: 1px solid var(--simu-border-input);
+    box-shadow: none;
+}
+
+/* ==========================================================================
+   FORMULARIOS, INPUTS Y CÓDIGOS OTP
+   ========================================================================== */
+
+.form-label,
+.input-group label,
+.pqrs-field label,
+.pu-field label,
+.vu-field label,
+.eu-field label,
+.ec-field label {
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: var(--simu-text-secondary);
+    margin-bottom: 0.45rem;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.form-control,
+.form-select,
+.input-group input,
+.input-group select,
+.pqrs-field input,
+.pqrs-field select,
+.pqrs-field textarea,
+.eu-field input,
+.eu-field select,
+.ec-field input,
+.ec-field select {
+    border-radius: var(--simu-radius-sm);
+    border: 1.5px solid var(--simu-border-input);
+    background-color: var(--simu-surface);
+    color: var(--simu-text);
+    padding: 0.65rem 0.92rem;
+    font-size: 0.92rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.form-control:focus,
+.form-select:focus,
+.input-group input:focus,
+.input-group select:focus,
+.pqrs-field input:focus,
+.pqrs-field select:focus,
+.pqrs-field textarea:focus,
+.eu-field input:focus,
+.eu-field select:focus,
+.ec-field input:focus,
+.ec-field select:focus {
+    border-color: var(--simu-primary);
+    box-shadow: 0 0 0 4px var(--simu-primary-glow);
+    background-color: var(--simu-surface);
+    color: var(--simu-text);
+}
+
+.input-group > .form-control {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.input-group > .btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+/* Cajas de verificación de 6 dígitos */
+.code-input {
+    width: 48px !important;
+    height: 56px !important;
+    border-radius: 12px !important;
+    border: 1.5px solid var(--simu-border-input) !important;
+    background: var(--simu-surface-2) !important;
+    font-size: 1.35rem !important;
+    font-weight: 800 !important;
+    color: var(--simu-text) !important;
+    padding: 0 !important;
+    transition: all 0.18s ease !important;
+}
+
+.code-input:focus {
+    border-color: var(--simu-primary) !important;
+    background: var(--simu-surface) !important;
+    box-shadow: 0 0 0 4px var(--simu-primary-glow) !important;
+    transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   TABLAS MODERNAS
+   ========================================================================== */
+
+.dash-table-card .table,
+.simu-table-card .table,
+.gpqrs-table {
+    margin-bottom: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.dash-table-card .table thead th,
+.simu-table-card .table thead th,
+.gpqrs-table th {
+    background: var(--simu-surface-2);
+    color: var(--simu-text-muted);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.9rem 1.25rem;
+    border-bottom: 1px solid var(--simu-border);
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
+.dash-table-card .table tbody td,
+.simu-table-card .table tbody td,
+.gpqrs-table td {
+    padding: 0.95rem 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--simu-text);
+    border-bottom: 1px solid var(--simu-border);
+    border-left: none;
+    border-right: none;
+    vertical-align: middle;
+}
+
+.dash-table-card .table tbody tr:last-child td,
+.simu-table-card .table tbody tr:last-child td,
+.gpqrs-table tr:last-child td {
+    border-bottom: none;
+}
+
+.dash-table-card .table tbody tr:hover td,
+.simu-table-card .table tbody tr:hover td,
+.gpqrs-table tr:hover td {
+    background: var(--simu-surface-hover);
+}
+
+.table-bordered > :not(caption) > * > * {
+    border-width: 0 0 1px 0;
+}
+
+/* ==========================================================================
+   AUTENTICACIÓN MODERNA (Login, Olvido, Código, Reset, Registro)
+   ========================================================================== */
+
+.registration-container {
+    width: 100%;
+    max-width: 600px;
+    background: var(--simu-surface);
+    border: 1px solid var(--simu-border);
+    border-radius: var(--simu-radius-xl);
+    box-shadow: var(--simu-shadow-md);
+    padding: 2.35rem 2.2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.registration-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #00a8cd 0%, #10b981 100%);
+}
+
+.simu-auth-badge,
+.reg-header .main-logo {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 1rem;
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(0, 168, 205, 0.14) 0%, rgba(16, 185, 129, 0.14) 100%);
+    color: var(--simu-primary);
+    border: 1px solid rgba(0, 168, 205, 0.22);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.55rem;
+    box-shadow: 0 8px 20px -6px rgba(0, 168, 205, 0.28);
+}
+
+.simu-auth-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--simu-text);
+    margin-bottom: 0.35rem;
+}
+
+.simu-auth-subtitle {
+    font-size: 0.9rem;
+    color: var(--simu-text-muted);
+    margin-bottom: 0;
+}
+
+.simu-auth-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1.35rem;
+    padding-top: 1.15rem;
+    border-top: 1px solid var(--simu-border);
+    text-align: center;
+}
+
+.simu-auth-links a {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--simu-primary-dark);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+html.dark-mode .simu-auth-links a {
+    color: var(--simu-primary);
+}
+
+.simu-auth-links a:hover {
+    text-decoration: underline;
+}
+
+/* ==========================================================================
+   SUITE DE AUTENTICACIÓN INSTITUCIONAL SIMU (Pantalla Completa)
+   (Login, Recuperación, Verificación y Cambio de Clave unificados)
+   ========================================================================== */
+
+/* Layout específico cuando no hay cabecera superior */
+.auth-layout-page {
+    min-height: calc(100vh - 58px);
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content.main-content-auth {
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    min-height: calc(100vh - 58px) !important;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.simu-auth-shell {
+    flex: 1;
+    width: 100%;
+    min-height: calc(100vh - 58px);
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.simu-auth-shell::before {
+    content: "";
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    top: -150px;
+    left: -150px;
+    background: radial-gradient(circle, rgba(0, 168, 205, 0.15) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.simu-auth-shell::after {
+    content: "";
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    bottom: -100px;
+    right: -100px;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.simu-auth-card {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    min-height: calc(100vh - 58px);
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    background: var(--simu-surface);
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    overflow: hidden;
+}
+
+/* Panel Izquierdo Institucional */
+.simu-auth-brand {
+    position: relative;
+    background: linear-gradient(145deg, #061622 0%, #0a2435 45%, #006883 100%);
+    padding: clamp(2.5rem, 5vw, 4.5rem) clamp(2rem, 4.5vw, 4.5rem);
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    border-right: 1px solid var(--simu-border);
+}
+
+.simu-auth-brand::before {
+    content: "";
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 380px;
+    height: 380px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 168, 205, 0.3) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.simu-auth-brand::after {
+    content: "";
+    position: absolute;
+    bottom: -80px;
+    left: -80px;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(52, 199, 89, 0.2) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.simu-auth-brand-content {
+    position: relative;
+    z-index: 2;
+    max-width: 580px;
+    margin: auto 0;
+}
+
+.simu-auth-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(52, 199, 89, 0.4);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #a7f3d0;
+    backdrop-filter: blur(8px);
+    margin-bottom: 2rem;
+}
+
+.simu-auth-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #34c759;
+    box-shadow: 0 0 10px #34c759;
+    animation: simuPulse 2s infinite ease-in-out;
+}
+
+@keyframes simuPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.15); }
+}
+
+.simu-auth-brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.simu-auth-brand-logo img {
+    height: 52px;
+    width: auto;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.35));
+}
+
+.simu-auth-brand-title {
+    font-size: 1.45rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+    line-height: 1.25;
+    margin: 0 0 0.5rem 0;
+}
+
+.simu-auth-brand-desc {
+    font-size: 0.88rem;
+    color: #b0e3ef;
+    line-height: 1.5;
+    margin-bottom: 2rem;
+}
+
+.simu-auth-highlights {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+
+.simu-auth-highlight-item {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    font-size: 0.86rem;
+    font-weight: 500;
+    color: #e2f7fb;
+}
+
+.simu-auth-highlight-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    background: rgba(0, 168, 205, 0.22);
+    border: 1px solid rgba(0, 168, 205, 0.45);
+    color: #38e0ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+}
+
+.simu-auth-brand-footer {
+    position: relative;
+    z-index: 2;
+    padding-top: 1.8rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    color: #8ab4ce;
+}
+
+/* Panel Derecho: Formularios */
+.simu-auth-form-side {
+    position: relative;
+    padding: clamp(2.5rem, 5vw, 4.5rem) clamp(1.5rem, 4vw, 3.5rem);
+    background: var(--simu-surface);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+}
+
+.simu-auth-form-inner {
+    width: 100%;
+    max-width: 440px;
+    margin: auto 0;
+}
+
+/* Botón flotante de cambio de tema en modo autenticación */
+.auth-theme-toggle-floating {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    z-index: 20;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--simu-surface);
+    border: 1px solid var(--simu-border);
+    color: var(--simu-text);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.auth-theme-toggle-floating:hover {
+    transform: scale(1.08);
+    border-color: var(--simu-primary);
+    color: var(--simu-primary);
+    box-shadow: 0 6px 18px rgba(0, 168, 205, 0.25);
+}
+
+.simu-auth-header {
+    margin-bottom: 2rem;
+}
+
+.simu-auth-header-badge {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(0, 168, 205, 0.15) 0%, rgba(16, 185, 129, 0.15) 100%);
+    color: var(--simu-primary);
+    border: 1px solid var(--simu-border-strong);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 6px 16px -4px rgba(0, 168, 205, 0.25);
+}
+
+.simu-auth-header-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--simu-text);
+    margin: 0 0 0.4rem 0;
+}
+
+.simu-auth-header-subtitle {
+    font-size: 0.88rem;
+    color: var(--simu-text-muted);
+    margin: 0;
+}
+
+/* Campos de entrada con icono */
+.simu-form-group {
+    margin-bottom: 1.25rem;
+}
+
+.simu-form-label {
+    display: block;
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: var(--simu-text-secondary);
+    margin-bottom: 0.45rem;
+}
+
+.simu-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.simu-input-icon {
+    position: absolute;
+    left: 1rem;
+    color: var(--simu-text-muted);
+    font-size: 0.95rem;
+    pointer-events: none;
+    z-index: 2;
+    transition: color 0.2s ease;
+}
+
+.simu-auth-input {
+    width: 100%;
+    height: 46px;
+    border-radius: var(--simu-radius-sm) !important;
+    border: 1.5px solid var(--simu-border-input) !important;
+    background: var(--simu-surface-2) !important;
+    color: var(--simu-text) !important;
+    padding: 0.65rem 1rem 0.65rem 2.65rem !important;
+    font-size: 0.92rem;
+    font-weight: 500;
+    transition: all 0.2s ease !important;
+}
+
+.simu-auth-input:focus {
+    outline: none;
+    background: var(--simu-surface) !important;
+    border-color: var(--simu-primary) !important;
+    box-shadow: 0 0 0 4px var(--simu-primary-glow) !important;
+}
+
+.simu-auth-input:focus + .simu-input-icon,
+.simu-input-wrapper:focus-within .simu-input-icon {
+    color: var(--simu-primary);
+}
+
+.simu-input-wrapper .password-wrapper {
+    width: 100%;
+    position: relative;
+}
+
+.simu-input-wrapper .password-wrapper .simu-auth-input {
+    padding-right: 2.75rem !important;
+}
+
+/* Botón principal */
+.btn-simu-auth {
+    width: 100%;
+    height: 46px;
+    border-radius: var(--simu-radius-sm);
+    border: none;
+    background: linear-gradient(135deg, #00a8cd 0%, #0084a5 100%);
+    color: #ffffff !important;
+    font-size: 0.94rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    box-shadow: 0 8px 20px -4px rgba(0, 168, 205, 0.42);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-top: 0.5rem;
+}
+
+.btn-simu-auth:hover,
+.btn-simu-auth:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px -4px rgba(0, 168, 205, 0.55);
+    background: linear-gradient(135deg, #0098bc 0%, #007390 100%);
+    color: #ffffff !important;
+}
+
+.btn-simu-auth:active {
+    transform: translateY(0);
+}
+
+/* Enlaces secundarios */
+.simu-auth-nav-links {
+    margin-top: 1.6rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid var(--simu-border);
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    text-align: center;
+}
+
+.simu-auth-nav-links a {
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--simu-primary);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    transition: color 0.15s ease;
+}
+
+.simu-auth-nav-links a:hover {
+    color: var(--simu-primary-dark);
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+    .simu-auth-card {
+        grid-template-columns: 1fr;
+        min-height: auto;
+    }
+
+    .simu-auth-brand {
+        padding: 2.25rem 1.75rem;
+        border-right: none;
+        border-bottom: 1px solid var(--simu-border);
+    }
+
+    .simu-auth-brand-content {
+        margin: 0;
+        max-width: 100%;
+    }
+
+    .simu-auth-highlights {
+        display: none;
+    }
+
+    .simu-auth-brand-desc {
+        margin-bottom: 0;
+    }
+
+    .simu-auth-brand-footer {
+        display: none;
+    }
+
+    .simu-auth-form-side {
+        padding: 2.5rem 1.5rem;
+    }
+
+    .simu-auth-form-inner {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .simu-auth-shell {
+        padding: 0;
+    }
+
+    .simu-auth-brand {
+        padding: 1.75rem 1.25rem;
+    }
+
+    .simu-auth-form-side {
+        padding: 2rem 1.25rem;
+    }
+
+    .simu-auth-header-title {
+        font-size: 1.35rem;
+    }
+}
+
+/* ==========================================================================
+   TARJETAS DE SERVICIO CLIENTE (vmenucli)
+   ========================================================================== */
+
+.simu-service-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.3rem 1.35rem;
+    border-radius: var(--simu-radius-lg);
+    background: var(--simu-surface);
+    border: 1px solid var(--simu-border);
+    box-shadow: var(--simu-shadow-sm);
+    text-decoration: none;
+    color: var(--simu-text);
+    transition: all 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+    height: 100%;
+}
+
+.simu-service-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--simu-border-strong);
+    box-shadow: var(--simu-shadow-md);
+    color: var(--simu-primary-dark);
+}
+
+html.dark-mode .simu-service-card:hover {
+    color: var(--simu-primary);
+}
+
+.simu-service-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(0, 168, 205, 0.14) 0%, rgba(16, 185, 129, 0.12) 100%);
+    color: var(--simu-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+    transition: transform 0.24s ease, background 0.24s ease, color 0.24s ease;
+}
+
+.simu-service-card:hover .simu-service-icon {
+    background: linear-gradient(135deg, #00a8cd 0%, #0084a5 100%);
+    color: #ffffff;
+    transform: scale(1.06);
+}
+
+.simu-service-title {
+    font-size: 0.98rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.simu-service-arrow {
+    color: var(--simu-text-muted);
+    font-size: 0.85rem;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.simu-service-card:hover .simu-service-arrow {
+    transform: translateX(4px);
+    color: var(--simu-primary);
+}
+
+/* ==========================================================================
+   PERFILES, PQRS Y SUB-VISTAS (mejoras de legibilidad y acabado)
+   ========================================================================== */
+
+.perfil-usuario,
+.vista-usuario,
+.editar-usuario,
+.editar-conductor,
+.pqrs-detail,
+.gpqrs-container {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.pu-profile,
+.vu-profile,
+.eu-profile,
+.ec-profile {
+    background: var(--simu-surface-2);
+    border: 1px solid var(--simu-border);
+    border-radius: var(--simu-radius-md);
+}
+
+.pu-field .pu-value,
+.vu-field .vu-value,
+.pqrs-info,
+.pqrs-description {
+    background: var(--simu-surface-2);
+    border: 1px solid var(--simu-border);
+    border-radius: var(--simu-radius-sm);
+    font-size: 0.92rem;
+}
+
+.pqrs-info-label,
+.pqrs-side-label,
+.pqrs-description-title {
+    font-size: 0.74rem;
+    letter-spacing: 0.05em;
+}
+
+.pqrs-info-value,
+.pqrs-side-value,
+.pqrs-description-text {
+    font-size: 0.92rem;
+}
+
+.pqrs-citizen-name {
+    font-size: 1rem;
+}
+
+.pqrs-citizen-data {
+    font-size: 0.82rem;
+}
+
+.gpqrs-stat-label {
+    font-size: 0.76rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.gpqrs-stat-number {
+    font-size: 1.6rem;
+}
+
+.gpqrs-type {
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.3rem 0.65rem;
+    border-radius: 7px;
+}
+
+.gpqrs-status,
+.pqrs-status {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.72rem;
+    border-radius: 999px;
+}
+
+.gpqrs-action {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+}
+
+/* ==========================================================================
+   COMPATIBILIDAD MODO OSCURO PARA UTILIDADES BOOTSTRAP (bg-white, bg-light, etc.)
+   ========================================================================== */
+
+html.dark-mode .bg-white {
+    background-color: var(--simu-surface) !important;
+}
+
+html.dark-mode .bg-light {
+    background-color: var(--simu-surface-2) !important;
+}
+
+html.dark-mode .border,
+html.dark-mode .border-top,
+html.dark-mode .border-bottom,
+html.dark-mode .border-end,
+html.dark-mode .border-start {
+    border-color: var(--simu-border) !important;
+}
+
+html.dark-mode .card .card-header.bg-dark {
+    background: #122a3b !important;
+    border-bottom: 1px solid var(--simu-border) !important;
+}
+
+html.dark-mode .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+html.dark-mode .progress {
+    background-color: #163246;
+}
+
+/* Alertas suaves modernas */
+.alert {
+    border-radius: var(--simu-radius-sm);
+    border-width: 1px;
+    font-weight: 500;
+}
+
+/* Badge genérico más limpio */
+.badge {
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+
+@media (max-width: 576px) {
+    .main-content {
+        padding: 1.25rem 0.9rem;
+    }
+
+    .simu-auth-card,
+    .registration-container {
+        padding: 1.75rem 1.35rem;
+        border-radius: var(--simu-radius-lg);
+    }
+
+    .code-input {
+        width: 40px !important;
+        height: 48px !important;
+        font-size: 1.15rem !important;
+    }
+}

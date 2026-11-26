@@ -60,12 +60,9 @@ $sesRol     = $_SESSION['rol']        ?? '';
 
             <!-- VERSIÓN -->
 
-            <span class="badge badge-simu-version px-3 py-2 rounded-pill d-none d-sm-inline-block">
-
-                <i class="fas fa-shield-alt me-1"></i>
-
-                V 1.0
-
+            <span class="badge badge-simu-version px-3 py-2 rounded-pill d-none d-sm-inline-flex">
+                <span class="simu-version-dot"></span>
+                <span>V 1.0</span>
             </span>
 
 
@@ -86,9 +83,13 @@ $sesRol     = $_SESSION['rol']        ?? '';
                     aria-label="Menú de usuario"
                     title="Perfil de usuario"
                 >
-
-                    <i class="fas fa-user"></i>
-
+                    <span class="header-user-avatar-sm">
+                        <i class="fas fa-user"></i>
+                    </span>
+                    <span class="header-user-name d-none d-md-inline">
+                        <?= htmlspecialchars($sesNombre !== '' ? $sesNombre : 'Mi cuenta'); ?>
+                    </span>
+                    <i class="fas fa-chevron-down d-none d-md-inline" style="font-size: 0.65rem; opacity: 0.8;"></i>
                 </button>
 
 

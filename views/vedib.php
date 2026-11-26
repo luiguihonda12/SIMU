@@ -1,13 +1,21 @@
-<div class="container py-4">
+<div class="dashboard-container">
 
-    <div class="card shadow-sm">
+    <header class="dash-header d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div>
+            <h1 class="dash-title"><i class="fas fa-pen-to-square"></i> Editar Buseta</h1>
+            <p class="dash-subtitle">Modifica la información operativa, capacidad, ruta o empresa del vehículo</p>
+        </div>
+        <a href="index.php?pg=listb" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Volver al listado
+        </a>
+    </header>
+
+    <div class="card">
 
         <div class="card-header">
-
             <h4>
-                Editar Buseta
+                <i class="fas fa-bus"></i> Datos de la Buseta
             </h4>
-
         </div>
 
         <div class="card-body">
@@ -120,22 +128,14 @@
 
                 </div>
 
-
-                <button
-                    type="submit"
-                    class="btn btn-primary mt-4"
-                >
-                    Guardar cambios
-                </button>
-
-
-                <a
-                    href="index.php?pg=listb"
-                    class="btn btn-secondary mt-4"
-                >
-                    Volver
-                </a>
-
+                <div class="d-flex flex-wrap justify-content-end gap-2 mt-4 pt-3 border-top">
+                    <a href="index.php?pg=listb" class="btn btn-secondary">
+                        Volver
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Guardar cambios
+                    </button>
+                </div>
 
                 <div
                     id="ebMsg"

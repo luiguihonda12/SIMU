@@ -6,9 +6,14 @@ if (file_exists("controllers/cDashboard.php")) {
 ?>
 
 <div class="dashboard-container">
-    <header class="dash-header">
-        <h1 class="dash-title"><i class="fas fa-tachometer-alt"></i> Dashboard</h1>
-        <p class="dash-subtitle">Resumen general del Sistema Integrado de Movilidad Urbana (SIMU)</p>
+    <header class="dash-header d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div>
+            <h1 class="dash-title"><i class="fas fa-tachometer-alt"></i> Dashboard</h1>
+            <p class="dash-subtitle">Resumen general del Sistema Integrado de Movilidad Urbana (SIMU)</p>
+        </div>
+        <a href="index.php?pg=creaUsu" class="btn btn-primary">
+            <i class="fas fa-user-plus"></i> Crear Usuario
+        </a>
     </header>
 
     <!-- Estadísticas -->
@@ -20,13 +25,6 @@ if (file_exists("controllers/cDashboard.php")) {
                 <span class="stat-label">Usuarios Registrados</span>
             </div>
         </div>
-    </div>
-
-    <!-- Acción: ir a crear usuario -->
-    <div class="dash-actions">
-        <a href="index.php?pg=creaUsu" class="btn btn-primary">
-            <i class="fas fa-user-plus me-2"></i>Crear Usuario
-        </a>
     </div>
 
     <!-- Filtro por rol -->

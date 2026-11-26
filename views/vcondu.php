@@ -11,10 +11,15 @@ $listaConductores =$controladorEditar->listarConductores();
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
-<div class="container-fluid px-0">
+<div class="dashboard-container">
+
+    <header class="dash-header">
+        <h1 class="dash-title"><i class="fas fa-route"></i> Panel Operativo Conductor</h1>
+        <p class="dash-subtitle">Seguimiento en vivo de trayectos, paraderos y telemetría de ruta</p>
+    </header>
 
     <!-- Selector de Conductor -->
-    <div class="card shadow-sm border-0 mb-4 bg-white">
+    <div class="card mb-4">
         <div class="card-body p-3">
             <div class="row align-items-center">
                 <div class="col-12 col-md-3">

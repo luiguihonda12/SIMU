@@ -1,10 +1,20 @@
-<div class="container py-4">
+<div class="dashboard-container">
 
-    <div class="card shadow-sm">
+    <header class="dash-header d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div>
+            <h1 class="dash-title"><i class="fas fa-bus-simple"></i> Registrar Buseta</h1>
+            <p class="dash-subtitle">Incorpora un nuevo vehículo a la flota operativa del sistema</p>
+        </div>
+        <a href="index.php?pg=listb" class="btn btn-secondary">
+            <i class="fas fa-list"></i> Ver Listado
+        </a>
+    </header>
+
+    <div class="card">
 
         <div class="card-header">
             <h4 class="mb-0">
-                Registrar Buseta
+                <i class="fas fa-plus-circle"></i> Datos del Vehículo
             </h4>
         </div>
 
@@ -26,6 +36,7 @@
                             name="placa"
                             class="form-control"
                             maxlength="20"
+                            placeholder="Ej: ABC-123"
                             required
                         >
 
@@ -43,6 +54,7 @@
                             name="capacidad"
                             min="1"
                             class="form-control"
+                            placeholder="Ej: 40"
                             required
                         >
 
@@ -123,12 +135,12 @@
 
                 </div>
 
-                <button
-                    type="submit"
-                    class="btn btn-primary mt-4"
-                >
-                    Registrar
-                </button>
+                <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+                    <a href="index.php?pg=listb" class="btn btn-secondary">Cancelar</a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Registrar Buseta
+                    </button>
+                </div>
 
                 <div id="rbMsg" class="mt-3"></div>
 

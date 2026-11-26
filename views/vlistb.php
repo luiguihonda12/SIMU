@@ -1,68 +1,56 @@
-<div class="container py-4">
+<div class="dashboard-container">
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
-
-        <h4>
-            Listado de Busetas
-        </h4>
-
-        <a
-            href="index.php?pg=regisb"
-            class="btn btn-primary"
-        >
-            Registrar Buseta
+    <header class="dash-header d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div>
+            <h1 class="dash-title"><i class="fas fa-bus"></i> Listado de Busetas</h1>
+            <p class="dash-subtitle">Administra la flota de vehículos, su estado operativo, ruta y empresa asignada</p>
+        </div>
+        <a href="index.php?pg=regisb" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Registrar Buseta
         </a>
+    </header>
 
+    <div class="dash-table-card mb-4">
+        <div class="card-body">
+            <div class="input-group">
+                <input
+                    type="text"
+                    id="buscarB"
+                    class="form-control"
+                    placeholder="Buscar por placa, estado, ruta o empresa..."
+                >
+                <button
+                    id="btnBuscarB"
+                    class="btn btn-primary"
+                >
+                    <i class="fas fa-search"></i> Buscar
+                </button>
+            </div>
+        </div>
     </div>
 
+    <div id="lbMsg" class="mb-3"></div>
 
-    <div class="input-group mb-3">
-
-        <input
-            type="text"
-            id="buscarB"
-            class="form-control"
-            placeholder="Buscar por placa, estado, ruta o empresa"
-        >
-
-        <button
-            id="btnBuscarB"
-            class="btn btn-secondary"
-        >
-            Buscar
-        </button>
-
-    </div>
-
-
-    <div id="lbMsg"></div>
-
-
-    <div class="table-responsive">
-
-        <table
-            class="table table-bordered table-hover"
-            id="tablaB"
-        >
-
-            <thead>
-
-                <tr>
-                    <th>ID</th>
-                    <th>Placa</th>
-                    <th>Capacidad</th>
-                    <th>Estado</th>
-                    <th>Ruta</th>
-                    <th>Empresa</th>
-                    <th>Acciones</th>
-                </tr>
-
-            </thead>
-
-            <tbody></tbody>
-
-        </table>
-
+    <div class="dash-table-card">
+        <div class="dash-table-header d-flex justify-content-between align-items-center">
+            <h3><i class="fas fa-table"></i> Flota Registrada</h3>
+        </div>
+        <div class="table-responsive">
+            <table class="table align-middle" id="tablaB">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Placa</th>
+                        <th>Capacidad</th>
+                        <th>Estado</th>
+                        <th>Ruta</th>
+                        <th>Empresa</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
     </div>
 
 </div>
